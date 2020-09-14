@@ -26,6 +26,19 @@ class App_model extends CI_Model
       ->row();
   }
 
+  /**
+   * Check owner function
+   *
+   * @param int $mobile
+   * @return array owner details
+   */
+  public function getDealer($mobile)
+  {
+    return $this->db->select('*')
+      ->get_where('dealer', array('contact_no' => $mobile))
+      ->row_array();
+  }
+
 
   /**
    * Check owner function
@@ -41,14 +54,14 @@ class App_model extends CI_Model
     $dealerData = array('dealer_name' => $data['name'], 'dealers_name' => $data['dealership'], 'job_title' => $data['designation'], 'contact_no' => $data['number'], 'email_id' => $data['email'], 'address' => $data['address'], 'city' => $this->getCityFromAddress($data['address']), 'added_date' => getDateTime(), 'brand' => $data['brand']);
 
     $this->db->insert("dealer", $dealerData);
-    
+
     $insert_id = $this->db->insert_id();
-    
-    $dealerLoginData = array('dealer_id' =>  $insert_id , 'sub_dealer_id' =>  $insert_id ,'email_id' => $data['email'], 'type' => 'dealer', 'added_date' => getDateTime(), 'status' => 1);
+
+    $dealerLoginData = array('dealer_id' =>  $insert_id, 'sub_dealer_id' =>  $insert_id, 'email_id' => $data['email'], 'type' => 'dealer', 'added_date' => getDateTime(), 'status' => 1);
 
     $this->db->insert("dealer_login", $dealerLoginData);
 
-    if(empty($this->checkOwner($data['number']))){
+    if (empty($this->checkOwner($data['number']))) {
 
 
       $ownerData = array('owner_full_name' => $data['name'], 'first_name' => $data['name'], 'owner_phone' => $data['number'], 'owner_email' => $data['email'], 'owner_address' => $data['address'], 'city' => $this->getCityFromAddress($data['address']), 'added_date' => getDateTime());
@@ -59,15 +72,13 @@ class App_model extends CI_Model
       $this->db->insert("user", $userData);
 
       return $this->db->select('*')
-      ->get_where('dealer', array('dealer_id' => $insert_id))
-      ->row_array();    }   
-
-
-
+        ->get_where('dealer', array('dealer_id' => $insert_id))
+        ->row_array();
+    }
   }
 
 
-   /**
+  /**
    * Check owner function
    *
    * @param int $mobile

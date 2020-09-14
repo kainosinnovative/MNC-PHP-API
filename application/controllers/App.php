@@ -70,14 +70,30 @@ class App extends REST_Controller
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
-        if (!empty($this->app_model->checkDealer($mobile))) {
-            $this->response('', 404, 'fail', "Mobile Number Exists");
-        }
+
         $savedOtp  = $this->cache->memcached->get($mobile);
         if ($savedOtp && $savedOtp == $otp) {
 
             if ($for === 'login') {
+
+                $dealerData = $this->app_model->getDealer($mobile);
+
+                $tokenData['dealer_id'] = $dealerData['dealer_id'];
+                $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
+                $jwtToken = $this->applib->GenerateToken($tokenData);
+
+                $dealerData['token'] = $jwtToken;
+
+                $this->response(
+                    array('details' => $dealerData),
+                    200,
+                    'pass',
+                    'Dealer logged in Successfully'
+                );
             } else {
+                if (!empty($this->app_model->checkDealer($mobile))) {
+                    $this->response('', 404, 'fail', "Mobile Number Exists");
+                }
                 $this->response(
                     'OTP Verified',
                     200
