@@ -147,4 +147,17 @@ class App extends REST_Controller
             $this->response('', 404, 'fail', 'OTP Expired');
         }
     }
+
+    /**
+     * Get Brands
+     *
+     * @return array $brands
+     */
+    public function getBrands_get()
+    {
+        $data = $this->app_model->getBrands();
+        $this->response(array(
+            'brands' => $data
+        ), 200);
+    }
 }

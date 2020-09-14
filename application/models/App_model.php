@@ -114,4 +114,17 @@ class App_model extends CI_Model
 
     return $city;
   }
+
+  /**
+   * Get Brands
+   *
+   * 
+   * @return array brands
+   */
+  public function getBrands()
+  {
+    return $this->db->select('brand_name,brand_id')
+      ->get_where('brand', array('status' => 1))
+      ->result_array();
+  }
 }

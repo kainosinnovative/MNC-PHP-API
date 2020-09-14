@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -53,6 +53,8 @@ $route['default_controller'] = 'test';
 $route['otp/send'] = 'app/generateOtp';
 $route['otp/verify'] = 'app/verifyOtp';
 $route['registration'] = 'app/registration';
+$route['car/brands'] = 'app/getBrands';
+
 
 
 
