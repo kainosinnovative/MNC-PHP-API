@@ -11,6 +11,8 @@ class Test extends REST_Controller
         parent::__construct();
         $this->country_code = 'IN';
         $this->load->model("app_model");
+        $this->load->library("applib", array("controller" => $this));
+
     }
 
     /**
@@ -31,13 +33,9 @@ class Test extends REST_Controller
 
     public function test_get()
     {
-        $playerIds=$this->app_model->getPlayerIds(1);
-        $test = [];
-        foreach($playerIds as $pid)
-        {
-         array_push($test,$pid['player_id']);
-        }
-        print_r($test);
-        die;
+        $tokenData['dealer_id'] = '11';
+        $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
+        $jwtToken = $this->applib->GenerateToken($tokenData);
+        echo json_encode(array('Token'=>$jwtToken));
     }
 }

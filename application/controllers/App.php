@@ -12,6 +12,7 @@ class App extends REST_Controller
         parent::__construct();
         //$this->authorization(); //APP Authorization and setting up global variables
         $this->load->library("applib", array("controller" => $this));
+
         $this->load->model("app_model");
     }
 
@@ -69,21 +70,19 @@ class App extends REST_Controller
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
-        if(!empty($this->app_model->checkDealer($mobile))){
+        if (!empty($this->app_model->checkDealer($mobile))) {
             $this->response('', 404, 'fail', "Mobile Number Exists");
         }
         $savedOtp  = $this->cache->memcached->get($mobile);
         if ($savedOtp && $savedOtp == $otp) {
 
-            if($for === 'login'){
-
-            }else{
+            if ($for === 'login') {
+            } else {
                 $this->response(
                     'OTP Verified',
                     200
                 );
             }
-           
         } elseif ($savedOtp && $savedOtp != $otp) {
             $this->response('', 404, 'fail', "Invalid OTP");
         } else {
@@ -91,7 +90,8 @@ class App extends REST_Controller
         }
     }
 
-    public function registration_post() {
+    public function registration_post()
+    {
         $name = $this->checkEmptyParam($this->post('name'), 'Name');
         $dealership = $this->checkEmptyParam($this->post('dealership'), 'Dealership');
         $designation = $this->checkEmptyParam($this->post('designation'), 'Designation');
@@ -102,32 +102,31 @@ class App extends REST_Controller
         $otp       =  $this->checkEmptyParam($this->post('otp'), 'OTP');
 
 
-        if(!empty($this->app_model->checkDealer($number))){
+        if (!empty($this->app_model->checkDealer($number))) {
             $this->response('', 404, 'fail', "Mobile Number Exists");
         }
         $savedOtp  = $this->cache->memcached->get($number);
         if ($savedOtp && $savedOtp == $otp) {
-        
-            $data = array('name'=> $name, 'dealership' => $dealership, 'designation' => $designation, 'brand' => $brand, 'address' => $address, 'number' => $number, 'email' => $email);
+
+            $data = array('name' => $name, 'dealership' => $dealership, 'designation' => $designation, 'brand' => $brand, 'address' => $address, 'number' => $number, 'email' => $email);
             $dealerData = $this->app_model->addDealer($data);
 
+            $tokenData['dealer_id'] = $dealerData['dealer_id'];
+            $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
+            $jwtToken = $this->applib->GenerateToken($tokenData);
+
+            $dealerData['token'] = $jwtToken;
+
             $this->response(
-                array('details'=>$dealerData),
+                array('details' => $dealerData),
                 200,
                 'pass',
                 'Dealer registered Successfully'
             );
-        
-          
         } elseif ($savedOtp && $savedOtp != $otp) {
             $this->response('', 404, 'fail', "Invalid OTP");
         } else {
             $this->response('', 404, 'fail', 'OTP Expired');
         }
-
-        
-
-
-
-}
     }
+}
