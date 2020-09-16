@@ -71,10 +71,11 @@ class App_model extends CI_Model
       $this->db->insert("test_drive_car_owners", $ownerData);
       $this->db->insert("user", $userData);
 
-      return $this->db->select('*')
+      
+    }
+    return $this->db->select('*')
         ->get_where('dealer', array('dealer_id' => $insert_id))
         ->row_array();
-    }
   }
 
 

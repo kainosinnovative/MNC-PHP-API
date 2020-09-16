@@ -144,6 +144,7 @@ class App extends REST_Controller
 
             $data = array('name' => $name, 'dealership' => $dealership, 'designation' => $designation, 'brand' => $brand, 'address' => $address, 'number' => $number, 'email' => $email);
             $dealerData = $this->app_model->addDealer($data);
+            
 
             $tokenData['dealer_id'] = $dealerData['dealer_id'];
             $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
