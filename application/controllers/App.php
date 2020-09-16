@@ -41,7 +41,7 @@ class App extends REST_Controller
         $validateMobile = $this->applib->checkMobile($mobile);
         if ($for === 'login' && empty($this->app_model->checkDealer($mobile))) {
             $this->response(
-                array("message"=> "splittedst . Please Signup", "message_code"=> 422),
+                array("message"=> "Account doesn't exist . Please Signup", "message_code"=> 422),
                 200,
             );        }
         if (!$validateMobile['status']) {
