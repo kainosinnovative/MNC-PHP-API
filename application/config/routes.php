@@ -65,5 +65,7 @@ $route['car/brands'] = 'app/getBrands';
 
 
 $route['test/otp'] = 'test/otp';
+$route['delete/dealer'] = 'test/deleteDealer';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

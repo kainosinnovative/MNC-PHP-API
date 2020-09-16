@@ -31,11 +31,19 @@ class Test extends REST_Controller
         }
     }
 
-    public function test_get()
+    public function deleteDealer_get()
     {
-        $tokenData['dealer_id'] = '11';
-        $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
-        $jwtToken = $this->applib->GenerateToken($tokenData);
-        echo json_encode(array('Token'=>$jwtToken));
+        $mobile = $this->get('mobile');
+        if(!empty($mobile)){
+            $this->db->delete('dealer', array('contact_no' => $mobile));
+            $dealer = $this->app_model->checkDealer($mobile);
+            $this->db->delete('dealer_login', array('dealer_id' => $dealer->dealer_id));
+    
+            $this->response('', 200, 'pass', 'Deleted');
+        }
+
+        $this->response('', 404, 'fail', 'Provide a phone number');
+
+
     }
 }

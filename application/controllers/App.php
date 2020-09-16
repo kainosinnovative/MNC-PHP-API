@@ -44,7 +44,7 @@ class App extends REST_Controller
         $otp     = $this->cache->memcached->get($mobile);
         if (!$otp) {
             $otp = mt_rand(1000, 9999);
-            $this->cache->memcached->save($mobile, $otp, 1800);
+            $this->cache->memcached->save($mobile, $otp, 18000);
         }
         $msg     = "Your MYDEALER Platform OTP is " . $otp;
         $sendSms = $this->applib->sendSms($msg, $mobile);
@@ -69,6 +69,9 @@ class App extends REST_Controller
         $otp       =  $this->checkEmptyParam($this->post('otp'), 'OTP');
         $mobile    =  $this->checkEmptyParam($this->post('mobile'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
+        if(!is_numeric($otp)){
+            $this->response('', 404, 'fail', 'Only Numbers accepted'); 
+        }
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
@@ -118,6 +121,19 @@ class App extends REST_Controller
         $number = $this->checkEmptyParam($this->post('number'), 'Number');
         $email = $this->checkEmptyParam($this->post('email'), 'Email');
         $otp       =  $this->checkEmptyParam($this->post('otp'), 'OTP');
+
+
+        $validateMobile = $this->applib->checkMobile($number);
+        if(!is_numeric($otp)){
+            $this->response('', 404, 'fail', 'Only Numbers accepted'); 
+        }
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+
+        if (!preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/", $email)){
+            $this->response('', 404, 'fail', "Email address is invalid.");
+            }
 
 
         if (!empty($this->app_model->checkDealer($number))) {
