@@ -36,8 +36,14 @@ class App extends REST_Controller
      */
     public function generateOtp_post()
     {
+        $for = $this->input->get('for');
         $mobile  =  $this->checkEmptyParam($this->post('mobile'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
+        if ($for === 'login' && empty($this->app_model->checkDealer($mobile))) {
+            $this->response(
+                array("message"=> "splittedst . Please Signup", "message_code"=> 422),
+                200,
+            );        }
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
@@ -80,6 +86,11 @@ class App extends REST_Controller
         if ($savedOtp && $savedOtp == $otp) {
 
             if ($for === 'login') {
+
+                if (empty($this->app_model->checkDealer($mobile))) {
+                    $this->response('', 404, 'fail', "Please register");
+                }
+
 
                 $dealerData = $this->app_model->getDealer($mobile);
 
