@@ -11,10 +11,7 @@ class App extends REST_Controller
         // Construct the parent class
         parent::__construct();
         header('Access-Control-Allow-Origin: *');  //For WEB
-
-        //$this->authorization(); //APP Authorization and setting up global variables
         $this->load->library("applib", array("controller" => $this));
-
         $this->load->model("app_model");
     }
 
