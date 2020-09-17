@@ -40,10 +40,15 @@ class App extends REST_Controller
         $mobile  =  $this->checkEmptyParam($this->post('mobile'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
         if ($for === 'login' && empty($this->app_model->checkDealer($mobile))) {
-            $this->response(
-                array("message"=> "Account doesn't exist . Please Signup", "message_code"=> 422),
-                200,
-            );        }
+
+            $this->response('', 404, 'fail', "Account doesn't exist . Please Signup");
+
+
+              }
+
+        if($for === 'register' && !empty($this->app_model->checkDealer($mobile))){
+                $this->response('', 404, 'fail', "Mobile Number Exists");
+        }
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
