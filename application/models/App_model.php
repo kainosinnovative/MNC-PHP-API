@@ -12,7 +12,6 @@ if (!defined('BASEPATH'))
 class App_model extends CI_Model
 {
 
-
   /**
    * Check owner function
    *
@@ -48,9 +47,6 @@ class App_model extends CI_Model
    */
   public function addDealer($data)
   {
-
-
-
     $dealerData = array('dealer_name' => $data['name'], 'dealers_name' => $data['dealership'], 'job_title' => $data['designation'], 'contact_no' => $data['number'], 'email_id' => $data['email'], 'address' => $data['address'], 'city' => $this->getCityFromAddress($data['address']), 'added_date' => getDateTime(), 'brand' => $data['brand']);
 
     $this->db->insert("dealer", $dealerData);
@@ -70,12 +66,10 @@ class App_model extends CI_Model
 
       $this->db->insert("test_drive_car_owners", $ownerData);
       $this->db->insert("user", $userData);
-
-      
     }
     return $this->db->select('*')
-        ->get_where('dealer', array('dealer_id' => $insert_id))
-        ->row_array();
+      ->get_where('dealer', array('dealer_id' => $insert_id))
+      ->row_array();
   }
 
 
@@ -92,6 +86,12 @@ class App_model extends CI_Model
       ->row_array();
   }
 
+  /**
+   * Get City from address
+   *
+   * 
+   * @return string city
+   */
   public function getCityFromAddress($address)
   {
 
@@ -103,15 +103,21 @@ class App_model extends CI_Model
     $all_cities = $this->db->select("name, name_alias")->from("city")->where("country_id", 252)->get()->result_array();
 
     foreach ($all_cities as $r) {
+
       if (preg_match("/" . $r['name'] . "/ims", $address)) {
 
         $city = $r['name'];
         break;
-      } elseif (!empty($r['name_alias']) && preg_match("/" . $r['name_alias'] . "/ims", $address)) {
-        $city = $r['name_alias'];
+      } elseif (!empty($r['name_alias'])) {
+
+        if (preg_match("/" . $r['name_alias'] . "/ims", $address)) {
+          $city = $r['name_alias'];
+        }
+
         break;
       }
     }
+
 
     return $city;
   }
