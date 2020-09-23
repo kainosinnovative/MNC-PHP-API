@@ -128,4 +128,17 @@ class App_model extends CI_Model
       ->get_where('brand', array('status' => 1))
       ->result_array();
   }
+
+  public function getLead($status,$dealerId,$month,$year)
+  {
+     $this->db->select('COALESCE(SUM(id), 0) as count');
+    if($status !== 'All'){
+      $this->db->where('status', $status);
+    }
+    
+    $this->db->where('dealer_id', $dealerId);
+    $this->db->where('MONTH(added_date)', $month);
+    $this->db->where('YEAR(added_date)', $year);
+    return $this->db->get("zoho_dealer_data_status")->row()->count;
+  }
 }

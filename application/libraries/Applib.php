@@ -29,7 +29,7 @@ class Applib
 
   /*************This function generate token private key**************/ 
 
-  PRIVATE $key = "1234567890qwertyuiopmnbvcxzasdfghjkl"; 
+  PRIVATE $key = "MNCDEALERLOGIN"; 
   public function GenerateToken($data)
   {          
       $jwt = JWT::encode($data, $this->key);
@@ -39,11 +39,23 @@ class Applib
 
  /*************This function DecodeToken token **************/
 
-  public function DecodeToken($token)
-  {          
+  public function DecodeToken()
+  {      
+    $datas = $this->obj->input->request_headers();
+    $token = isset($datas['token']) ? $datas['token'] : '';
+    if(empty($token)){
+      $this->obj->response('You must login to use this service', 401);
+    }
+    $tks = explode('.', $token);
+        if (count($tks) != 3) {
+          $this->obj->response('You must login to use this service', 401);
+        }    
       $decoded = JWT::decode($token, $this->key, array('HS256'));
       $decodedData = (array) $decoded;
-      return $decodedData;
+      if(empty($decodedData['dealer_id'])){
+        $this->obj->response('You must login to use this service', 401); 
+      }
+      return $decodedData['dealer_id'];
   }
 
  

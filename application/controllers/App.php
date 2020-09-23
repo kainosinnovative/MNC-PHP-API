@@ -185,4 +185,27 @@ class App extends REST_Controller
             'brands' => $data
         ), 200);
     }
+
+    public function getLeadData_get(){
+        $dealerId = $this->applib->DecodeToken();
+       $month = $this->get('month');
+       $year = $this->get('year');
+        $data['all'] = $this->app_model->getLead('All',$dealerId,$month,$year);
+        $data['open'] = $this->app_model->getLead('Open',$dealerId,$month,$year);
+        $data['junk'] = $this->app_model->getLead('Junk Lead',$dealerId,$month,$year);
+        $data['out_of_zone'] = $this->app_model->getLead('Out of Zone',$dealerId,$month,$year);
+        $data['lead_lost'] = $this->app_model->getLead('Lead Lost',$dealerId,$month,$year);
+        $data['call_back'] = $this->app_model->getLead('Call Back',$dealerId,$month,$year);
+        $data['booked'] = $this->app_model->getLead('Booked',$dealerId,$month,$year);
+        $data['cancelled'] = $this->app_model->getLead('Cancelled',$dealerId,$month,$year);
+        $data['delivered'] = $this->app_model->getLead('Delivered',$dealerId,$month,$year);
+
+
+        
+
+        $this->response(
+            array('lead_info' => $data),
+            200
+        );
+    }
 }
