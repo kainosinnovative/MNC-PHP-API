@@ -11,10 +11,7 @@ class App extends REST_Controller
         // Construct the parent class
         parent::__construct();
         header('Access-Control-Allow-Origin: *');  //For WEB
-
-        //$this->authorization(); //APP Authorization and setting up global variables
         $this->load->library("applib", array("controller" => $this));
-
         $this->load->model("app_model");
     }
 
@@ -195,5 +192,28 @@ class App extends REST_Controller
         $this->response(array(
             'brands' => $data
         ), 200);
+    }
+
+    public function getLeadData_get(){
+        $dealerId = $this->applib->DecodeToken();
+       $month = $this->get('month');
+       $year = $this->get('year');
+        $data['all'] = $this->app_model->getLead('All',$dealerId,$month,$year);
+        $data['open'] = $this->app_model->getLead('Open',$dealerId,$month,$year);
+        $data['junk'] = $this->app_model->getLead('Junk Lead',$dealerId,$month,$year);
+        $data['out_of_zone'] = $this->app_model->getLead('Out of Zone',$dealerId,$month,$year);
+        $data['lead_lost'] = $this->app_model->getLead('Lead Lost',$dealerId,$month,$year);
+        $data['call_back'] = $this->app_model->getLead('Call Back',$dealerId,$month,$year);
+        $data['booked'] = $this->app_model->getLead('Booked',$dealerId,$month,$year);
+        $data['cancelled'] = $this->app_model->getLead('Cancelled',$dealerId,$month,$year);
+        $data['delivered'] = $this->app_model->getLead('Delivered',$dealerId,$month,$year);
+
+
+        
+
+        $this->response(
+            array('lead_info' => $data),
+            200
+        );
     }
 }
