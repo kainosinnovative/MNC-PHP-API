@@ -14,15 +14,6 @@ class App extends REST_Controller
     }
 
     /**
-     * Called this to log the entire API Hit
-     *
-     */
-    public function __destruct()
-    {
-        $this->applib->standardizedApi();
-    }
-
-    /**
      * Generate OTP for the requested phone number
      */
     public function generateOtp_post()

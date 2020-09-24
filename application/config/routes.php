@@ -55,6 +55,8 @@ $route['otp/verify'] = 'app/verifyOtp';
 $route['registration'] = 'app/registration';
 $route['car/brands'] = 'app/getBrands';
 $route['dashboard/leads'] = 'app/getLeadData';
+$route['profile'] = 'dealer/getProfileInfo';
+
 
 
 
