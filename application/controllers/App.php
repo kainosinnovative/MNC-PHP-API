@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
 require(APPPATH . '/libraries/REST_Controller.php');
-
 class App extends REST_Controller
 {
     public $device = "";
@@ -10,7 +8,7 @@ class App extends REST_Controller
     {
         // Construct the parent class
         parent::__construct();
-        header('Access-Control-Allow-Origin: *');  //For WEB
+        header('Access-Control-Allow-Origin: *');
         $this->load->library("applib", array("controller" => $this));
         $this->load->model("app_model");
     }
@@ -25,11 +23,7 @@ class App extends REST_Controller
     }
 
     /**
-     * Generate OTP for the requested phone number function
-     *
-     * @param int - $mobile - Mobile Number
-     * @param string - $country_code - Country Code
-     * @return string pass if success || fail
+     * Generate OTP for the requested phone number
      */
     public function generateOtp_post()
     {
@@ -37,10 +31,8 @@ class App extends REST_Controller
         $mobile  =  $this->checkEmptyParam($this->post('mobile'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
         if ($for === 'login' && empty($this->app_model->checkDealer($mobile))) {
-
             $this->response('', 404, 'fail', "Account doesn't exist . Please Signup");
         }
-
         if ($for === 'register' && !empty($this->app_model->checkDealer($mobile))) {
             $this->response('', 404, 'fail', "Mobile Number Exists");
         }
@@ -67,7 +59,6 @@ class App extends REST_Controller
     /**
      * Verify OTP for the requested phone number function
      *
-     * @return string 
      */
     public function verifyOtp_post()
     {
@@ -81,25 +72,17 @@ class App extends REST_Controller
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
-
         $savedOtp  = $this->cache->memcached->get($mobile);
         if ($savedOtp && $savedOtp == $otp) {
-
             if ($for === 'login') {
-
                 if (empty($this->app_model->checkDealer($mobile))) {
                     $this->response('', 404, 'fail', "Please register");
                 }
-
-
                 $dealerData = $this->app_model->getDealer($mobile);
-
                 $tokenData['dealer_id'] = $dealerData['dealer_id'];
                 $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
-                $jwtToken = $this->applib->GenerateToken($tokenData);
-
+                $jwtToken = $this->applib->generateToken($tokenData);
                 $dealerData['token'] = $jwtToken;
-
                 $this->response(
                     array('details' => $dealerData),
                     200,
@@ -122,6 +105,9 @@ class App extends REST_Controller
         }
     }
 
+    /**
+     * Register Dealer
+     */
     public function registration_post()
     {
         $name = $this->checkEmptyParam(trim($this->post('name')), 'Name');
@@ -132,13 +118,9 @@ class App extends REST_Controller
         $number = $this->checkEmptyParam($this->post('number'), 'Number');
         $email = $this->checkEmptyParam($this->post('email'), 'Email');
         $otp       =  $this->checkEmptyParam($this->post('otp'), 'OTP');
-
-
-
         if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
             $this->response('', 404, 'fail', 'Invalid Name');
         }
-
         $validateMobile = $this->applib->checkMobile($number);
         if (!is_numeric($otp)) {
             $this->response('', 404, 'fail', 'Only Numbers accepted');
@@ -146,28 +128,20 @@ class App extends REST_Controller
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
-
         if (!preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/", $email)) {
             $this->response('', 404, 'fail', "Email address is invalid.");
         }
-
-
         if (!empty($this->app_model->checkDealer($number))) {
             $this->response('', 404, 'fail', "Mobile Number Exists");
         }
         $savedOtp  = $this->cache->memcached->get($number);
         if ($savedOtp && $savedOtp == $otp) {
-
             $data = array('name' => $name, 'dealership' => $dealership, 'designation' => $designation, 'brand' => $brand, 'address' => $address, 'number' => $number, 'email' => $email);
             $dealerData = $this->app_model->addDealer($data);
-
-
             $tokenData['dealer_id'] = $dealerData['dealer_id'];
             $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
             $jwtToken = $this->applib->GenerateToken($tokenData);
-
             $dealerData['token'] = $jwtToken;
-
             $this->response(
                 array('details' => $dealerData),
                 200,
@@ -183,8 +157,6 @@ class App extends REST_Controller
 
     /**
      * Get Brands
-     *
-     * @return array $brands
      */
     public function getBrands_get()
     {
@@ -193,24 +165,24 @@ class App extends REST_Controller
             'brands' => $data
         ), 200);
     }
-
-    public function getLeadData_get(){
-        $dealerId = $this->applib->DecodeToken();
-       $month = $this->get('month');
-       $year = $this->get('year');
-        $data['all'] = $this->app_model->getLead('All',$dealerId,$month,$year);
-        $data['open'] = $this->app_model->getLead('Open',$dealerId,$month,$year);
-        $data['junk'] = $this->app_model->getLead('Junk Lead',$dealerId,$month,$year);
-        $data['out_of_zone'] = $this->app_model->getLead('Out of Zone',$dealerId,$month,$year);
-        $data['lead_lost'] = $this->app_model->getLead('Lead Lost',$dealerId,$month,$year);
-        $data['call_back'] = $this->app_model->getLead('Call Back',$dealerId,$month,$year);
-        $data['booked'] = $this->app_model->getLead('Booked',$dealerId,$month,$year);
-        $data['cancelled'] = $this->app_model->getLead('Cancelled',$dealerId,$month,$year);
-        $data['delivered'] = $this->app_model->getLead('Delivered',$dealerId,$month,$year);
-
-
-        
-
+    
+    /**
+     * Get Lead in for Dashboard
+     */
+    public function getLeadData_get()
+    {
+        $dealerId = $this->applib->verifyToken();
+        $month = $this->get('month');
+        $year = $this->get('year');
+        $data['all'] = $this->app_model->getLead('All', $dealerId, $month, $year);
+        $data['open'] = $this->app_model->getLead('Open', $dealerId, $month, $year);
+        $data['junk'] = $this->app_model->getLead('Junk Lead', $dealerId, $month, $year);
+        $data['out_of_zone'] = $this->app_model->getLead('Out of Zone', $dealerId, $month, $year);
+        $data['lead_lost'] = $this->app_model->getLead('Lead Lost', $dealerId, $month, $year);
+        $data['call_back'] = $this->app_model->getLead('Call Back', $dealerId, $month, $year);
+        $data['booked'] = $this->app_model->getLead('Booked', $dealerId, $month, $year);
+        $data['cancelled'] = $this->app_model->getLead('Cancelled', $dealerId, $month, $year);
+        $data['delivered'] = $this->app_model->getLead('Delivered', $dealerId, $month, $year);
         $this->response(
             array('lead_info' => $data),
             200

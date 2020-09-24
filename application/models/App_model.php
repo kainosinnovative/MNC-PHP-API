@@ -5,10 +5,8 @@
  *
  *
  */
-
 if (!defined('BASEPATH'))
   exit('No direct script access allowed');
-
 class App_model extends CI_Model
 {
 
@@ -38,32 +36,22 @@ class App_model extends CI_Model
       ->row_array();
   }
 
-
   /**
-   * Check owner function
+   * To Add dealer
    *
-   * @param int $mobile
-   * @return array owner details
+   * @param Array $data - dealer details 
+   * @return array dealer details
    */
   public function addDealer($data)
   {
     $dealerData = array('dealer_name' => $data['name'], 'dealers_name' => $data['dealership'], 'job_title' => $data['designation'], 'contact_no' => $data['number'], 'email_id' => $data['email'], 'address' => $data['address'], 'city' => $this->getCityFromAddress($data['address']), 'added_date' => getDateTime(), 'brand' => $data['brand']);
-
     $this->db->insert("dealer", $dealerData);
-
     $insert_id = $this->db->insert_id();
-
     $dealerLoginData = array('dealer_id' =>  $insert_id, 'sub_dealer_id' =>  $insert_id, 'email_id' => $data['email'], 'type' => 'dealer', 'added_date' => getDateTime(), 'status' => 1);
-
     $this->db->insert("dealer_login", $dealerLoginData);
-
     if (empty($this->checkOwner($data['number']))) {
-
-
       $ownerData = array('owner_full_name' => $data['name'], 'first_name' => $data['name'], 'owner_phone' => $data['number'], 'owner_email' => $data['email'], 'owner_address' => $data['address'], 'city' => $this->getCityFromAddress($data['address']), 'added_date' => getDateTime());
-
       $userData = array('firstname' => $data['name'], 'telephone' => $data['number'], 'email' => $data['email'], 'address' => $data['address'], 'city' => $this->getCityFromAddress($data['address']), 'date_added' => getDateTime());
-
       $this->db->insert("test_drive_car_owners", $ownerData);
       $this->db->insert("user", $userData);
     }
@@ -71,7 +59,6 @@ class App_model extends CI_Model
       ->get_where('dealer', array('dealer_id' => $insert_id))
       ->row_array();
   }
-
 
   /**
    * Check owner function
@@ -88,37 +75,27 @@ class App_model extends CI_Model
 
   /**
    * Get City from address
-   *
    * 
    * @return string city
    */
   public function getCityFromAddress($address)
   {
-
     if (empty($address)) {
       return "";
     }
-
     $city = "";
     $all_cities = $this->db->select("name, name_alias")->from("city")->where("country_id", 252)->get()->result_array();
-
     foreach ($all_cities as $r) {
-
       if (preg_match("/" . $r['name'] . "/ims", $address)) {
-
         $city = $r['name'];
         break;
       } elseif (!empty($r['name_alias'])) {
-
         if (preg_match("/" . $r['name_alias'] . "/ims", $address)) {
           $city = $r['name_alias'];
         }
-
         break;
       }
     }
-
-
     return $city;
   }
 
@@ -134,14 +111,22 @@ class App_model extends CI_Model
       ->get_where('brand', array('status' => 1))
       ->result_array();
   }
-
-  public function getLead($status,$dealerId,$month,$year)
+  
+  /**
+   * To get lead status based counts
+   *
+   * @param string $status - lead status
+   * @param int $dealerId
+   * @param int $month
+   * @param int $year
+   * @return array counts array
+   */
+  public function getLead($status, $dealerId, $month, $year)
   {
-     $this->db->select('COALESCE(SUM(id), 0) as count');
-    if($status !== 'All'){
+    $this->db->select('COALESCE(SUM(id), 0) as count');
+    if ($status !== 'All') {
       $this->db->where('status', $status);
     }
-    
     $this->db->where('dealer_id', $dealerId);
     $this->db->where('MONTH(added_date)', $month);
     $this->db->where('YEAR(added_date)', $year);
