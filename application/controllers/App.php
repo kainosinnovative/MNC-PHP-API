@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-require(APPPATH . '/libraries/REST_Controller.php');
+require APPPATH . '/libraries/REST_Controller.php';
 class App extends REST_Controller
 {
     public $device = "";
@@ -19,7 +19,7 @@ class App extends REST_Controller
     public function generateOtp_post()
     {
         $for = $this->input->get('for');
-        $mobile  =  $this->checkEmptyParam($this->post('mobile'), 'Mobile');
+        $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
         if ($for === 'login' && empty($this->app_model->checkDealer($mobile))) {
             $this->response('', 404, 'fail', "Account doesn't exist . Please Signup");
@@ -30,12 +30,12 @@ class App extends REST_Controller
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
-        $otp     = $this->cache->memcached->get($mobile);
+        $otp = $this->cache->memcached->get($mobile);
         if (!$otp) {
             $otp = mt_rand(1000, 9999);
             $this->cache->memcached->save($mobile, $otp, 18000);
         }
-        $msg     = "Your MYDEALER Platform OTP is " . $otp;
+        $msg = "Your MYDEALER Platform OTP is " . $otp;
         $sendSms = $this->applib->sendSms($msg, $mobile);
         if ($sendSms['status']) {
             $this->response(
@@ -54,8 +54,8 @@ class App extends REST_Controller
     public function verifyOtp_post()
     {
         $for = $this->input->get('for');
-        $otp       =  $this->checkEmptyParam($this->post('otp'), 'OTP');
-        $mobile    =  $this->checkEmptyParam($this->post('mobile'), 'Mobile');
+        $otp = $this->checkEmptyParam($this->post('otp'), 'OTP');
+        $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
         if (!is_numeric($otp)) {
             $this->response('', 404, 'fail', 'Only Numbers accepted');
@@ -63,7 +63,7 @@ class App extends REST_Controller
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
-        $savedOtp  = $this->cache->memcached->get($mobile);
+        $savedOtp = $this->cache->memcached->get($mobile);
         if ($savedOtp && $savedOtp == $otp) {
             if ($for === 'login') {
                 if (empty($this->app_model->checkDealer($mobile))) {
@@ -108,7 +108,7 @@ class App extends REST_Controller
         $address = $this->checkEmptyParam(trim($this->post('address')), 'Address');
         $number = $this->checkEmptyParam($this->post('number'), 'Number');
         $email = $this->checkEmptyParam($this->post('email'), 'Email');
-        $otp       =  $this->checkEmptyParam($this->post('otp'), 'OTP');
+        $otp = $this->checkEmptyParam($this->post('otp'), 'OTP');
         if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
             $this->response('', 404, 'fail', 'Invalid Name');
         }
@@ -125,7 +125,7 @@ class App extends REST_Controller
         if (!empty($this->app_model->checkDealer($number))) {
             $this->response('', 404, 'fail', "Mobile Number Exists");
         }
-        $savedOtp  = $this->cache->memcached->get($number);
+        $savedOtp = $this->cache->memcached->get($number);
         if ($savedOtp && $savedOtp == $otp) {
             $data = array('name' => $name, 'dealership' => $dealership, 'designation' => $designation, 'brand' => $brand, 'address' => $address, 'number' => $number, 'email' => $email);
             $dealerData = $this->app_model->addDealer($data);
@@ -153,10 +153,34 @@ class App extends REST_Controller
     {
         $data = $this->app_model->getBrands();
         $this->response(array(
-            'brands' => $data
+            'brands' => $data,
         ), 200);
     }
-    
+
+    /** get list of the Models based on brand id
+     *
+     * @brand_name
+     */
+    public function getModels_get()
+    {
+        $brand_name = $this->get('brand_name');
+        $data['models'] = $this->app_model->getModels($brand_name);
+        $this->response($data);
+    }
+
+    /** get list of the Variants based on brand name and model Name
+     *
+     * @brand_name
+     * @model_name
+     */
+    public function getVariantList_get()
+    {
+        $model_name = $this->get('model_name');
+        $brand_name = $this->get('brand_name');
+        $data['variant_list'] = $this->app_model->getVariants($brand_name, $model_name);
+        $this->response($data);
+    }
+
     /**
      * Get Lead in for Dashboard
      */
