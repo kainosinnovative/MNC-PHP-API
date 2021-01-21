@@ -78,7 +78,7 @@ class Dealer extends REST_Controller
 
     public function getShowRoomInformation_get()
     {
-        $dealer_id = 309; //$this->applib->verifyToken();
+        $dealer_id = $this->applib->verifyToken();
         $showroom_data = $this->dealer_model->getShowRoomInformation($dealer_id);
         $this->response(array('showroom_data' => $showroom_data, 'no_showroom' => count($showroom_data)));
     }
@@ -89,8 +89,8 @@ class Dealer extends REST_Controller
         $person = $this->post('person_name');
         $mobile_number = $this->post('mobile_number');
         $location = $this->post('location');
-        if (!preg_match("/^[a-zA-Z ]*$/", $person)) {
-            $this->response('', 404, 'fail', 'Invalid Name');
+        if (empty($person)) {
+            $this->response('', 404, 'fail', 'PLease Enter Name');
         }
         if (empty($location)) {
             $this->response('', 404, 'fail', 'Please Enter Location');
@@ -112,7 +112,7 @@ class Dealer extends REST_Controller
         $person = $this->post('person_name');
         $mobile_number = $this->post('mobile_number');
         $location = $this->post('location');
-        if (!preg_match("/^[a-zA-Z ]*$/", $person)) {
+        if (empty($person)) {
             $this->response('', 404, 'fail', 'Invalid Name');
         }
         if (empty($location)) {
