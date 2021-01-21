@@ -67,9 +67,21 @@ $route['delete/dealer'] = 'test/deleteDealer';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = false;
 
-/* Leads Baswaraj */
+/*Baswaraj */
+$route['profile/overview'] = 'app/getOverview';
+
+// About Notes Routes
 $route['lead/list'] = 'Dealer/leadList';
 $route['lead/notes/create'] = 'Dealer/noteCreate';
 $route['lead/notes/edit'] = 'Dealer/noteEdit';
 $route['lead/notes/delete'] = 'Dealer/noteDelete';
 $route['lead/notes/list'] = 'Dealer/note';
+
+//Test Drive Car List
+$route['drive/car/list'] = 'Dealer/getTestDriveCarList';
+
+// About showroom data
+$route['lead/showroom/create'] = 'Dealer/insertShowroom';
+$route['lead/showroom/edit'] = 'Dealer/showroomEdit';
+$route['lead/showroom/delete'] = 'Dealer/deleteShowroom';
+$route['lead/showroom/list'] = 'Dealer/getShowRoomInformation';

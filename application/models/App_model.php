@@ -121,26 +121,26 @@ class App_model extends CI_Model
  */
     public function getModels($brand)
     {
-        $this->db->select('m.model_id, m.model_name');
+        $this->db->select('model_id, model_name');
         $this->db->from('model m');
-        $this->db->join('brand b', 'b.brand_id = m.brand_id and b.status = 1');
-        $this->db->where('b.brand_name', $brand);
-        $this->db->where('m.status', 1);
-        return $this->db->get()->result_array();
+        //  $this->db->join('brand b', 'b.brand_id = m.brand_id and b.status = 1');
+        $this->db->where('brand_id', $brand);
+        $this->db->where('status', 1);
+        return $this->db->get('model')->result_array();
     }
     /**
-     * Get Variant by brand name and model name
+     * Get Variant by brand id and model id
      *
-     * @brand_name
-     * @model_name
+     * @brand_id
+     * @model_id
      * @return array Variants
      */
 
-    public function getVariants($brand_name, $model_name)
+    public function getVariants($brand, $model)
     {
-        $this->db->select('variant_id, variant_name, variant_description, fuel');
-        $this->db->where('brand_name', $brand_name);
-        $this->db->where('model_name', $model_name);
+        $this->db->select('variant_id, variant, pro_name');
+        $this->db->where('brand_id', $brand);
+        $this->db->where('model_id', $model);
         $this->db->where('status', 1);
         return $this->db->get('variant')->result_array();
     }
@@ -164,5 +164,16 @@ class App_model extends CI_Model
         $this->db->where('MONTH(added_date)', $month);
         $this->db->where('YEAR(added_date)', $year);
         return $this->db->get("zoho_dealer_data_status")->row()->count;
+    }
+
+    public function getOverview($dealer_id)
+    {
+
+        $this->db->select('d.dealer_name, b.brand_name, d.city, d.contact_no, d.email_id');
+        $this->db->from('dealer d');
+        $this->db->join('brand b', 'b.brand_id= d.brand and b.status = 1');
+        $this->db->where('d.dealer_id', $dealer_id);
+        $this->db->where('d.status', 1);
+        return $this->db->get()->row_array();
     }
 }

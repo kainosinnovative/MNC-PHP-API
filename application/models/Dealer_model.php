@@ -26,7 +26,7 @@ class Dealer_model extends CI_Model
 
     public function getLeadList()
     {
-        return $this->db->select('DISTINCT(lead_id), full_name')->get('zoho_leads')->result_array();
+        return $this->db->select('DISTINCT(lead_id), full_name')->where('')->get('zoho_leads')->result_array();
     }
 
     public function insertNotes($note_data)
@@ -53,6 +53,43 @@ class Dealer_model extends CI_Model
         $where = ['notes_id' => $note_id, 'dealer_id' => $dealerId];
         $this->db->where($where);
         $this->db->delete('dealers_note');
+        return "deleted";
+    }
+
+    public function getTestDriveCarList($dealer_id)
+    {
+        $this->db->select();
+        $this->db->from();
+        $this->db->join();
+        return $this->db->get()->result_array();
+    }
+
+    public function getShowRoomInformation($dealer_id)
+    {
+        $this->db->select('dsl_id, person_name,mobile_number,location,status');
+        $this->db->where('dealer_id', $dealer_id);
+        return $this->db->get('dealer_showroom_location')->result_array();
+    }
+
+    public function insertShowroom($showroomData)
+    {
+        $this->db->insert('dealer_showroom_location', $showroomData);
+        $showroom_id = $this->db->insert_id();
+        return $showroom_id ? "success" : "failed";
+    }
+
+    public function updateShowroom($showroomData)
+    {
+        $this->db->where('dsl_id', $showroomData['dsl_id']);
+        $this->db->update('dealer_showroom_location', $showroomData);
+        return "updated";
+    }
+
+    public function deleteShowroom($showroom_id, $dealer_id)
+    {
+        $where = ['dsl_id' => $showroom_id, 'dealer_id' => $dealer_id];
+        $this->db->where($where);
+        $this->db->delete('dealer_showroom_location');
         return "deleted";
     }
 }

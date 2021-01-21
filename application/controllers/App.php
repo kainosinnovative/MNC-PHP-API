@@ -163,8 +163,8 @@ class App extends REST_Controller
      */
     public function getModels_get()
     {
-        $brand_name = $this->get('brand_name');
-        $data['models'] = $this->app_model->getModels($brand_name);
+        $brand = $this->get('brand_id');
+        $data['models'] = $this->app_model->getModels($brand);
         $this->response($data);
     }
 
@@ -175,9 +175,9 @@ class App extends REST_Controller
      */
     public function getVariantList_get()
     {
-        $model_name = $this->get('model_name');
-        $brand_name = $this->get('brand_name');
-        $data['variant_list'] = $this->app_model->getVariants($brand_name, $model_name);
+        $model = $this->get('model_id');
+        $brand = $this->get('brand_id');
+        $data['variant_list'] = $this->app_model->getVariants($brand, $model);
         $this->response($data);
     }
 
@@ -202,5 +202,12 @@ class App extends REST_Controller
             array('lead_info' => $data),
             200
         );
+    }
+
+    public function getOverview_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $data['overview'] = $this->app_model->getOverview($dealer_id);
+        $this->response($data);
     }
 }

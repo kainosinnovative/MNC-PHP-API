@@ -69,6 +69,70 @@ class Dealer extends REST_Controller
         $this->response($data);
     }
 
-    
+    public function getTestDriveCarList_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $data['test_drive_car_list'] = $this->dealer_model->getTestDriveCarList($dealer_id);
+        $this->response($data);
+    }
+
+    public function getShowRoomInformation_get()
+    {
+        $dealer_id = 309; //$this->applib->verifyToken();
+        $showroom_data = $this->dealer_model->getShowRoomInformation($dealer_id);
+        $this->response(array('showroom_data' => $showroom_data, 'no_showroom' => count($showroom_data)));
+    }
+
+    public function insertShowroom_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $person = $this->post('person_name');
+        $mobile_number = $this->post('mobile_number');
+        $location = $this->post('location');
+        if (!preg_match("/^[a-zA-Z ]*$/", $person)) {
+            $this->response('', 404, 'fail', 'Invalid Name');
+        }
+        if (empty($location)) {
+            $this->response('', 404, 'fail', 'Please Enter Location');
+        }
+        $validateMobile = $this->applib->checkMobile($mobile_number);
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+
+        $showroomData = array('dealer_id' => $dealer_id, 'person_name' => $person, 'mobile_number' => $mobile_number, 'location' => $location);
+        $data['insert_showroom_status'] = $this->dealer_model->insertShowroom($showroomData);
+        $this->response($data);
+    }
+
+    public function showroomEdit_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $showroom_id = $this->post('showroom_id');
+        $person = $this->post('person_name');
+        $mobile_number = $this->post('mobile_number');
+        $location = $this->post('location');
+        if (!preg_match("/^[a-zA-Z ]*$/", $person)) {
+            $this->response('', 404, 'fail', 'Invalid Name');
+        }
+        if (empty($location)) {
+            $this->response('', 404, 'fail', 'Please Enter Location');
+        }
+        $validateMobile = $this->applib->checkMobile($mobile_number);
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+        $showroomData = array('dsl_id' => $showroom_id, 'dealer_id' => $dealer_id, 'person_name' => $person, 'mobile_number' => $mobile_number, 'location' => $location);
+        $data['update_showroom_status'] = $this->dealer_model->updateShowroom($showroomData);
+        $this->response($data);
+    }
+
+    public function deleteShowroom_get()
+    {
+        $showroom_id = $this->get('showroom_id');
+        $dealer_id = $this->applib->verifyToken();
+        $data['delete_showroom_status'] = $this->dealer_model->deleteShowroom($showroom_id, $dealer_id);
+        $this->response($data);
+    }
 
 }
