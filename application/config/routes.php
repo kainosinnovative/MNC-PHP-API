@@ -79,6 +79,9 @@ $route['lead/notes/list'] = 'Dealer/note';
 
 //Test Drive Car List
 $route['drive/car/list'] = 'Dealer/getTestDriveCarList';
+$route['drive/car/edit'] = 'Dealer/editTestDriveCar';
+$route['drive/car/delete'] = 'Dealer/deleteTestDriveCar';
+$route['drive/car/create'] = 'Dealer/createTestDriveCar';
 
 // About showroom data
 $route['lead/showroom/create'] = 'Dealer/insertShowroom';

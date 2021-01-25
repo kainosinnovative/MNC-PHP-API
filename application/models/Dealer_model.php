@@ -56,12 +56,73 @@ class Dealer_model extends CI_Model
         return "deleted";
     }
 
+    public function getVariantDetails($variant)
+    {
+        $this->db->select('f.fuel_type, v.tramission_type');
+        $this->db->from('variant v');
+        $this->db->join('fuel_type f', 'f.fuel_type_id = v.fuel_type and f.status = 1');
+        //$this->db->join('transmission_type tt', 'tt.transmission_id = v.tramission_type and tt.status = 1', 'left');
+        $this->db->where('v.status', 1);
+        $this->db->where('pro_name', $variant);
+        return $this->db->get()->row_array();
+    }
+
+    public function getDealerData($fields, $dealer_id, $join = '')
+    {
+        $this->db->select($fields);
+        $this->db->from('dealer d');
+        ($join == 'test_drive_car_owners') ? $this->db->join('test_drive_car_owners td', 'td.owner_phone = d.contact_no') : '';
+        $this->db->where('d.dealer_id', $dealer_id);
+        return $this->db->get()->row_array();
+    }
+
+    public function getTestDriveCarOwner($fields, $where)
+    {
+        return $this->db->select($fields)->where($where)->get('test_drive_car_owners')->row_array();
+    }
+
+    public function checkTestDriveCar($where, $test_drive_id = '')
+    {
+
+        $this->db->select('*');
+        $this->db->where($where);
+        $test_drive_id ? $this->db->where('id !=', $test_drive_id) : '';
+        return $this->db->get('test_drive_cars_details')->row_array();
+    }
+
     public function getTestDriveCarList($dealer_id)
     {
-        $this->db->select();
-        $this->db->from();
-        $this->db->join();
-        return $this->db->get()->result_array();
+
+        $dealer_data = $this->getDealerData('contact_no, dealer_name, owner_id', $dealer_id, 'test_drive_car_owners');
+        //$test_car_owner = $this->getTestDriveCarOwner('owner_id', array('owner_phone' => $dealer_data['contact_no']));
+        $dealer_name = $dealer_data['dealer_name'];
+        $this->db->select("id, person_name, contact_number, status, '$dealer_name' as dealer_name");
+        $this->db->where('owner_id', $dealer_data['owner_id']);
+        return $this->db->get('test_drive_cars_details')->result_array();
+    }
+
+    public function createTestDriveCar($test_car_data, $dealer_id)
+    {
+        $this->db->insert('test_drive_cars_details', $test_car_data);
+        $insert_id = $this->db->insert_id();
+        return $insert_id ? "success" : "fail";
+    }
+
+    public function editTestDriveCar($test_car_data, $dealer_id)
+    {
+        $where = array('id' => $test_car_data['id'], 'owner_id' => $test_car_data['owner_id']);
+        $this->db->where($where);
+        $this->db->update('test_drive_cars_details', $test_car_data);
+        return "updated";
+    }
+
+    public function deleteTestDriveCar($test_drive_id, $dealer_id)
+    {
+        $dealer_data = $this->getDealerData('owner_id', $dealer_id, 'test_drive_car_owners');
+        $where = ['id' => $test_drive_id, 'owner_id' => $dealer_data['owner_id']];
+        $this->db->where($where);
+        $this->db->delete('test_drive_cars_details');
+        return "deleted";
     }
 
     public function getShowRoomInformation($dealer_id)

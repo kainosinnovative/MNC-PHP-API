@@ -72,7 +72,108 @@ class Dealer extends REST_Controller
     public function getTestDriveCarList_get()
     {
         $dealer_id = $this->applib->verifyToken();
-        $data['test_drive_car_list'] = $this->dealer_model->getTestDriveCarList($dealer_id);
+        $test_drive_car_list = $this->dealer_model->getTestDriveCarList($dealer_id);
+        $showroom_count = $this->dealer_model->getShowRoomInformation($dealer_id);
+        $this->response(array('test_drive_car_list' => $test_drive_car_list, 'show_room_count' => count($showroom_count)));
+    }
+
+    public function createTestDriveCar_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $brand = $this->post('brand');
+        $model = $this->post('model');
+        $variant = $this->post('variant');
+        $registration_no = $this->post('registration_no');
+        $manufacturing_year = $this->post('year');
+        $address = $this->post('address');
+        $lang = $this->post('long');
+        $lant = $this->post('lant');
+        $person_name = $this->post('person_name');
+        $mobile_number = $this->post('mobile_number');
+
+        if (empty($person_name)) {
+            $this->response('', 404, 'fail', 'Please Enter Name');
+        }
+        if (empty($address)) {
+            $this->response('', 404, 'fail', 'Please Enter Address');
+        }
+        if (empty($lang) || !is_numeric($lang)) {
+            (empty($lang)) ? $this->response('', 404, 'fail', 'Please enter Longitude') : $this->response('', 404, 'fail', 'Longitude should be numeric');
+        }
+
+        if (empty($lant) || !is_numeric($lant)) {
+            (empty($lant)) ? $this->response('', 404, 'fail', 'Please enter Latitude') : $this->response('', 404, 'fail', 'Latitude should be numeric');
+        }
+
+        $validateMobile = $this->applib->checkMobile($mobile_number);
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+
+        $variant_data = $this->dealer_model->getVariantDetails($variant);
+        $dealer_data = $this->dealer_model->getDealerData('owner_id', $dealer_id, 'test_drive_car_owners');
+
+        $where = array('brand_model' => $brand . ' ' . $model, 'fuel' => $variant_data['fuel_type'], 'transmission' => $variant_data['tramission_type'], 'varaint' => $variant, 'year' => $manufacturing_year, /* 'registeration_no' => $registration_no, */'owner_id' => $dealer_data['owner_id'], 'long' => $lang, 'lant' => $lant);
+        if ($this->dealer_model->checkTestDriveCar($where)) { // if data get from table the that car exist
+            return $this->response('', 404, 'fail', 'Car details already exist');
+        } else {
+            $test_car_data = array('brand_model' => $brand . ' ' . $model, 'car_full_name' => $brand . ' ' . $model . ' ' . $variant, 'varaint' => $variant, 'fuel' => $variant_data['fuel_type'], 'transmission' => $variant_data['tramission_type'], 'registeration_no' => $registration_no, 'color' => '', 'owner_id' => $dealer_data['owner_id'], 'year' => $manufacturing_year, 'person_name' => $person_name, 'contact_number' => $mobile_number, 'long' => $lang, 'lant' => $lant);
+            $data['insert_testDriveCar_status'] = $this->dealer_model->createTestDriveCar($test_car_data, $dealer_id);
+            $this->response($data);
+        }
+    }
+
+    public function editTestDriveCar_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $test_drive_id = $this->post('test_drive_id');
+        $brand = $this->post('brand');
+        $model = $this->post('model');
+        $variant = $this->post('variant');
+        $registration_no = $this->post('registeration_no');
+        $manufacturing_year = $this->post('year');
+        $address = $this->post('address');
+        $person_name = $this->post('person_name');
+        $mobile_number = $this->post('mobile_number');
+        $lang = $this->post('long');
+        $lant = $this->post('lant');
+
+        if (empty($person_name)) {
+            $this->response('', 404, 'fail', 'Please Enter Name');
+        }
+        if (empty($address)) {
+            $this->response('', 404, 'fail', 'Please Enter Address');
+        }
+        if (empty($lang) || !is_numeric($lang)) {
+            (empty($lang)) ? $this->response('', 404, 'fail', 'Please enter Longitude') : $this->response('', 404, 'fail', 'Longitude should be numeric');
+        }
+        if (empty($lant) || !is_numeric($lant)) {
+            (empty($lant)) ? $this->response('', 404, 'fail', 'Please enter Latitude') : $this->response('', 404, 'fail', 'Latitude should be numeric');
+        }
+        $validateMobile = $this->applib->checkMobile($mobile_number);
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+
+        $variant_data = $this->dealer_model->getVariantDetails($variant);
+        $dealer_data = $this->dealer_model->getDealerData('owner_id', $dealer_id, 'test_drive_car_owners');
+
+        $where = array('brand_model' => $brand . ' ' . $model, 'fuel' => $variant_data['fuel_type'], 'transmission' => $variant_data['tramission_type'], 'varaint' => $variant, 'year' => $manufacturing_year, /* 'registeration_no' => $registration_no, */'owner_id' => $dealer_data['owner_id'], 'long' => $lang, 'lant' => $lant);
+        if ($this->dealer_model->checkTestDriveCar($where, $test_drive_id)) { // if data get from table the that car exist
+            return $this->response('', 404, 'fail', 'Car details already exist');
+        } else {
+            $test_car_data = array('id' => $test_drive_id, 'brand_model' => $brand . ' ' . $model, 'car_full_name' => $brand . ' ' . $model . ' ' . $variant, 'varaint' => $variant, 'fuel' => $variant_data['fuel_type'], 'transmission' => $variant_data['tramission_type'], 'registeration_no' => $registration_no, 'color' => '', 'owner_id' => $dealer_data['owner_id'], 'year' => $manufacturing_year, 'person_name' => $person_name, 'contact_number' => $mobile_number, 'long' => $lang, 'lant' => $lant);
+            $data['insert_testDriveCar_status'] = $this->dealer_model->editTestDriveCar($test_car_data, $dealer_id);
+            $this->response($data);
+        }
+
+    }
+
+    public function deleteTestDriveCar_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $test_drive_car_id = $this->get('test_drive_car_id');
+        $data['delete_testDriveCar_status'] = $this->dealer_model->deleteTestDriveCar($test_drive_car_id, $dealer_id);
         $this->response($data);
     }
 
