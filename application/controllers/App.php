@@ -11,6 +11,7 @@ class App extends REST_Controller
         header('Access-Control-Allow-Origin: *');
         $this->load->library("applib", array("controller" => $this));
         $this->load->model("app_model");
+        $this->load->model("dealer_model");
     }
 
     /**
@@ -208,6 +209,35 @@ class App extends REST_Controller
     {
         $dealer_id = $this->applib->verifyToken();
         $data['overview'] = $this->app_model->getOverview($dealer_id);
+        $this->response($data);
+    }
+
+    public function getProfile_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $data['profile'] = $this->app_model->getProfile($dealer_id);
+        $this->response($data);
+    }
+
+    public function updateProfile_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $config['upload_path'] = './uploads/profile';
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size'] = '5048';
+        $config['max_height'] = '3648';
+        $config['max_width'] = '6724';
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if ($this->upload->do_upload('profile')) {
+            $uploadData = $this->upload->data();
+            $picture = $uploadData['file_name'];
+            $path = '/uploads/profile/' . $picture; //base_url('/uploads/profile/'). $picture
+            $data['update'] = $this->app_model->updateProfile($path, $dealer_id);
+        } else {
+            $this->response('', 404, 'fail', $this->upload->display_errors());
+        }
+        //$data['profile'] = $this->app_model->getProfile($dealer_id);
         $this->response($data);
     }
 }

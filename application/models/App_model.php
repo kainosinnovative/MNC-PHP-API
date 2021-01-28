@@ -175,4 +175,23 @@ class App_model extends CI_Model
         $this->db->where('d.status', 1);
         return $this->db->get()->row_array();
     }
+
+    /**  dealer profile
+     *   return profile path
+     */
+    /*  public function getProfile($dealer_id) {
+    $this->db->select();
+
+    ->where()->get()->row_array()
+    } */
+
+    public function updateProfile($path, $dealer_id)
+    {
+        /*  print_r($path);
+        print_r($dealer_id);
+        exit; */
+        $this->db->where('dealer_id', $dealer_id);
+        $this->db->update('dealer', array('profile' => $path));
+        return "updated";
+    }
 }

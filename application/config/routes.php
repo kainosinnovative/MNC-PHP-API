@@ -67,7 +67,8 @@ $route['delete/dealer'] = 'test/deleteDealer';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = false;
 
-/*Baswaraj */
+/* Profile */
+$route['profile/edit'] = 'app/updateProfile';
 $route['profile/overview'] = 'app/getOverview';
 
 // About Notes Routes
