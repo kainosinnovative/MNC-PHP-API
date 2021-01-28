@@ -168,10 +168,9 @@ class App_model extends CI_Model
 
     public function getOverview($dealer_id)
     {
-
         $this->db->select('d.dealer_name, b.brand_name, d.city, d.contact_no, d.email_id');
         $this->db->from('dealer d');
-        $this->db->join('brand b', 'b.brand_id= d.brand and b.status = 1');
+        $this->db->join('brand b', 'b.brand_id= d.brand and b.status = 1', 'left');
         $this->db->where('d.dealer_id', $dealer_id);
         $this->db->where('d.status', 1);
         return $this->db->get()->row_array();

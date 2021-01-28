@@ -26,7 +26,7 @@ class Dealer_model extends CI_Model
 
     public function getLeadList()
     {
-        return $this->db->select('DISTINCT(lead_id), full_name')->where('')->get('zoho_leads')->result_array();
+        return $this->db->select('DISTINCT (lead_id), full_name')->get('zoho_leads')->result_array();
     }
 
     public function insertNotes($note_data)
@@ -96,7 +96,7 @@ class Dealer_model extends CI_Model
         $dealer_data = $this->getDealerData('contact_no, dealer_name, owner_id', $dealer_id, 'test_drive_car_owners');
         //$test_car_owner = $this->getTestDriveCarOwner('owner_id', array('owner_phone' => $dealer_data['contact_no']));
         $dealer_name = $dealer_data['dealer_name'];
-        $this->db->select("id, person_name, contact_number, status, '$dealer_name' as dealer_name");
+        $this->db->select("id, person_name, contact_number, status, car_full_name, lant, long, '$dealer_name' as dealer_name");
         $this->db->where('owner_id', $dealer_data['owner_id']);
         return $this->db->get('test_drive_cars_details')->result_array();
     }
