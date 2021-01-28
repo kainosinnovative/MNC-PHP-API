@@ -26,7 +26,7 @@ class Dealer_model extends CI_Model
 
     public function getLeadList()
     {
-        return $this->db->select('DISTINCT (lead_id), full_name')->get('zoho_leads')->result_array();
+        return $this->db->select('DISTINCT (lead_id), full_name')->where('full_name IS NOT NULL')->get('zoho_leads')->result_array();
     }
 
     public function insertNotes($note_data)
