@@ -153,4 +153,31 @@ class Dealer_model extends CI_Model
         $this->db->delete('dealer_showroom_location');
         return "deleted";
     }
+
+    public function getAttachmentData($dealer_id)
+    {
+        return $this->db->select('*')->get_where('new_dealer_attachment', array('dealer_id' => $dealer_id))->result_array();
+    }
+
+    public function insertData($data, $tablename)
+    {
+        $this->db->insert($tablename, $data);
+        $showroom_id = $this->db->insert_id();
+        return $showroom_id ? "success" : "failed";
+    }
+
+    public function updateData($data, $tablename, $where)
+    {
+        $this->db->where($where);
+        $this->db->update($tablename, $data);
+        return "updated";
+    }
+
+    public function deleteData($tablename, $where)
+    {
+        $this->db->where($where);
+        $this->db->delete($tablename);
+        return "deleted";
+    }
+
 }

@@ -11,6 +11,7 @@ class Dealer extends REST_Controller
         header('Access-Control-Allow-Origin: *');
         $this->load->library("applib", array("controller" => $this));
         $this->load->model("dealer_model");
+        $this->load->helper('download');
     }
 
     /**
@@ -236,4 +237,88 @@ class Dealer extends REST_Controller
         $this->response($data);
     }
 
+    public function getAttachmentData_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $data['attachments_list'] = $this->dealer_model->getAttachmentData($dealer_id);
+        $this->response($data);
+    }
+
+    public function downloadAttachment_get()
+    {
+        $attachment_id = $this->get('attachment_id');
+        $path = $this->db->select('attached_path')->get_where('new_dealer_attachment', array('dealer_attach_id' => $attachment_id))->row('attached_path');
+        $file = 'http://' . $_SERVER["SERVER_ADDR"] . '/MYDEALER-API' . $path;
+        $filename = explode('/', $path);
+        $pth = file_get_contents($file);
+        force_download($filename[2], $pth);
+    }
+
+    public function insertAttachments_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $category = $this->post('category');
+        $attach_by = $this->post('attach_by');
+
+        if (empty($category)) {
+            $this->response('', 404, 'fail', 'Please Enter Category');
+        }
+        if (empty($attach_by)) {
+            $this->response('', 404, 'fail', 'Please Enter Attachment By');
+        }
+        $config['upload_path'] = './uploads/attachments';
+        $config['allowed_types'] = 'pdf|txt';
+        $config['max_size'] = '11048';
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if ($this->upload->do_upload('attachments')) {
+            $uploadData = $this->upload->data();
+            $file = $uploadData['file_name'];
+            $path = '/uploads/attachments/' . $file; //base_url('/uploads/profile/'). $picture
+            $attachment_data = array('dealer_id' => $dealer_id, 'category' => $category, 'attached_by' => $attach_by, 'attached_path' => $path, 'added_date' => Date('Y-m-d h:i:s'));
+            $data['inserted_attachment_status'] = $this->dealer_model->insertData($attachment_data, 'new_dealer_attachment');
+
+        } else {
+            $this->response('', 404, 'fail', $this->upload->display_errors());
+        }
+        $this->response($data);
+    }
+
+    public function updateAttachments_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $category = $this->post('category');
+        $attach_by = $this->post('attach_by');
+        $attachment_id = $this->post('attachment_id');
+        if (empty($category)) {
+            $this->response('', 404, 'fail', 'Please Enter Category');
+        }
+        if (empty($attach_by)) {
+            $this->response('', 404, 'fail', 'Please Enter Attachment By');
+        }
+        $config['upload_path'] = './uploads/attachments';
+        $config['allowed_types'] = 'pdf|txt';
+        $config['max_size'] = '11048';
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if ($this->upload->do_upload('attachments')) {
+            $uploadData = $this->upload->data();
+            $file = $uploadData['file_name'];
+            $path = '/uploads/attachments/' . $file; //base_url('/uploads/profile/'). $picture
+            $attachment_data = array('dealer_attach_id' => $attachment_id, 'dealer_id' => $dealer_id, 'category' => $category, 'attached_by' => $attach_by, 'attached_path' => $path, 'added_date' => Date('Y-m-d h:i:s'));
+            $data['update_attachment_status'] = $this->dealer_model->updateData($attachment_data, 'new_dealer_attachment', array('dealer_attach_id' => $attachment_id, 'dealer_id' => $dealer_id));
+
+        } else {
+            $this->response('', 404, 'fail', $this->upload->display_errors());
+        }
+        $this->response($data);
+    }
+
+    public function deleteAttachment_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $attachment_id = $this->get('attachment_id');
+        $data['delete_showroom_status'] = $this->dealer_model->deleteData('new_dealer_attachment', array('dealer_attach_id' => $attachment_id, 'dealer_id' => $dealer_id));
+        $this->response($data);
+    }
 }

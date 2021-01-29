@@ -89,3 +89,10 @@ $route['lead/showroom/create'] = 'Dealer/insertShowroom';
 $route['lead/showroom/edit'] = 'Dealer/showroomEdit';
 $route['lead/showroom/delete'] = 'Dealer/deleteShowroom';
 $route['lead/showroom/list'] = 'Dealer/getShowRoomInformation';
+
+// About Attachment data
+$route['lead/attachment/create'] = 'Dealer/insertAttachments';
+$route['lead/attachment/edit'] = 'Dealer/updateAttachments';
+$route['lead/attachment/delete'] = 'Dealer/deleteAttachment';
+$route['lead/attachment/list'] = 'Dealer/getAttachmentData';
+$route['lead/attachment/download'] = 'Dealer/downloadAttachment';
