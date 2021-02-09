@@ -190,19 +190,28 @@ class App extends REST_Controller
         $dealerId = $this->applib->verifyToken();
         $month = $this->get('month');
         $year = $this->get('year');
-        $data['all'] = $this->app_model->getLead('All', $dealerId, $month, $year);
-        $data['open'] = $this->app_model->getLead('Open', $dealerId, $month, $year);
-        $data['junk'] = $this->app_model->getLead('Junk Lead', $dealerId, $month, $year);
-        $data['out_of_zone'] = $this->app_model->getLead('Out of Zone', $dealerId, $month, $year);
-        $data['lead_lost'] = $this->app_model->getLead('Lead Lost', $dealerId, $month, $year);
-        $data['call_back'] = $this->app_model->getLead('Call Back', $dealerId, $month, $year);
-        $data['booked'] = $this->app_model->getLead('Booked', $dealerId, $month, $year);
-        $data['cancelled'] = $this->app_model->getLead('Cancelled', $dealerId, $month, $year);
-        $data['delivered'] = $this->app_model->getLead('Delivered', $dealerId, $month, $year);
+        $endDate = date('y-m-d', strtotime("-30 days"));
+
+        $data['all'] = $this->app_model->getLead('All', $dealerId, $month, $year, $endDate);
+        $data['open'] = $this->app_model->getLead('Open', $dealerId, $month, $year, $endDate);
+        $data['junk'] = $this->app_model->getLead('Junk Lead', $dealerId, $month, $year, $endDate);
+        $data['out_of_zone'] = $this->app_model->getLead('Out of Zone', $dealerId, $month, $year, $endDate);
+        $data['lead_lost'] = $this->app_model->getLead('Lead Lost', $dealerId, $month, $year, $endDate);
+        $data['call_back'] = $this->app_model->getLead('Call Back', $dealerId, $month, $year, $endDate);
+        $data['booked'] = $this->app_model->getLead('Booked', $dealerId, $month, $year, $endDate);
+        $data['cancelled'] = $this->app_model->getLead('Cancelled', $dealerId, $month, $year, $endDate);
+        $data['delivered'] = $this->app_model->getLead('Delivered', $dealerId, $month, $year, $endDate);
+        $data['pipe_line'] = $this->app_model->getLeadPipeline('All', $dealerId, $month, $year, $endDate);
         $this->response(
             array('lead_info' => $data),
             200
         );
+    }
+
+    public function getDataBasedFilter_get()
+    {
+        $start_date = $this->get('start_date');
+        $end_date = $this->get('end_date');
     }
 
     public function getOverview_get()
@@ -240,7 +249,5 @@ class App extends REST_Controller
         //$data['profile'] = $this->app_model->getProfile($dealer_id);
         $this->response($data);
     }
-
-    
 
 }

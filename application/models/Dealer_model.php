@@ -159,6 +159,13 @@ class Dealer_model extends CI_Model
         return $this->db->select('*')->get_where('new_dealer_attachment', array('dealer_id' => $dealer_id))->result_array();
     }
 
+    public function getData($tablename, $fields, $where = '', $type = '')
+    {
+        $this->db->select($fields);
+        $where ? $this->db->where($where) : '';
+        return $type ? $this->db->get($tablename)->row_array() : $this->db->get($tablename)->result_array();
+    }
+
     public function insertData($data, $tablename)
     {
         $this->db->insert($tablename, $data);

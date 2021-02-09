@@ -96,3 +96,13 @@ $route['lead/attachment/edit'] = 'Dealer/updateAttachments';
 $route['lead/attachment/delete'] = 'Dealer/deleteAttachment';
 $route['lead/attachment/list'] = 'Dealer/getAttachmentData';
 $route['lead/attachment/download'] = 'Dealer/downloadAttachment';
+
+// Account Information
+$route['subdealer/account/create'] = 'Dealer/accountInformation';
+$route['subdealer/account/get'] = 'Dealer/getAccountInformation';
+
+// Management Information
+$route['management/information/create'] = 'Dealer/insertManagementInformation';
+$route['management/information/edit'] = 'Dealer/editManagementInformation';
+$route['management/information/delete'] = 'Dealer/deleteManagementInformation';
+$route['management/information/list'] = 'Dealer/getManagementInformation';

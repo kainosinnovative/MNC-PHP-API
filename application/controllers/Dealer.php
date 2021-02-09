@@ -321,4 +321,142 @@ class Dealer extends REST_Controller
         $data['delete_showroom_status'] = $this->dealer_model->deleteData('new_dealer_attachment', array('dealer_attach_id' => $attachment_id, 'dealer_id' => $dealer_id));
         $this->response($data);
     }
+
+    public function getAccountInformation_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $data['get_account_information'] = $this->dealer_model->getData('new_sub_dealer', '*', array('dealer_id' => $dealer_id, 'status' => 1, 'type' => 'account_information'));
+        $this->response($data);
+    }
+
+    public function accountInformation_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $companyName = $this->post('company_name');
+        $person = $this->checkEmptyParam(trim($this->post('name')), 'Person Name');
+        $Designation = $this->checkEmptyParam($this->post('designation'), 'Designation');
+        $mobile_number = $this->checkEmptyParam($this->post('number'), 'Number');
+        $email = $this->checkEmptyParam($this->post('email'), 'Email');
+        $gst = $this->checkEmptyParam($this->post('gst'), 'GST');
+        $headOffice = $this->checkEmptyParam($this->post('headOffice'), 'Head Office');
+
+        if (!preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/", $email)) {
+            $this->response('', 404, 'fail', "Email address is invalid.");
+        }
+
+        $validateMobile = $this->applib->checkMobile($mobile_number);
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+
+        $account_data = array(
+            'dealer_id' => $dealer_id,
+            'company_name' => $companyName,
+            'person_name' => $person,
+            'designation' => $Designation,
+            'mobile_number' => $mobile_number,
+            'email' => $email,
+            'gst' => $gst,
+            'headOffice' => $headOffice,
+            'type' => 'account_information',
+            'created_date' => Date('Y-m-d h:i:s'),
+        );
+
+        $getData = $this->dealer_model->getData('new_sub_dealer', '*', array('dealer_id' => $dealer_id, 'mobile_number' => $mobile_number, 'email' => $email, 'type' => 'account_information'), 'row');
+        if ($getData) {
+            $this->response('', 404, 'fail', 'Mobile Number or Email already exist');
+        } else {
+            $data['insert_Account_status'] = $this->dealer_model->insertData($account_data, 'new_sub_dealer');
+            $this->response($data);
+        }
+    }
+
+    public function getManagementInformation_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $data['get_management'] = $this->dealer_model->getData('new_sub_dealer', 'person_name, designation, mobile_number, email, status', array('dealer_id' => $dealer_id, 'status' => 1, 'type' => 'management_information'));
+        $this->response($data);
+    }
+
+    public function insertManagementInformation_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $person = $this->checkEmptyParam(trim($this->post('name')), 'Person Name');
+        $Designation = $this->checkEmptyParam($this->post('designation'), 'Designation');
+        $mobile_number = $this->checkEmptyParam($this->post('number'), 'Number');
+        $email = $this->checkEmptyParam($this->post('email'), 'Email');
+
+        if (!preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/", $email)) {
+            $this->response('', 404, 'fail', "Email address is invalid.");
+        }
+
+        $validateMobile = $this->applib->checkMobile($mobile_number);
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+
+        $management_data = array(
+            'dealer_id' => $dealer_id,
+            'person_name' => $person,
+            'designation' => $Designation,
+            'mobile_number' => $mobile_number,
+            'email' => $email,
+            'type' => 'management_information',
+            'created_date' => Date('Y-m-d h:i:s'),
+        );
+
+        $getData = $this->dealer_model->getData('new_sub_dealer', '*', array('dealer_id' => $dealer_id, 'mobile_number' => $mobile_number, 'email' => $email, 'type' => 'management_information'), 'row');
+        if ($getData) {
+            $this->response('', 404, 'fail', 'Mobile Number or Email already exist');
+        } else {
+            $data['insert_Account_status'] = $this->dealer_model->insertData($management_data, 'new_sub_dealer');
+            $this->response($data);
+        }
+    }
+
+    public function editManagementInformation_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $new_sub_dealer_id = $this->post('sub_dealer_id');
+        $person = $this->checkEmptyParam(trim($this->post('name')), 'Person Name');
+        $Designation = $this->checkEmptyParam($this->post('designation'), 'Designation');
+        $mobile_number = $this->checkEmptyParam($this->post('number'), 'Number');
+        $email = $this->checkEmptyParam($this->post('email'), 'Email');
+
+        if (!preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/", $email)) {
+            $this->response('', 404, 'fail', "Email address is invalid.");
+        }
+
+        $validateMobile = $this->applib->checkMobile($mobile_number);
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+
+        $management_data = array(
+            'new_sub_dealer_id' => $new_sub_dealer_id,
+            'dealer_id' => $dealer_id,
+            'person_name' => $person,
+            'designation' => $Designation,
+            'mobile_number' => $mobile_number,
+            'email' => $email,
+            'type' => 'management_information',
+            'created_date' => Date('Y-m-d h:i:s'),
+        );
+
+        $getData = $this->dealer_model->getData('new_sub_dealer', '*', array('new_sub_dealer_id !=' => $new_sub_dealer_id, 'dealer_id' => $dealer_id, 'mobile_number' => $mobile_number, 'email' => $email, 'type' => 'management_information'), 'row');
+        if ($getData) {
+            $this->response('', 404, 'fail', 'Mobile Number or Email already exist');
+        } else {
+            $data['edit_management_status'] = $this->dealer_model->updateData($management_data, 'new_sub_dealer', array('new_sub_dealer_id' => $new_sub_dealer_id, 'dealer_id' => $dealer_id, 'mobile_number' => $mobile_number, 'email' => $email, 'type' => 'management_information'));
+            $this->response($data);
+        }
+    }
+
+    public function deleteManagementInformation_get()
+    {
+        $new_sub_dealer_id = $this->get('sub_dealer_id');
+        $dealer_id = $this->applib->verifyToken();
+        $data['delete_management_status'] = $this->dealer_model->deleteData('new_sub_dealer', array('new_sub_dealer_id' => $new_sub_dealer_id, 'dealer_id' => $dealer_id, 'type' => 'management_information'));
+        $this->response($data);
+    }
 }

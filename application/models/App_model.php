@@ -114,16 +114,16 @@ class App_model extends CI_Model
             ->result_array();
     }
 /**
- * Get Models by brand name
+ * Get Models by brand_id
  *
- * @brand_name
+ * @brand
  * @return array Models
  */
     public function getModels($brand)
     {
         $this->db->select('model_id, model_name');
-        $this->db->from('model m');
-        //  $this->db->join('brand b', 'b.brand_id = m.brand_id and b.status = 1');
+        //$this->db->from('model m');
+        //$this->db->join('brand b', 'b.brand_id = m.brand_id and b.status = 1');
         $this->db->where('brand_id', $brand);
         $this->db->where('status', 1);
         return $this->db->get('model')->result_array();
@@ -154,16 +154,43 @@ class App_model extends CI_Model
      * @param int $year
      * @return array counts array
      */
-    public function getLead($status, $dealerId, $month, $year)
+    public function getLead($status, $dealerId, $month, $year, $endDate)
     {
+        $dealerId = 148;
         $this->db->select('COALESCE(SUM(id), 0) as count');
         if ($status !== 'All') {
             $this->db->where('status', $status);
         }
         $this->db->where('dealer_id', $dealerId);
+        // $this->db->where('added_date >=', $endDate);
         $this->db->where('MONTH(added_date)', $month);
         $this->db->where('YEAR(added_date)', $year);
+        //
         return $this->db->get("zoho_dealer_data_status")->row()->count;
+    }
+
+    public function getLeadPipeline($status, $dealerId, $month, $year, $user, $showroom, $rating, $byDate, $startDate, $endDate)
+    {
+        $dealerId = 148;
+
+        $this->db->select('zl.full_name, zl.potential_car, zl.followup_date, zl.mobile, zd.verify_status');
+        $this->db->from('zoho_dealer_data_status zd');
+        $this->db->join('zoho_leads zl', 'zd.zoho_lead_id = zl.lead_id');
+        $user ? $this->db->where('zl.full_name', $user) : '';
+        $showroom ? $this->db->where('zl.showroom', $showroom) : '';
+        $rating ? $this->db->where('', $rating) : '';
+        $byDate ? $this->db->where('', $byDate) : '';
+        $startDate ? $this->db->where('added_date >= ', $startDate) : '';
+        $endDate ? $this->db->where('added_date <= ', $endDate) : '';
+        if ($status !== 'All') {
+            $this->db->where('status', $status);
+        }
+        $this->db->where('dealer_id', $dealerId);
+        // $this->db->where('added_date >=', $endDate);
+        $this->db->where('MONTH(added_date)', $month);
+        $this->db->where('YEAR(added_date)', $year);
+        //
+        return $this->db->get()->result_array();
     }
 
     public function getOverview($dealer_id)
