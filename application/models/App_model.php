@@ -109,9 +109,10 @@ class App_model extends CI_Model
      */
     public function getBrands()
     {
-        return $this->db->select('brand_name,brand_id')
-            ->get_where('brand', array('status' => 1))
-            ->result_array();
+        $this->db->select('brand_name,brand_id');
+        $this->db->join('model m', 'b.brand_id = m.brand_id and m.status = 1');
+        return $this->db->get_where('brand b', array('status' => 1))->result_array();
+
     }
 /**
  * Get Models by brand_id
@@ -156,7 +157,7 @@ class App_model extends CI_Model
      */
     public function getLead($status, $dealerId, $month, $year, $endDate)
     {
-        $dealerId = 148;
+        //$dealerId = 148;
         $this->db->select('COALESCE(SUM(id), 0) as count');
         if ($status !== 'All') {
             $this->db->where('status', $status);

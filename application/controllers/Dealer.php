@@ -89,6 +89,7 @@ class Dealer extends REST_Controller
         $address = $this->post('address');
         $lang = $this->post('long');
         $lant = $this->post('lant');
+
         $person_name = $this->post('person_name');
         $mobile_number = $this->post('mobile_number');
 
@@ -118,7 +119,7 @@ class Dealer extends REST_Controller
         if ($this->dealer_model->checkTestDriveCar($where)) { // if data get from table the that car exist
             return $this->response('', 404, 'fail', 'Car details already exist');
         } else {
-            $test_car_data = array('brand_model' => $brand . ' ' . $model, 'car_full_name' => $brand . ' ' . $model . ' ' . $variant, 'varaint' => $variant, 'fuel' => $variant_data['fuel_type'], 'transmission' => $variant_data['tramission_type'], 'registeration_no' => $registration_no, 'color' => '', 'owner_id' => $dealer_data['owner_id'], 'year' => $manufacturing_year, 'person_name' => $person_name, 'contact_number' => $mobile_number, 'long' => $lang, 'lant' => $lant);
+            $test_car_data = array('brand_model' => $brand . ' ' . $model, 'car_full_name' => $brand . ' ' . $model . ' ' . $variant, 'varaint' => $variant, 'fuel' => $variant_data['fuel_type'], 'transmission' => $variant_data['tramission_type'], 'registeration_no' => $registration_no, 'color' => '', 'owner_id' => $dealer_data['owner_id'], 'year' => $manufacturing_year, 'person_name' => $person_name, 'contact_number' => $mobile_number, 'long' => $lang, 'lant' => $lant, 'address' => $address);
             $data['insert_testDriveCar_status'] = $this->dealer_model->createTestDriveCar($test_car_data, $dealer_id);
             $this->response($data);
         }
@@ -163,8 +164,8 @@ class Dealer extends REST_Controller
         if ($this->dealer_model->checkTestDriveCar($where, $test_drive_id)) { // if data get from table the that car exist
             return $this->response('', 404, 'fail', 'Car details already exist');
         } else {
-            $test_car_data = array('id' => $test_drive_id, 'brand_model' => $brand . ' ' . $model, 'car_full_name' => $brand . ' ' . $model . ' ' . $variant, 'varaint' => $variant, 'fuel' => $variant_data['fuel_type'], 'transmission' => $variant_data['tramission_type'], 'registeration_no' => $registration_no, 'color' => '', 'owner_id' => $dealer_data['owner_id'], 'year' => $manufacturing_year, 'person_name' => $person_name, 'contact_number' => $mobile_number, 'long' => $lang, 'lant' => $lant);
-            $data['insert_testDriveCar_status'] = $this->dealer_model->editTestDriveCar($test_car_data, $dealer_id);
+            $test_car_data = array('id' => $test_drive_id, 'brand_model' => $brand . ' ' . $model, 'car_full_name' => $brand . ' ' . $model . ' ' . $variant, 'varaint' => $variant, 'fuel' => $variant_data['fuel_type'], 'transmission' => $variant_data['tramission_type'], 'registeration_no' => $registration_no, 'color' => '', 'owner_id' => $dealer_data['owner_id'], 'year' => $manufacturing_year, 'person_name' => $person_name, 'contact_number' => $mobile_number, 'long' => $lang, 'lant' => $lant, 'address' => $address);
+            $data['update_testDriveCar_status'] = $this->dealer_model->editTestDriveCar($test_car_data, $dealer_id);
             $this->response($data);
         }
 
@@ -175,6 +176,15 @@ class Dealer extends REST_Controller
         $dealer_id = $this->applib->verifyToken();
         $test_drive_car_id = $this->get('test_drive_car_id');
         $data['delete_testDriveCar_status'] = $this->dealer_model->deleteTestDriveCar($test_drive_car_id, $dealer_id);
+        $this->response($data);
+    }
+
+    public function updateTestDriveStatus_post()
+    {
+        $status = $this->post('status');
+        $test_drive_id = $this->post('test_drive_id');
+        $where = array('id' => $test_drive_id);
+        $data['update_testDrive_status'] = $this->dealer_model->updateData(array('status' => $status), 'test_drive_cars_details', $where);
         $this->response($data);
     }
 
@@ -234,6 +244,15 @@ class Dealer extends REST_Controller
         $showroom_id = $this->get('showroom_id');
         $dealer_id = $this->applib->verifyToken();
         $data['delete_showroom_status'] = $this->dealer_model->deleteShowroom($showroom_id, $dealer_id);
+        $this->response($data);
+    }
+
+    public function updateShowroomStatus_post()
+    {
+        $status = $this->post('status');
+        $showroom_id = $this->post('showroom_id');
+        $where = array('dsl_id' => $showroom_id);
+        $data['update_showroom_status'] = $this->dealer_model->updateData(array('status' => $status), 'dealer_showroom_location', $where);
         $this->response($data);
     }
 
@@ -325,56 +344,60 @@ class Dealer extends REST_Controller
     public function getAccountInformation_get()
     {
         $dealer_id = $this->applib->verifyToken();
-        $data['get_account_information'] = $this->dealer_model->getData('new_sub_dealer', '*', array('dealer_id' => $dealer_id, 'status' => 1, 'type' => 'account_information'));
+        $data['get_account_information'] = $this->dealer_model->getData('new_sub_dealer', '*', array('dealer_id' => $dealer_id, 'type' => 'account_information'), 'row');
         $this->response($data);
     }
 
     public function accountInformation_post()
     {
         $dealer_id = $this->applib->verifyToken();
-        $companyName = $this->post('company_name');
-        $person = $this->checkEmptyParam(trim($this->post('name')), 'Person Name');
-        $Designation = $this->checkEmptyParam($this->post('designation'), 'Designation');
-        $mobile_number = $this->checkEmptyParam($this->post('number'), 'Number');
-        $email = $this->checkEmptyParam($this->post('email'), 'Email');
-        $gst = $this->checkEmptyParam($this->post('gst'), 'GST');
-        $headOffice = $this->checkEmptyParam($this->post('headOffice'), 'Head Office');
+        $getData = $this->dealer_model->getData('new_sub_dealer', '*', array('dealer_id' => $dealer_id, 'type' => 'account_information'), 'row');
 
-        if (!preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/", $email)) {
+        $companyName = $getData ? $this->post('company_name') : $this->checkEmptyParam($this->post('company_name'));
+        $person = $getData ? trim($this->post('name')) : $this->checkEmptyParam(trim($this->post('name')), 'Person Name');
+        $designation = $getData ? $this->post('designation') : $this->checkEmptyParam($this->post('designation'), 'Designation');
+        $mobile_number = $getData ? $this->post('number') : $this->checkEmptyParam($this->post('number'), 'Number');
+        $email = $getData ? $this->post('email') : $this->checkEmptyParam($this->post('email'), 'Email');
+        $gst = $getData ? $this->post('gst') : $this->checkEmptyParam($this->post('gst'), 'GST');
+        $status = $this->post('status');
+        $headOffice = $getData ? $this->post('headOffice') : $this->checkEmptyParam($this->post('headOffice'), 'Head Office');
+
+        if (!preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/", $email) && $email) {
             $this->response('', 404, 'fail', "Email address is invalid.");
         }
 
         $validateMobile = $this->applib->checkMobile($mobile_number);
-        if (!$validateMobile['status']) {
+        if (!$validateMobile['status'] && $mobile_number) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
 
         $account_data = array(
             'dealer_id' => $dealer_id,
-            'company_name' => $companyName,
-            'person_name' => $person,
-            'designation' => $Designation,
-            'mobile_number' => $mobile_number,
-            'email' => $email,
-            'gst' => $gst,
-            'headOffice' => $headOffice,
             'type' => 'account_information',
             'created_date' => Date('Y-m-d h:i:s'),
         );
+        $companyName ? $account_data['company_name'] = $companyName : '';
+        $person ? $account_data['person_name'] = $person : '';
+        $designation ? $account_data['designation'] = $designation : '';
+        $mobile_number ? $account_data['mobile_number'] = $mobile_number : '';
+        $email ? $account_data['email'] = $email : '';
+        $gst ? $account_data['gst'] = $gst : '';
+        $headOffice ? $account_data['headOffice'] = $headOffice : '';
 
-        $getData = $this->dealer_model->getData('new_sub_dealer', '*', array('dealer_id' => $dealer_id, 'mobile_number' => $mobile_number, 'email' => $email, 'type' => 'account_information'), 'row');
         if ($getData) {
-            $this->response('', 404, 'fail', 'Mobile Number or Email already exist');
+            $account_data['status'] = $status ? $status : '';
+            $data['update_Account_status'] = $this->dealer_model->updateData($account_data, 'new_sub_dealer', array('dealer_id' => $dealer_id, 'type' => 'account_information'));
         } else {
             $data['insert_Account_status'] = $this->dealer_model->insertData($account_data, 'new_sub_dealer');
-            $this->response($data);
+
         }
+        $this->response($data);
     }
 
     public function getManagementInformation_get()
     {
         $dealer_id = $this->applib->verifyToken();
-        $data['get_management'] = $this->dealer_model->getData('new_sub_dealer', 'person_name, designation, mobile_number, email, status', array('dealer_id' => $dealer_id, 'status' => 1, 'type' => 'management_information'));
+        $data['get_management'] = $this->dealer_model->getData('new_sub_dealer', 'new_sub_dealer_id, person_name, designation, mobile_number, email, status', array('dealer_id' => $dealer_id, 'type' => 'management_information'));
         $this->response($data);
     }
 
@@ -459,4 +482,15 @@ class Dealer extends REST_Controller
         $data['delete_management_status'] = $this->dealer_model->deleteData('new_sub_dealer', array('new_sub_dealer_id' => $new_sub_dealer_id, 'dealer_id' => $dealer_id, 'type' => 'management_information'));
         $this->response($data);
     }
+
+    public function updateSManagementInformationStatus_post()
+    {
+        $status = $this->post('status');
+        $new_sub_dealer_id = $this->post('sub_dealer_id');
+        $where = array('new_sub_dealer_id' => $new_sub_dealer_id);
+
+        $data['update_showroom_status'] = $this->dealer_model->updateData(array('status' => $status), 'new_sub_dealer', $where);
+        $this->response($data);
+    }
+
 }

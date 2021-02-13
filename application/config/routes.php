@@ -83,12 +83,14 @@ $route['drive/car/list'] = 'Dealer/getTestDriveCarList';
 $route['drive/car/edit'] = 'Dealer/editTestDriveCar';
 $route['drive/car/delete'] = 'Dealer/deleteTestDriveCar';
 $route['drive/car/create'] = 'Dealer/createTestDriveCar';
+$route['drive/car/status'] = 'Dealer/updateTestDriveStatus';
 
 // About showroom data
 $route['lead/showroom/create'] = 'Dealer/insertShowroom';
 $route['lead/showroom/edit'] = 'Dealer/showroomEdit';
 $route['lead/showroom/delete'] = 'Dealer/deleteShowroom';
 $route['lead/showroom/list'] = 'Dealer/getShowRoomInformation';
+$route['lead/showroom/status'] = 'Dealer/updateShowroomStatus';
 
 // About Attachment data
 $route['lead/attachment/create'] = 'Dealer/insertAttachments';
@@ -106,3 +108,4 @@ $route['management/information/create'] = 'Dealer/insertManagementInformation';
 $route['management/information/edit'] = 'Dealer/editManagementInformation';
 $route['management/information/delete'] = 'Dealer/deleteManagementInformation';
 $route['management/information/list'] = 'Dealer/getManagementInformation';
+$route['management/information/status'] = 'Dealer/updateSManagementInformationStatus';

@@ -201,7 +201,7 @@ class App extends REST_Controller
         $data['booked'] = $this->app_model->getLead('Booked', $dealerId, $month, $year, $endDate);
         $data['cancelled'] = $this->app_model->getLead('Cancelled', $dealerId, $month, $year, $endDate);
         $data['delivered'] = $this->app_model->getLead('Delivered', $dealerId, $month, $year, $endDate);
-        $data['pipe_line'] = $this->app_model->getLeadPipeline('All', $dealerId, $month, $year, $endDate);
+        //$data['pipe_line'] = $this->app_model->getLeadPipeline('All', $dealerId, $month, $year, $endDate);
         $this->response(
             array('lead_info' => $data),
             200
