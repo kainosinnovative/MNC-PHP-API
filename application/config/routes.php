@@ -57,6 +57,7 @@ $route['registration'] = 'app/registration';
 $route['car/brands'] = 'app/getBrands';
 $route['car/models'] = 'app/getModels';
 $route['car/variants'] = 'app/getVariantList';
+$route['car/years'] = 'app/getManufactureYears';
 
 $route['dashboard/leads'] = 'app/getLeadData';
 $route['profile'] = 'dealer/getProfileInfo';

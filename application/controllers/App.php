@@ -169,6 +169,11 @@ class App extends REST_Controller
         $this->response($data);
     }
 
+    public function getManufactureYears_get()
+    {
+        $data['manufacture_year'] = $this->app_model->getManufactureYears();
+        $this->response($data);
+    }
     /** get list of the Variants based on brand name and model Name
      *
      * @brand_name

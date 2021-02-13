@@ -109,9 +109,9 @@ class App_model extends CI_Model
      */
     public function getBrands()
     {
-        $this->db->select('brand_name,brand_id');
+        $this->db->select('b.brand_name,b.brand_id');
         $this->db->join('model m', 'b.brand_id = m.brand_id and m.status = 1');
-        return $this->db->get_where('brand b', array('status' => 1))->result_array();
+        return $this->db->order_by('b.brand_name')->get_where('brand b', array('b.status' => 1))->result_array();
 
     }
 /**
@@ -127,6 +127,7 @@ class App_model extends CI_Model
         //$this->db->join('brand b', 'b.brand_id = m.brand_id and b.status = 1');
         $this->db->where('brand_id', $brand);
         $this->db->where('status', 1);
+        $this->db->order_by('model_name', 'ASC');
         return $this->db->get('model')->result_array();
     }
     /**
@@ -143,7 +144,16 @@ class App_model extends CI_Model
         $this->db->where('brand_id', $brand);
         $this->db->where('model_id', $model);
         $this->db->where('status', 1);
+        $this->db->order_by('pro_name', 'ASC');
         return $this->db->get('variant')->result_array();
+    }
+
+    public function getManufactureYears()
+    {
+        $this->db->select('manufacturing_year_id, manufacturing_year');
+        $this->db->where('status', 1);
+        $this->db->order_by('manufacturing_year', 'DESC');
+        return $this->db->get('manufacturing_year')->result_array();
     }
 
     /**
@@ -222,4 +232,5 @@ class App_model extends CI_Model
         $this->db->update('dealer', array('profile' => $path));
         return "updated";
     }
+
 }
