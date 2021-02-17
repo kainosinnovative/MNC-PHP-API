@@ -74,6 +74,11 @@ class Dealer extends REST_Controller
     {
         $dealer_id = $this->applib->verifyToken();
         $test_drive_car_list = $this->dealer_model->getTestDriveCarList($dealer_id);
+        foreach ($test_drive_car_list as $index => $test_drive_car) {
+            $brand_model = explode(' ', $test_drive_car['brand_model']);
+            $test_drive_car_list[$index]['brand'] = $brand_model[0];
+            $test_drive_car_list[$index]['model'] = $brand_model[1];
+        }
         $showroom_count = $this->dealer_model->getShowRoomInformation($dealer_id);
         $this->response(array('test_drive_car_list' => $test_drive_car_list, 'show_room_count' => count($showroom_count)));
     }
@@ -470,7 +475,8 @@ class Dealer extends REST_Controller
         if ($getData) {
             $this->response('', 404, 'fail', 'Mobile Number or Email already exist');
         } else {
-            $data['edit_management_status'] = $this->dealer_model->updateData($management_data, 'new_sub_dealer', array('new_sub_dealer_id' => $new_sub_dealer_id, 'dealer_id' => $dealer_id, 'mobile_number' => $mobile_number, 'email' => $email, 'type' => 'management_information'));
+
+            $data['edit_management_status'] = $this->dealer_model->updateData($management_data, 'new_sub_dealer', array('new_sub_dealer_id' => $new_sub_dealer_id, 'dealer_id' => $dealer_id, 'type' => 'management_information'));
             $this->response($data);
         }
     }

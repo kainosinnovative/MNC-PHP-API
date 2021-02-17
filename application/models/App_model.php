@@ -109,7 +109,7 @@ class App_model extends CI_Model
      */
     public function getBrands()
     {
-        $this->db->select('b.brand_name,b.brand_id');
+        $this->db->select('DISTINCT(b.brand_name), b.brand_id');
         $this->db->join('model m', 'b.brand_id = m.brand_id and m.status = 1');
         return $this->db->order_by('b.brand_name')->get_where('brand b', array('b.status' => 1))->result_array();
 
