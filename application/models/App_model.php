@@ -225,12 +225,15 @@ class App_model extends CI_Model
 
     public function updateProfile($path, $dealer_id)
     {
-        /*  print_r($path);
-        print_r($dealer_id);
-        exit; */
         $this->db->where('dealer_id', $dealer_id);
         $this->db->update('dealer', array('profile' => $path));
         return "updated";
+    }
+
+    public function updateOverview($data, $dealer_id)
+    {
+        $this->db->where('dealer_id', $dealer_id);
+        return $this->db->update('dealer', $data) ? 'updated' : 'fail';
     }
 
 }

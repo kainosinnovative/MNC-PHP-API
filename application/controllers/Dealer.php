@@ -264,8 +264,24 @@ class Dealer extends REST_Controller
     public function getAttachmentData_get()
     {
         $dealer_id = $this->applib->verifyToken();
-        $data['attachments_list'] = $this->dealer_model->getAttachmentData($dealer_id);
+        $attachments = $this->dealer_model->getAttachmentData($dealer_id);
+        foreach ($attachments as $index => $attachment) {
+            $attachments[$index]['filesize'] = $this->findFileSize(filesize(FCPATH . $attachment['attached_path']));
+            $attachments[$index]['filename'] = explode('/', $attachment['attached_path'])[2];
+        }
+        $data['attachments_list'] = $attachments;
         $this->response($data);
+    }
+
+    public function findFileSize($size)
+    {
+        $sizes = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB");
+        if ($size == 0) {
+            return ('n/a');
+        } else {
+            return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . $sizes[$i]);
+        }
+
     }
 
     public function downloadAttachment_get()
@@ -298,7 +314,7 @@ class Dealer extends REST_Controller
         if ($this->upload->do_upload('attachments')) {
             $uploadData = $this->upload->data();
             $file = $uploadData['file_name'];
-            $path = '/uploads/attachments/' . $file; //base_url('/uploads/profile/'). $picture
+            $path = 'uploads/attachments/' . $file; //base_url('/uploads/profile/'). $picture
             $attachment_data = array('dealer_id' => $dealer_id, 'category' => $category, 'attached_by' => $attach_by, 'attached_path' => $path, 'added_date' => Date('Y-m-d h:i:s'));
             $data['inserted_attachment_status'] = $this->dealer_model->insertData($attachment_data, 'new_dealer_attachment');
 
@@ -328,7 +344,7 @@ class Dealer extends REST_Controller
         if ($this->upload->do_upload('attachments')) {
             $uploadData = $this->upload->data();
             $file = $uploadData['file_name'];
-            $path = '/uploads/attachments/' . $file; //base_url('/uploads/profile/'). $picture
+            $path = 'uploads/attachments/' . $file; //base_url('/uploads/profile/'). $picture
             $attachment_data = array('dealer_attach_id' => $attachment_id, 'dealer_id' => $dealer_id, 'category' => $category, 'attached_by' => $attach_by, 'attached_path' => $path, 'added_date' => Date('Y-m-d h:i:s'));
             $data['update_attachment_status'] = $this->dealer_model->updateData($attachment_data, 'new_dealer_attachment', array('dealer_attach_id' => $attachment_id, 'dealer_id' => $dealer_id));
 

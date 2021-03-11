@@ -161,7 +161,8 @@ class Dealer_model extends CI_Model
 
     public function getAttachmentData($dealer_id)
     {
-        return $this->db->select('*')->get_where('new_dealer_attachment', array('dealer_id' => $dealer_id))->result_array();
+        $baseUrl = base_url();
+        return $this->db->select("*, IF(attached_path = ' ', attached_path, concat('$baseUrl',attached_path)) as attached_path1")->get_where('new_dealer_attachment', array('dealer_id' => $dealer_id))->result_array();
     }
 
     public function getData($tablename, $fields, $where = '', $type = '')

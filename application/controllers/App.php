@@ -226,6 +226,19 @@ class App extends REST_Controller
         $this->response($data);
     }
 
+    public function getOverview_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $dealer_data = array(
+            'dealer_name' => $this->checkEmptyParam(trim($this->post('name')), 'Name'),
+            'brand' => $this->checkEmptyParam($this->post('brand'), 'Brand'),
+            'city' => $this->checkEmptyParam($this->post('city'), 'City'),
+            'email_id' => $this->checkEmptyParam($this->post('email'), 'Email'),
+        );
+        $data['overview'] = $this->app_model->updateOverview($dealer_data, $dealer_id);
+        $this->response($data);
+    }
+
     public function getProfile_get()
     {
         $dealer_id = $this->applib->verifyToken();

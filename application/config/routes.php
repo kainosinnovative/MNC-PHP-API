@@ -71,6 +71,7 @@ $route['translate_uri_dashes'] = false;
 /* Profile */
 $route['profile/edit'] = 'app/updateProfile';
 $route['profile/overview'] = 'app/getOverview';
+$route['profile/overview/save'] = 'app/getOverview';
 
 // About Notes Routes
 $route['lead/list'] = 'Dealer/leadList';
