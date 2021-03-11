@@ -428,51 +428,6 @@ abstract class REST_Controller extends CI_Controller
         return empty($value) ? $this->response('', 404, 'fail', $param . ' cannot be empty') : $value;
     }
 
-    /**
-     * Authorization
-     *
-     * @return void
-     */
-    public function authorization()
-    {
-        $headers = $this->input->request_headers();
-        $api =  strtolower($this->uri->segment(1));
-        $countryCode = !empty($this->post('country_code')) ? $this->post('country_code') : 'IN';
-        $validCountries = array("IN" => "India", "DE" => "Germany"); //Countries were we serve
-        $validCountriesCodes = array("252" => "IN", "253" => "DE");
-        $noAuth = array('otp', 'country');
-        $ownerId = "";
-        $mobile = "";
-        $email = "";
-        $this->device = $this->agent->platform();
-        if (!in_array($api, $noAuth)) {
-            $this->auth_key = !empty($headers['Authorization']) ? $headers['Authorization'] : '';
-            if (!empty($this->auth_key)) {
-                $owner = $this->db->select('owner_id,authtoken,country_id,owner_phone,owner_full_name,owner_email')
-                    ->get_where('test_drive_car_owners', array('authtoken' => $this->auth_key))
-                    ->row_array();
-                if (!empty($owner['country_id'])) {
-                    $countryCode = $validCountriesCodes[$owner['country_id']];
-                } else {
-                    $this->response('', 404, 'fail', 'Owner Not Found');
-                }
-                $this->country_id = $owner['country_id'];
-                $this->owner_full_name = $owner['owner_full_name'];
-                $ownerId = $owner['owner_id'];
-                $mobile = $owner['owner_phone'];
-                $email = $owner['owner_email'];
-            } else {
-                $this->response('', 404, 'fail', 'Unauthorized Access');
-            }
-        }
-        if (empty($validCountries[$countryCode]) && $api != 'country') {
-            $this->response('', 404, 'fail', 'Invalid country code');
-        }
-        $this->country_code = $countryCode;
-        $this->owner_id = $ownerId;
-        $this->owner_phone = $mobile;
-        $this->owner_email = $email;
-    }
 
     /**
      * Response
