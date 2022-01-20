@@ -1,0 +1,334 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+error_reporting(0);
+require APPPATH . '/libraries/REST_Controller.php';
+class App extends REST_Controller
+{
+    public $device = "";
+    public function __construct()
+    {
+        // Construct the parent class
+        parent::__construct();
+        header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+header('Content-Type: application/json');
+$method = $_SERVER['REQUEST_METHOD'];
+if ($method == "OPTIONS") {
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+header("HTTP/1.1 200 OK");
+die();
+}
+        
+        $this->load->library("applib", array("controller" => $this));
+        $this->load->model("app_model");
+        $this->load->model("dealer_model");
+    }
+
+    /**
+     * Generate OTP for the requested phone number
+     */
+    public function generateOtp_post()
+    {
+        $for = $this->input->get('for');
+        $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
+        $validateMobile = $this->applib->checkMobile($mobile);
+        if ($for === 'login' && empty($this->app_model->checkDealer($mobile))) {
+            $this->response('', 404, 'fail', "Account doesn't exist . Please Signup");
+        }
+        if ($for === 'register' && !empty($this->app_model->checkDealer($mobile))) {
+            $this->response('', 404, 'fail', "Mobile Number Exists");
+        }
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+        //$otp = $this->cache->memcached->get($mobile);
+        if (!$otp) {
+            $otp = mt_rand(1000, 9999);
+          //  $this->cache->memcached->save($mobile, $otp, 18000);
+        }
+        $msg = "Your MYDEALER Platform OTP is " . $otp;
+        $sendSms = $this->applib->sendSms($msg, $mobile);
+        if ($sendSms['status']) {
+            $this->response(
+                '',
+                200
+            );
+        } else {
+            $this->response('', 404, 'fail', $sendSms['message']);
+        }
+    }
+
+    /**
+     * Verify OTP for the requested phone number function
+     *
+     */
+    public function verifyOtp_post()
+    {
+        $for = $this->input->get('for');
+        $otp = $this->checkEmptyParam($this->post('otp'), 'OTP');
+        $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
+        $validateMobile = $this->applib->checkMobile($mobile);
+        if (!is_numeric($otp)) {
+            $this->response('', 404, 'fail', 'Only Numbers accepted');
+        }
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+        $savedOtp = $this->cache->memcached->get($mobile);
+        if ($savedOtp && $savedOtp == $otp) {
+            if ($for === 'login') {
+                if (empty($this->app_model->checkDealer($mobile))) {
+                    $this->response('', 404, 'fail', "Please register");
+                }
+                $dealerData = $this->app_model->getDealer($mobile);
+                $tokenData['dealer_id'] = $dealerData['dealer_id'];
+                $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
+                $jwtToken = $this->applib->generateToken($tokenData);
+                $dealerData['token'] = $jwtToken;
+                $this->response(
+                    array('details' => $dealerData),
+                    200,
+                    'pass',
+                    'Dealer logged in Successfully'
+                );
+            } else {
+                if (!empty($this->app_model->checkDealer($mobile))) {
+                    $this->response('', 404, 'fail', "Mobile Number Exists");
+                }
+                $this->response(
+                    'OTP Verified',
+                    200
+                );
+            }
+        } elseif ($savedOtp && $savedOtp != $otp) {
+            $this->response('', 404, 'fail', "Invalid OTP");
+        } else {
+            $this->response('', 404, 'fail', 'OTP Expired');
+        }
+    }
+
+    /**
+     * Register Dealer
+     */
+    public function registration_post()
+    {
+        $name = $this->checkEmptyParam(trim($this->post('name')), 'Name');
+        $dealership = $this->checkEmptyParam(trim($this->post('dealership')), 'Dealership');
+        $designation = $this->checkEmptyParam(trim($this->post('designation')), 'Designation');
+        $brand = $this->checkEmptyParam($this->post('brand'), 'Brand');
+        $address = $this->checkEmptyParam(trim($this->post('address')), 'Address');
+        $number = $this->checkEmptyParam($this->post('number'), 'Number');
+        $email = $this->checkEmptyParam($this->post('email'), 'Email');
+        $otp = $this->checkEmptyParam($this->post('otp'), 'OTP');
+        if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+            $this->response('', 404, 'fail', 'Invalid Name');
+        }
+        $validateMobile = $this->applib->checkMobile($number);
+        if (!is_numeric($otp)) {
+            $this->response('', 404, 'fail', 'Only Numbers accepted');
+        }
+        if (!$validateMobile['status']) {
+            $this->response('', 404, 'fail', $validateMobile['message']);
+        }
+        if (!preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/", $email)) {
+            $this->response('', 404, 'fail', "Email address is invalid.");
+        }
+        if (!empty($this->app_model->checkDealer($number))) {
+            $this->response('', 404, 'fail', "Mobile Number Exists");
+        }
+        $savedOtp = $this->cache->memcached->get($number);
+        if ($savedOtp && $savedOtp == $otp) {
+            $data = array('name' => $name, 'dealership' => $dealership, 'designation' => $designation, 'brand' => $brand, 'address' => $address, 'number' => $number, 'email' => $email);
+            $dealerData = $this->app_model->addDealer($data);
+            $tokenData['dealer_id'] = $dealerData['dealer_id'];
+            $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
+            $jwtToken = $this->applib->GenerateToken($tokenData);
+            $dealerData['token'] = $jwtToken;
+            $this->response(
+                array('details' => $dealerData),
+                200,
+                'pass',
+                'Dealer registered Successfully'
+            );
+        } elseif ($savedOtp && $savedOtp != $otp) {
+            $this->response('', 404, 'fail', "Invalid OTP");
+        } else {
+            $this->response('', 404, 'fail', 'OTP Expired');
+        }
+    }
+
+    /**
+     * Get Brands
+     */
+    public function getBrands_get()
+    {
+        $data = $this->app_model->getBrands();
+        $this->response(array(
+            'brands' => $data,
+        ), 200);
+    }
+
+    /** get list of the Models based on brand id
+     *
+     * @brand_name
+     */
+    public function getModels_get()
+    {
+        $brand = $this->get('brand_id');
+        $data['models'] = $this->app_model->getModels($brand);
+        $this->response($data);
+    }
+
+    public function getManufactureYears_get()
+    {
+        $data['manufacture_year'] = $this->app_model->getManufactureYears();
+        $this->response($data);
+    }
+    /** get list of the Variants based on brand name and model Name
+     *
+     * @brand_name
+     * @model_name
+     */
+    public function getVariantList_get()
+    {
+        $model = $this->get('model_id');
+        $brand = $this->get('brand_id');
+        $data['variant_list'] = $this->app_model->getVariants($brand, $model);
+        $this->response($data);
+    }
+
+    /**
+     * Get Lead in for Dashboard
+     */
+    public function getLeadData_get()
+    {
+        $dealerId = $this->applib->verifyToken();
+        $month = $this->get('month');
+        $year = $this->get('year');
+        $endDate = date('y-m-d', strtotime("-30 days"));
+
+        $data['all'] = $this->app_model->getLead('All', $dealerId, $month, $year, $endDate);
+        $data['open'] = $this->app_model->getLead('Open', $dealerId, $month, $year, $endDate);
+        $data['junk'] = $this->app_model->getLead('Junk Lead', $dealerId, $month, $year, $endDate);
+        $data['out_of_zone'] = $this->app_model->getLead('Out of Zone', $dealerId, $month, $year, $endDate);
+        $data['lead_lost'] = $this->app_model->getLead('Lead Lost', $dealerId, $month, $year, $endDate);
+        $data['call_back'] = $this->app_model->getLead('Call Back', $dealerId, $month, $year, $endDate);
+        $data['booked'] = $this->app_model->getLead('Booked', $dealerId, $month, $year, $endDate);
+        $data['cancelled'] = $this->app_model->getLead('Cancelled', $dealerId, $month, $year, $endDate);
+        $data['delivered'] = $this->app_model->getLead('Delivered', $dealerId, $month, $year, $endDate);
+        //$data['pipe_line'] = $this->app_model->getLeadPipeline('All', $dealerId, $month, $year, $endDate);
+        $this->response(
+            array('lead_info' => $data),
+            200
+        );
+    }
+
+    public function getDataBasedFilter_get()
+    {
+        $start_date = $this->get('start_date');
+        $end_date = $this->get('end_date');
+    }
+
+    public function getOverview_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $data['overview'] = $this->app_model->getOverview($dealer_id);
+        $this->response($data);
+    }
+
+    public function getOverview_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $dealer_data = array(
+            'dealer_name' => $this->checkEmptyParam(trim($this->post('name')), 'Name'),
+            'brand' => $this->checkEmptyParam($this->post('brand'), 'Brand'),
+            'city' => $this->checkEmptyParam($this->post('city'), 'City'),
+            'email_id' => $this->checkEmptyParam($this->post('email'), 'Email'),
+        );
+        $data['overview'] = $this->app_model->updateOverview($dealer_data, $dealer_id);
+        $this->response($data);
+    }
+
+    public function getProfile_get()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $data['profile'] = $this->app_model->getProfile($dealer_id);
+        $this->response($data);
+    }
+
+    public function updateProfile_post()
+    {
+        $dealer_id = $this->applib->verifyToken();
+        $config['upload_path'] = './uploads/profile';
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size'] = '5048';
+        $config['max_height'] = '3648';
+        $config['max_width'] = '6724';
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if ($this->upload->do_upload('profile')) {
+            $uploadData = $this->upload->data();
+            $picture = $uploadData['file_name'];
+            $path = '/uploads/profile/' . $picture; //base_url('/uploads/profile/'). $picture
+            $data['update'] = $this->app_model->updateProfile($path, $dealer_id);
+        } else {
+            $this->response('', 404, 'fail', $this->upload->display_errors());
+        }
+        //$data['profile'] = $this->app_model->getProfile($dealer_id);
+        $this->response($data);
+    }
+
+    // testimonial
+    public function testimonial_get()
+    {
+
+        $data['testimonial'] = $this->app_model->gettestimonialList();
+        $this->response($data);
+    }
+
+    public function sendOtp2_post() {
+        
+        $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
+        $validateMobile = $this->applib->checkMobile($mobile);
+        // $this->response('', 404, 'pass', $this->app_model->checkDealer($mobile))
+        $checkCustomer = $this->app_model->checkCustomer($mobile);
+        // print_r($checkCustomer)
+        // echo "hi";
+        // echo "a>>>>>$checkCustomer";
+        if($checkCustomer === "0") {
+            $this->response('', 404, 'fail', "Mobile Number does not Exists Please Signup");
+            // return http_response_code(400);
+        }
+        else {
+       
+        if (!$otp) {
+            $otp = mt_rand(1000, 9999);
+        
+        }
+        $msg = "Your MYDEALER Platform OTP is " . $otp;
+        $sendSms = $this->applib->sendSms($msg, $mobile);
+        
+        if ($sendSms['status']) {
+            // $this->response(
+            //     'success',
+            //     200
+            // );
+            $this->response('', 200, 'pass', $otp);
+        } else {
+            $this->response('', 404, 'fail', $sendSms['message']);
+        }
+    }
+
+    }
+
+
+    public function signupCustomer() {
+
+        // $name = $this->post('name');
+        // $this->response('welcome');
+
+    }
+
+}
