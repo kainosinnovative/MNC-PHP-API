@@ -236,4 +236,40 @@ class App_model extends CI_Model
         return $this->db->update('dealer', $data) ? 'updated' : 'fail';
     }
 
+    public function gettestimonialList()
+    {
+        $sql = "SELECT * FROM testimonial";
+		$query = $this->db->query($sql);
+        return $query->result_array();
+		
+        
+    }
+
+    public function checkCustomer($mobile) {
+        // return $this->db->select COUNT('customer_id')
+        //     ->get_where('customers', array('customer_mobileno' => $mobile));
+            // ->row();
+        // echo $mobile;
+        
+            $result = $this->db->query("SELECT count(*) as cnt from customers where (customer_mobileno='$mobile')")->row_array();
+            $cnt = $result['cnt'];
+            return $cnt;
+    }
+
+
+    public function getSingleCustomerDetails($mobile)
+    {
+        $sql = "SELECT * FROM customers where customer_mobileno='".$mobile."'";
+		$query = $this->db->query($sql);
+        return $query->result_array();
+
+        // return $this->db->select('*')->from('customers')->where('customer_mobileno', $mobile)->result_array();
+
+        // $result = $this->db->query("SELECT count(*) as cnt from customers where (customer_mobileno='$mobile')")->row_array();
+        //     $cnt = $result['cnt'];
+        //     return $cnt;
+        
+    // return var_dump($this->db->select('customer_name')->from('customers')->where('customer_mobileno', '7339528035"')->get());
+    // var_dump($this->db->select('customer_name')->from('customers')->where('customer_mobileno', $mobile)->get());
+    }
 }

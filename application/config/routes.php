@@ -111,3 +111,9 @@ $route['management/information/edit'] = 'Dealer/editManagementInformation';
 $route['management/information/delete'] = 'Dealer/deleteManagementInformation';
 $route['management/information/list'] = 'Dealer/getManagementInformation';
 $route['management/information/status'] = 'Dealer/updateSManagementInformationStatus';
+
+// testimonial
+$route['app/testimonialList'] = 'app/testimonial';
+$route['app/sendOtp2'] = 'app/sendOtp2';
+$route['app/signupCustomer'] = 'app/signupCustomer';
+$route['app/SingleCustomerDetails'] = 'app/SingleCustomerDetails';

@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+error_reporting(0);
 require APPPATH . '/libraries/REST_Controller.php';
 class App extends REST_Controller
 {
@@ -9,6 +10,17 @@ class App extends REST_Controller
         // Construct the parent class
         parent::__construct();
         header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+header('Content-Type: application/json');
+$method = $_SERVER['REQUEST_METHOD'];
+if ($method == "OPTIONS") {
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+header("HTTP/1.1 200 OK");
+die();
+}
+        
         $this->load->library("applib", array("controller" => $this));
         $this->load->model("app_model");
         $this->load->model("dealer_model");
@@ -31,10 +43,10 @@ class App extends REST_Controller
         if (!$validateMobile['status']) {
             $this->response('', 404, 'fail', $validateMobile['message']);
         }
-        $otp = $this->cache->memcached->get($mobile);
+        //$otp = $this->cache->memcached->get($mobile);
         if (!$otp) {
             $otp = mt_rand(1000, 9999);
-            $this->cache->memcached->save($mobile, $otp, 18000);
+          //  $this->cache->memcached->save($mobile, $otp, 18000);
         }
         $msg = "Your MYDEALER Platform OTP is " . $otp;
         $sendSms = $this->applib->sendSms($msg, $mobile);
@@ -266,6 +278,76 @@ class App extends REST_Controller
         }
         //$data['profile'] = $this->app_model->getProfile($dealer_id);
         $this->response($data);
+    }
+
+    // testimonial
+    public function testimonial_get()
+    {
+
+        $data['testimonial'] = $this->app_model->gettestimonialList();
+        $this->response($data);
+    }
+
+    public function sendOtp2_post() {
+        
+        $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
+        $validateMobile = $this->applib->checkMobile($mobile);
+        // $this->response('', 404, 'pass', $this->app_model->checkDealer($mobile))
+        $checkCustomer = $this->app_model->checkCustomer($mobile);
+        // print_r($checkCustomer)
+        // echo "hi";
+        // echo "a>>>>>$checkCustomer";
+        if($checkCustomer === "0") {
+            // $car = [
+            //     'data1' => "Mobile Number does not Exists Please Signup",
+            //     'status' => 404
+                
+            //   ];
+            //   echo json_encode(['data'=>$car]);
+            
+// echo json_encode($arr);
+// $this->response("Mobile Number does not Exists Please Signup");
+            $this->response('', 404, 'fail', "Mobile Number does not Exists Please Signup");
+            // echo json_encode(array("message" => "Mobile Number does not Exists Please Signup"));
+        }
+        else {
+       
+        if (!$otp) {
+            $otp = mt_rand(1000, 9999);
+        
+        }
+        $msg = "Your MYDEALER Platform OTP is " . $otp;
+        $sendSms = $this->applib->sendSms($msg, $mobile);
+        
+        if ($sendSms['status']) {
+            // $this->response(
+            //     'success',
+            //     200
+            // );
+            $this->response('', 200, 'pass', $otp);
+        } else {
+            $this->response('', 404, 'fail', $sendSms['message']);
+        }
+    }
+
+    }
+
+
+    public function signupCustomer() {
+
+        // $name = $this->post('name');
+        // $this->response('welcome');
+
+    }
+
+
+    public function SingleCustomerDetails_get() {
+        // var_dump($mobile);
+        // $mobile = trim($request->customer_mobileno);
+        $mobile = $this->get('orderby');
+        $data['SingleCustomerDetails'] = $this->app_model->getSingleCustomerDetails($mobile);
+        $this->response($data);
+
     }
 
 }
