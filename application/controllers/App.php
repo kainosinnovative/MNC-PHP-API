@@ -333,10 +333,17 @@ die();
     }
 
 
-    public function signupCustomer() {
+    public function signupCustomer_get() {
 
-        // $name = $this->post('name');
-        // $this->response('welcome');
+        $customer_name =   $_GET['customer_name']; 
+        $customer_mobileno = $_GET['customer_mobileno']; 
+        $customer_email = $_GET['customer_email'];
+        // $customer_name = "test";
+        echo $customer_mobileno;
+        echo $customer_name;
+        echo $customer_email;
+         $insertResponse = $this->app_model->signupCustomerInsert($customer_name,$customer_mobileno,$customer_email);
+        $this->response($insertResponse);
 
     }
 
@@ -347,6 +354,41 @@ die();
         $mobile = $this->get('orderby');
         $data['SingleCustomerDetails'] = $this->app_model->getSingleCustomerDetails($mobile);
         $this->response($data);
+
+    }
+
+
+    public function sendOtp3_post() {
+        
+        $mobile = $this->checkEmptyParam($this->post('registermobno'), 'Mobile');
+        $validateMobile = $this->applib->checkMobile($mobile);
+        // $this->response('', 404, 'pass', $this->app_model->checkDealer($mobile))
+        $checkCustomer = $this->app_model->checkCustomer($mobile);
+        
+        if($checkCustomer != "0") {
+            
+            $this->response('', 404, 'fail', "Mobile Number already Exists Please Login");
+            // echo json_encode(array("message" => "Mobile Number does not Exists Please Signup"));
+        }
+        else {
+       
+        if (!$otp) {
+            $otp = mt_rand(1000, 9999);
+        
+        }
+        $msg = "Your MYDEALER Platform OTP is " . $otp;
+        $sendSms = $this->applib->sendSms($msg, $mobile);
+        
+        if ($sendSms['status']) {
+            // $this->response(
+            //     'success',
+            //     200
+            // );
+            $this->response('', 200, 'pass', $otp);
+        } else {
+            $this->response('', 404, 'fail', $sendSms['message']);
+        }
+    }
 
     }
 

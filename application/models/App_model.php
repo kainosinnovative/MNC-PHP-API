@@ -272,4 +272,24 @@ class App_model extends CI_Model
     // return var_dump($this->db->select('customer_name')->from('customers')->where('customer_mobileno', '7339528035"')->get());
     // var_dump($this->db->select('customer_name')->from('customers')->where('customer_mobileno', $mobile)->get());
     }
+
+    public function signupCustomerInsert($customer_name,$customer_mobileno,$customer_email){
+        $sql = "INSERT INTO customers (customer_name,customer_mobileno,customer_email)
+        VALUES ('$customer_name','$customer_mobileno','$customer_email')";
+        echo($sql);
+
+        // $data = array(
+        //     'customer_name'=>$customer_name,
+        //     'customer_mobileno'=>$customer_mobileno,
+        //     'customer_email'=>$customer_email
+        // );
+    
+        // return $this->db->insert('customers',$data);
+        
+         $query = $this->db->query($sql);
+         return $query;
+        //  return $query->result_array();
+          
+
+    }
 }
