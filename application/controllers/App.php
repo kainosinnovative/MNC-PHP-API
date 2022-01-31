@@ -9,10 +9,11 @@ class App extends REST_Controller
     {
         // Construct the parent class
         parent::__construct();
+        header('Content-Type: text/plain');
         header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
-header('Content-Type: application/json');
+// header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 if ($method == "OPTIONS") {
 header('Access-Control-Allow-Origin: *');
@@ -389,6 +390,44 @@ die();
             $this->response('', 404, 'fail', $sendSms['message']);
         }
     }
+
+    }
+
+
+    // public function signupcustomer_post() {
+    //     // $registerUserName = $_POST["registerUserName"];
+    //     $registerUserName = $this->post('registerUserName');
+    //     $registerEmailid = $this->post('registerEmailid');
+    //     $registerMobileNo = $this->post('registerMobileNo');
+    //     echo "name>>>$registerUserName";
+    //     echo "registerEmailid>>>$registerEmailid";
+    //     echo "registerMobileNo>>>$registerMobileNo";
+    //     $validateMobiletest =  $this->app_model->signupcustomer($registerUserName,$registerEmailid,$registerMobileNo);
+    //     return $validateMobiletest;
+    // }
+// $count = 0;
+// Takes raw data from the request
+
+
+    public function AddTestimonialInsert_post() {
+        $json = file_get_contents('php://input');
+// Converts it into a PHP object
+$data = json_decode($json);
+
+        // var_dump($data);
+         $insertTestimonial = $this->app_model->AddTestimonial($data);
+         var_dump($insertTestimonial);
+         $jsonen = json_encode($insertTestimonial);
+         var_dump($jsonen);
+        $this->response($jsonen);
+
+
+        // $user_description = $this->post('user_description');
+        // $user_rating = $this->post('user_rating');
+        // $customer_id = $this->post('customer_id');
+        // $insertTestimonial = $this->app_model->AddTestimonial($user_description,$user_rating,$customer_id);
+        // $this->response($insertTestimonial);
+        
 
     }
 

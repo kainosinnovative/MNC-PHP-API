@@ -236,9 +236,20 @@ class App_model extends CI_Model
         return $this->db->update('dealer', $data) ? 'updated' : 'fail';
     }
 
+
+    public function signupcustomer($registerUserName,$registerEmailid,$registerMobileNo)
+    {
+        $sql = "INSERT INTO customers (customer_name,customer_mobileno,customer_email)
+        VALUES ('$registerUserName','$registerMobileNo','$registerEmailid')";
+        var_dump($sql);
+        
+        $query = $this->db->query($sql);
+        return $query;
+    }
+
     public function gettestimonialList()
     {
-        $sql = "SELECT * FROM testimonial";
+        $sql = " SELECT * FROM testimonial t, customers c where t.customer_id=c.customer_id ORDER BY t.user_rating desc limit 0,3";
 		$query = $this->db->query($sql);
         return $query->result_array();
 		
@@ -278,13 +289,6 @@ class App_model extends CI_Model
         VALUES ('$customer_name','$customer_mobileno','$customer_email')";
         echo($sql);
 
-        // $data = array(
-        //     'customer_name'=>$customer_name,
-        //     'customer_mobileno'=>$customer_mobileno,
-        //     'customer_email'=>$customer_email
-        // );
-    
-        // return $this->db->insert('customers',$data);
         
          $query = $this->db->query($sql);
          return $query;
@@ -292,5 +296,19 @@ class App_model extends CI_Model
           
 
     }
+
+    public function AddTestimonial($data){
+        // $sql = "INSERT INTO testimonial (user_description,user_rating,customer_id)
+        // VALUES ('$user_description','$user_rating','$customer_id')";
+        // echo($sql);
+        // $this->db->query($sql);
+        // return $this->db->query($sql);
+
+       return $this->db->insert('testimonial', $data);
+        
+    }
+
+
+    
 }
 
