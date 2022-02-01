@@ -408,20 +408,11 @@ die();
        
         $json = file_get_contents('php://input');
 // Converts it into a PHP object
-$data = json_decode($json);
-// var_dump(json_decode($json));
-// print_r($data);
-// $reviewCountArr["rating_count"] = "1";
+        $data = json_decode($json);
+        $customer_id = $this->post('customer_id');
 
-// $data = array_merge($data,$review_countArr);
-
-
-
-$customer_id = $this->post('customer_id');
-
-$isCustomerReviewed = $this->app_model->isCustomerReviewed($customer_id);
-
-        
+        $isCustomerReviewed = $this->app_model->isCustomerReviewed($customer_id);
+  
 
         if($isCustomerReviewed == "0") {
             $insertTestimonial = $this->app_model->AddTestimonial($data);
@@ -434,9 +425,6 @@ $isCustomerReviewed = $this->app_model->isCustomerReviewed($customer_id);
             // $ReviewCountOld = 0;
             $review_count = 0;
             $review_count = $this->app_model->getReviewCount($customer_id);
-            // $review_count = (int)$ReviewCountOld + 1;
-            // echo $ReviewCountOld;
-            echo $review_count;
             $user_description = $this->post('user_description');
         $user_rating = $this->post('user_rating');
         $customer_id = $this->post('customer_id');
@@ -444,13 +432,21 @@ $isCustomerReviewed = $this->app_model->isCustomerReviewed($customer_id);
         $this->response($updateTestimonial);
 
         }
-
-         
-
-
-        
-        
-
     }
+    public function AddCustomerInsert_post() {
+       
+       
+        $json = file_get_contents('php://input');
+// Converts it into a PHP object
+        $data = json_decode($json);
+        $customer_id = $this->post('customer_id');
+        echo $customer_id;
+        // $insertCustomer = $this->app_model->UpdateCustomer($data);
+        
+        //  $jsonen = json_encode($insertCustomer);
+        
+        // $this->response($jsonen);
+        
 
-}
+            }
+        }
