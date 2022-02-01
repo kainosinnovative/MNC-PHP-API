@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 31, 2022 at 05:13 AM
+-- Generation Time: Feb 01, 2022 at 02:38 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -29,18 +29,29 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `customers` (
   `customer_id` int(10) NOT NULL,
-  `customer_name` varchar(45) NOT NULL,
-  `customer_mobileno` varchar(45) NOT NULL,
-  `customer_email` varchar(45) NOT NULL
+  `firstname` varchar(45) NOT NULL,
+  `lastname` varchar(45) NOT NULL,
+  `dob` date DEFAULT NULL,
+  `mobileno` varchar(13) NOT NULL,
+  `emailid` varchar(45) NOT NULL,
+  `gender` varchar(6) NOT NULL,
+  `cartype` varchar(20) NOT NULL,
+  `doorno` varchar(25) NOT NULL,
+  `street` varchar(25) NOT NULL,
+  `city` varchar(15) NOT NULL,
+  `state` varchar(20) NOT NULL,
+  `zipcode` int(6) NOT NULL,
+  `profile_img` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`customer_id`, `customer_name`, `customer_mobileno`, `customer_email`) VALUES
-(59, 'lakshmanan', '7339528035', 'l@g.com'),
-(60, 'abc', '9489840309', 'abc@g.com');
+INSERT INTO `customers` (`customer_id`, `firstname`, `lastname`, `dob`, `mobileno`, `emailid`, `gender`, `cartype`, `doorno`, `street`, `city`, `state`, `zipcode`, `profile_img`) VALUES
+(12, 'vj', '', NULL, '7339528000', 'v@g.com', '', '', '', '', '', '', 0, ''),
+(13, 'abc', '', NULL, '8940460339', 'a@g.com', '', '', '', '', '', '', 0, ''),
+(26, 'Vijaya sankar', '', NULL, '7339528035', 'kkkllaa@g.com', '', '', '', '', '', '', 0, 'docs/14761f9369ab728f-201156-download1png.png');
 
 -- --------------------------------------------------------
 
@@ -54,16 +65,18 @@ CREATE TABLE `testimonial` (
   `user_title` varchar(100) NOT NULL,
   `user_description` varchar(100) NOT NULL,
   `user_rating` varchar(10) NOT NULL,
-  `customer_id` int(10) NOT NULL
+  `customer_id` int(10) NOT NULL,
+  `review_count` varchar(10) NOT NULL,
+  `review_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `testimonial`
 --
 
-INSERT INTO `testimonial` (`id`, `user_profile`, `user_title`, `user_description`, `user_rating`, `customer_id`) VALUES
-(29, '', '', 'best application', '3', 60),
-(72, '', '', 'good application', '4', 59);
+INSERT INTO `testimonial` (`id`, `user_profile`, `user_title`, `user_description`, `user_rating`, `customer_id`, `review_count`, `review_date`) VALUES
+(124, '', '', 'test', '3', 13, '1', '2022-02-01'),
+(125, '', '', 'best application', '2', 12, '2', '2022-02-01');
 
 --
 -- Indexes for dumped tables
@@ -89,13 +102,13 @@ ALTER TABLE `testimonial`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `testimonial`
 --
 ALTER TABLE `testimonial`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
