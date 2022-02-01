@@ -239,7 +239,7 @@ class App_model extends CI_Model
 
     public function signupcustomer($registerUserName,$registerEmailid,$registerMobileNo)
     {
-        $sql = "INSERT INTO customers (customer_name,customer_mobileno,customer_email)
+        $sql = "INSERT INTO customers (customer_name,mobileno,emailid)
         VALUES ('$registerUserName','$registerMobileNo','$registerEmailid')";
         var_dump($sql);
         
@@ -249,7 +249,7 @@ class App_model extends CI_Model
 
     public function gettestimonialList()
     {
-        $sql = " SELECT * FROM testimonial t, customers c where t.customer_id=c.customer_id ORDER BY t.user_rating desc limit 0,3";
+        $sql = " SELECT * FROM testimonial t, customers c where t.customer_id=c.customer_id ORDER BY t.user_rating desc,  t.review_date desc limit 0,3";
 		$query = $this->db->query($sql);
         return $query->result_array();
 		
@@ -262,7 +262,7 @@ class App_model extends CI_Model
             // ->row();
         // echo $mobile;
         
-            $result = $this->db->query("SELECT count(*) as cnt from customers where (customer_mobileno='$mobile')")->row_array();
+            $result = $this->db->query("SELECT count(*) as cnt from customers where (mobileno='$mobile')")->row_array();
             $cnt = $result['cnt'];
             return $cnt;
     }
@@ -270,7 +270,7 @@ class App_model extends CI_Model
 
     public function getSingleCustomerDetails($mobile)
     {
-        $sql = "SELECT * FROM customers where customer_mobileno='".$mobile."'";
+        $sql = "SELECT * FROM customers where mobileno='".$mobile."'";
 		$query = $this->db->query($sql);
         return $query->result_array();
 
@@ -283,7 +283,7 @@ class App_model extends CI_Model
     // }
 
     public function signupCustomerInsert($customer_name,$customer_mobileno,$customer_email){
-        $sql = "INSERT INTO customers (customer_name,customer_mobileno,customer_email)
+        $sql = "INSERT INTO customers (firstname,mobileno,emailid)
         VALUES ('$customer_name','$customer_mobileno','$customer_email')";
         echo($sql);
 
@@ -321,8 +321,9 @@ class App_model extends CI_Model
 
 
     public function UpdateTestimonial($user_description,$user_rating,$customer_id,$review_count) {
+        $currentDate = date('Y-m-d H:i:s');
         $sql = "UPDATE testimonial
-        SET user_description = '$user_description', user_rating= '$user_rating', review_count = '$review_count'
+        SET user_description = '$user_description', user_rating= '$user_rating', review_count = '$review_count',review_date = '$currentDate'
         WHERE customer_id = $customer_id;";
         echo($sql);
         $this->db->query($sql);
