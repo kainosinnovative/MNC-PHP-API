@@ -358,6 +358,12 @@ die();
 
     }
 
+    // public function SingleLoginTestimonial_get() {
+    //     $customerid = $this->get('customerid');
+    //     $data['SingleLoginTestimonialDetails'] = $this->app_model->getSingleLoginTestimonialDetails($customerid);
+    //     $this->response($data);
+    // }
+
 
     public function sendOtp3_post() {
         
@@ -394,39 +400,55 @@ die();
     }
 
 
-    // public function signupcustomer_post() {
-    //     // $registerUserName = $_POST["registerUserName"];
-    //     $registerUserName = $this->post('registerUserName');
-    //     $registerEmailid = $this->post('registerEmailid');
-    //     $registerMobileNo = $this->post('registerMobileNo');
-    //     echo "name>>>$registerUserName";
-    //     echo "registerEmailid>>>$registerEmailid";
-    //     echo "registerMobileNo>>>$registerMobileNo";
-    //     $validateMobiletest =  $this->app_model->signupcustomer($registerUserName,$registerEmailid,$registerMobileNo);
-    //     return $validateMobiletest;
-    // }
-// $count = 0;
-// Takes raw data from the request
+  
 
 
     public function AddTestimonialInsert_post() {
+       
+       
         $json = file_get_contents('php://input');
 // Converts it into a PHP object
 $data = json_decode($json);
+// var_dump(json_decode($json));
+// print_r($data);
+// $reviewCountArr["rating_count"] = "1";
 
-        // var_dump($data);
-         $insertTestimonial = $this->app_model->AddTestimonial($data);
-         var_dump($insertTestimonial);
+// $data = array_merge($data,$review_countArr);
+
+
+
+$customer_id = $this->post('customer_id');
+
+$isCustomerReviewed = $this->app_model->isCustomerReviewed($customer_id);
+
+        
+
+        if($isCustomerReviewed == "0") {
+            $insertTestimonial = $this->app_model->AddTestimonial($data);
+        
          $jsonen = json_encode($insertTestimonial);
-         var_dump($jsonen);
+        
         $this->response($jsonen);
+        }
+        else {
+            // $ReviewCountOld = 0;
+            $review_count = 0;
+            $review_count = $this->app_model->getReviewCount($customer_id);
+            // $review_count = (int)$ReviewCountOld + 1;
+            // echo $ReviewCountOld;
+            echo $review_count;
+            $user_description = $this->post('user_description');
+        $user_rating = $this->post('user_rating');
+        $customer_id = $this->post('customer_id');
+        $updateTestimonial = $this->app_model->UpdateTestimonial($user_description,$user_rating,$customer_id,$review_count);
+        $this->response($updateTestimonial);
+
+        }
+
+         
 
 
-        // $user_description = $this->post('user_description');
-        // $user_rating = $this->post('user_rating');
-        // $customer_id = $this->post('customer_id');
-        // $insertTestimonial = $this->app_model->AddTestimonial($user_description,$user_rating,$customer_id);
-        // $this->response($insertTestimonial);
+        
         
 
     }

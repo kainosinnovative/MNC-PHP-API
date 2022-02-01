@@ -120,3 +120,5 @@ $route['app/SingleCustomerDetails'] = 'app/SingleCustomerDetails';
 $route['app/sendOtp3'] = 'app/sendOtp3';  
 $route['app/signupcustomer'] = 'app/signupcustomer';
 $route['app/AddTestimonial'] = 'app/AddTestimonialInsert';
+
+// $route['app/SingleLoginTestimonial'] = 'app/SingleLoginTestimonial';
