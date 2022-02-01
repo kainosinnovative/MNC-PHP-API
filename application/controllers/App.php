@@ -9,7 +9,7 @@ class App extends REST_Controller
     {
         // Construct the parent class
         parent::__construct();
-        header('Content-Type: text/plain');
+        header('Content-Type:  multipart/form-data');
         header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
@@ -434,19 +434,68 @@ die();
         }
     }
     public function AddCustomerInsert_post() {
-       
-       
-        $json = file_get_contents('php://input');
-// Converts it into a PHP object
-        $data = json_decode($json);
-        $customer_id = $this->post('customer_id');
-        echo $customer_id;
-        // $insertCustomer = $this->app_model->UpdateCustomer($data);
-        
-        //  $jsonen = json_encode($insertCustomer);
-        
-        // $this->response($jsonen);
-        
 
-            }
+        $firstname = $this->post('file');
+        
+       
+//         $json = file_get_contents('php://input');
+// // Converts it into a PHP object
+//         $data = json_decode($json);
+//         // $customer_id = $this->post('currentUserId');
+//         // echo $customer_id;
+//         $customer_id = 26;
+
+
+       
+$info=$_POST["file_data"];
+$info=json_decode($info);
+//get the file
+$ori_fname=$_FILES['file']['name'];
+
+
+
+        //get file extension
+$ext = pathinfo($ori_fname, PATHINFO_EXTENSION);
+
+
+//target folder
+$target_path = "docs/";
+
+//replace special chars in the file name
+$actual_fname=$_FILES['file']['name'];
+$actual_fname=preg_replace('/[^A-Za-z0-9\-]/', '', $actual_fname);
+
+//set random unique name why because file name duplicate will replace
+//the existing files
+$modified_fname=uniqid(rand(10,200)).'-'.rand(1000,1000000).'-'.$actual_fname;
+
+//set target file path
+$target_path = $target_path . basename($modified_fname).".".$ext;
+
+$customer_id = $this->post('currentUserId');
+
+$updateProfileImg = $this->app_model->updateProfileImg($customer_id,$target_path);
+
+$result=array();
+
+//move the file to target folder
+if (move_uploaded_file($_FILES['file']['tmp_name'], $target_path)) {
+
+$result["status"]=1;
+$result["message"]="Uploaded file successfully.";
+
+}else{
+
+$result["status"]=0;
+$result["message"]="File upload failed. Please try again.";
+
+}
+
+
+        // echo $customer_id;
+
+$this->response($customer_id);
+
         }
+
+    }

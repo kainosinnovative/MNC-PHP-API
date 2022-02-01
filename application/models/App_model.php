@@ -331,6 +331,16 @@ class App_model extends CI_Model
     }
 
 
+    public function updateProfileImg($customer_id,$target_path) {
+        $sql = "UPDATE customers
+        SET profile_img = '$target_path'
+        WHERE customer_id = $customer_id;";
+        echo($sql);
+        $this->db->query($sql);
+        return $this->db->query($sql);
+    }
+
+
     
 }
 

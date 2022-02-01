@@ -122,4 +122,5 @@ $route['app/signupcustomer'] = 'app/signupcustomer';
 $route['app/AddTestimonial'] = 'app/AddTestimonialInsert';
 $route['app/AddCustomer'] = 'app/AddCustomerInsert';
 
+
 // $route['app/SingleLoginTestimonial'] = 'app/SingleLoginTestimonial';
