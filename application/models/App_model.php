@@ -274,15 +274,13 @@ class App_model extends CI_Model
 		$query = $this->db->query($sql);
         return $query->result_array();
 
-        // return $this->db->select('*')->from('customers')->where('customer_mobileno', $mobile)->result_array();
-
-        // $result = $this->db->query("SELECT count(*) as cnt from customers where (customer_mobileno='$mobile')")->row_array();
-        //     $cnt = $result['cnt'];
-        //     return $cnt;
-        
-    // return var_dump($this->db->select('customer_name')->from('customers')->where('customer_mobileno', '7339528035"')->get());
-    // var_dump($this->db->select('customer_name')->from('customers')->where('customer_mobileno', $mobile)->get());
     }
+
+    // public function getSingleLoginTestimonialDetails($customerid){
+    //     $sql = "SELECT * FROM testimonial where customer_id='".$customerid."'";
+	// 	$query = $this->db->query($sql);
+    //     return $query->result_array();
+    // }
 
     public function signupCustomerInsert($customer_name,$customer_mobileno,$customer_email){
         $sql = "INSERT INTO customers (customer_name,customer_mobileno,customer_email)
@@ -298,14 +296,37 @@ class App_model extends CI_Model
     }
 
     public function AddTestimonial($data){
-        // $sql = "INSERT INTO testimonial (user_description,user_rating,customer_id)
-        // VALUES ('$user_description','$user_rating','$customer_id')";
-        // echo($sql);
-        // $this->db->query($sql);
-        // return $this->db->query($sql);
-
+        
+        // var_dump($Finaldata)
        return $this->db->insert('testimonial', $data);
         
+    }
+
+
+    public function isCustomerReviewed($customer_id){
+        $result = $this->db->query("SELECT count(*) as cnt from testimonial where (customer_id='$customer_id')")->row_array();
+            $cnt = $result['cnt'];
+            return $cnt;
+    }
+
+    public function getReviewCount($customer_id) {
+        echo "q>>>>>>";
+        $result =   $this->db->select('*')->from('testimonial')->where('customer_id', $customer_id)->get()->row_array();
+
+        // $result = $this->db->query("SELECT * from testimonial where (customer_id='$customer_id')")->row_array();
+        // var_dump(">>>>$result);
+            $review_count = $result['review_count'] + 1;
+            return $review_count;
+    }
+
+
+    public function UpdateTestimonial($user_description,$user_rating,$customer_id,$review_count) {
+        $sql = "UPDATE testimonial
+        SET user_description = '$user_description', user_rating= '$user_rating', review_count = '$review_count'
+        WHERE customer_id = $customer_id;";
+        echo($sql);
+        $this->db->query($sql);
+        return $this->db->query($sql);
     }
 
 
