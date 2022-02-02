@@ -298,20 +298,12 @@ die();
         // print_r($checkCustomer)
         // echo "hi";
         // echo "a>>>>>$checkCustomer";
-        if($checkCustomer === "0") {
-            // $car = [
-            //     'data1' => "Mobile Number does not Exists Please Signup",
-            //     'status' => 404
-                
-            //   ];
-            //   echo json_encode(['data'=>$car]);
+        // if($checkCustomer === "0") {
+           
+        //     $this->response('', 404, 'fail', "Mobile Number does not Exists Please Signup");
             
-// echo json_encode($arr);
-// $this->response("Mobile Number does not Exists Please Signup");
-            $this->response('', 404, 'fail', "Mobile Number does not Exists Please Signup");
-            // echo json_encode(array("message" => "Mobile Number does not Exists Please Signup"));
-        }
-        else {
+        // }
+        // else {
        
         if (!$otp) {
             $otp = mt_rand(1000, 9999);
@@ -329,9 +321,45 @@ die();
         } else {
             $this->response('', 404, 'fail', $sendSms['message']);
         }
+    // }
+
+    }
+
+
+    public function sendOtp1_post() {
+        
+        $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
+        $validateMobile = $this->applib->checkMobile($mobile);
+        
+        $checkCustomer = $this->app_model->checkCustomer($mobile);
+        
+        if($checkCustomer === "0") {
+           
+            $this->response('', 404, 'fail', "Mobile Number does not Exists Please Signup");
+            
+        }
+        else {
+       
+        if (!$otp) {
+            $otp = mt_rand(1000, 9999);
+        
+        }
+        $msg = "Your MYDEALER Platform OTP is " . $otp;
+        $sendSms = $this->applib->sendSms($msg, $mobile);
+        
+        if ($sendSms['status']) {
+           
+            $this->response('', 200, 'pass', $otp);
+        } else {
+            $this->response('', 404, 'fail', $sendSms['message']);
+        }
     }
 
     }
+
+
+
+    
 
 
     public function signupCustomer_get() {
@@ -520,6 +548,7 @@ public function AddCustomerdetails_post() {
         
 
         $AddCustomerdetails = $this->app_model->AddCustomerdetails($customer_id,$data);
+        
         $this->response(($AddCustomerdetails));
 }    
 

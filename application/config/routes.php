@@ -114,6 +114,7 @@ $route['management/information/status'] = 'Dealer/updateSManagementInformationSt
 
 // testimonial
 $route['app/testimonialList'] = 'app/testimonial';
+$route['app/sendOtp1'] = 'app/sendOtp1';
 $route['app/sendOtp2'] = 'app/sendOtp2';
 // $route['app/signupCustomer'] = 'app/signupCustomer';
 $route['app/SingleCustomerDetails'] = 'app/SingleCustomerDetails';
