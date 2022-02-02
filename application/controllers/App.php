@@ -498,4 +498,29 @@ $this->response($customer_id);
 
         }
 
+
+
+public function readCustomerDataById_get() {
+
+    $customer_id = $this->get('customer_id');
+    $SingleCustomerdata["profile"] = $this->app_model->getSingleCustomerById($customer_id);
+    $this->response(($SingleCustomerdata));
+    
+    // echo $data;
+    // echo json_encode($data);
+}    
+
+public function AddCustomerdetails_post() {
+    $json = file_get_contents('php://input');
+// Converts it into a PHP object
+        $data = json_decode($json);
+        $customer_id = $this->post('customer_id');
+    // $currentDate = date('y-m-d');
+    //     $note_data = {"lastupddt":"$currentDate"};
+        
+
+        $AddCustomerdetails = $this->app_model->AddCustomerdetails($customer_id,$data);
+        $this->response(($AddCustomerdetails));
+}    
+
     }

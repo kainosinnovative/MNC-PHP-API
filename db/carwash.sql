@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 01, 2022 at 02:38 PM
+-- Generation Time: Feb 02, 2022 at 11:11 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -41,17 +41,18 @@ CREATE TABLE `customers` (
   `city` varchar(15) NOT NULL,
   `state` varchar(20) NOT NULL,
   `zipcode` int(6) NOT NULL,
-  `profile_img` varchar(100) NOT NULL
+  `profile_img` varchar(100) NOT NULL,
+  `lastupddt` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`customer_id`, `firstname`, `lastname`, `dob`, `mobileno`, `emailid`, `gender`, `cartype`, `doorno`, `street`, `city`, `state`, `zipcode`, `profile_img`) VALUES
-(12, 'vj', '', NULL, '7339528000', 'v@g.com', '', '', '', '', '', '', 0, ''),
-(13, 'abc', '', NULL, '8940460339', 'a@g.com', '', '', '', '', '', '', 0, ''),
-(26, 'Vijaya sankar', '', NULL, '7339528035', 'kkkllaa@g.com', '', '', '', '', '', '', 0, 'docs/14761f9369ab728f-201156-download1png.png');
+INSERT INTO `customers` (`customer_id`, `firstname`, `lastname`, `dob`, `mobileno`, `emailid`, `gender`, `cartype`, `doorno`, `street`, `city`, `state`, `zipcode`, `profile_img`, `lastupddt`) VALUES
+(12, 'vj', '', NULL, '7339528000', 'v@g.com', '', '', '', '', '', '', 0, '', '0000-00-00'),
+(13, 'abc', '', NULL, '8940460339', 'a@g.com', '', '', '', '', '', '', 0, '', '0000-00-00'),
+(26, 'R Vijaya', 'sankar ', '2022-01-01', '7339528035', 'vijay@gm.com', 'Male', 'Maruthi', '21ss', 'kovil street ss', 'Madurai', 'Telengana', 628822, 'docs/3961fa45ece8a67-798976-downloadjpg.jpg', '2022-02-02');
 
 -- --------------------------------------------------------
 
@@ -75,8 +76,8 @@ CREATE TABLE `testimonial` (
 --
 
 INSERT INTO `testimonial` (`id`, `user_profile`, `user_title`, `user_description`, `user_rating`, `customer_id`, `review_count`, `review_date`) VALUES
-(124, '', '', 'test', '3', 13, '1', '2022-02-01'),
-(125, '', '', 'best application', '2', 12, '2', '2022-02-01');
+(124, '', '', 'test', '3', 26, '1', '2022-02-01'),
+(125, '', '', 'best application', '2', 13, '2', '2022-02-01');
 
 --
 -- Indexes for dumped tables

@@ -302,6 +302,12 @@ class App_model extends CI_Model
         
     }
 
+    public function AddCustomerdetails($customer_id,$data) {
+        $this->db->where('customer_id', $customer_id);
+        $this->db->update('customers', $data);
+        return 'updated';
+    }
+
 
     public function isCustomerReviewed($customer_id){
         $result = $this->db->query("SELECT count(*) as cnt from testimonial where (customer_id='$customer_id')")->row_array();
@@ -338,6 +344,14 @@ class App_model extends CI_Model
         echo($sql);
         $this->db->query($sql);
         return $this->db->query($sql);
+    }
+
+
+    public function getSingleCustomerById($customer_id){
+        $sql = "SELECT * FROM customers where customer_id='".$customer_id."'";
+		$query = $this->db->query($sql);
+        // var_dump($sql);
+        return $query->row_array();
     }
 
 

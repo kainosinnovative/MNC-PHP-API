@@ -121,6 +121,7 @@ $route['app/sendOtp3'] = 'app/sendOtp3';
 $route['app/signupcustomer'] = 'app/signupcustomer';
 $route['app/AddTestimonial'] = 'app/AddTestimonialInsert';
 $route['app/AddCustomer'] = 'app/AddCustomerInsert';
+$route['app/AddCustomerdetails'] = 'app/AddCustomerdetails';
 
 
-// $route['app/SingleLoginTestimonial'] = 'app/SingleLoginTestimonial';
+$route['app/readCustomerDataById'] = 'app/readCustomerDataById';
