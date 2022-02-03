@@ -257,12 +257,13 @@ class App_model extends CI_Model
     }
 
     public function checkCustomer($mobile) {
-        // return $this->db->select COUNT('customer_id')
-        //     ->get_where('customers', array('customer_mobileno' => $mobile));
-            // ->row();
-        // echo $mobile;
-        
-            $result = $this->db->query("SELECT count(*) as cnt from customers where (mobileno='$mobile')")->row_array();
+         $result = $this->db->query("SELECT count(*) as cnt from customers where (mobileno='$mobile')")->row_array();
+            $cnt = $result['cnt'];
+            return $cnt;
+    }
+
+    public function checkShopOwner($mobile) {
+        $result = $this->db->query("SELECT count(*) as cnt from shopinfo where (mobileno='$mobile')")->row_array();
             $cnt = $result['cnt'];
             return $cnt;
     }
@@ -272,15 +273,19 @@ class App_model extends CI_Model
     {
         $sql = "SELECT * FROM customers where mobileno='".$mobile."'";
 		$query = $this->db->query($sql);
+        // var_dump($sql);
         return $query->result_array();
 
     }
 
-    // public function getSingleLoginTestimonialDetails($customerid){
-    //     $sql = "SELECT * FROM testimonial where customer_id='".$customerid."'";
-	// 	$query = $this->db->query($sql);
-    //     return $query->result_array();
-    // }
+    public function getSingleshopDetails($mobile)
+    {
+        $sql = "SELECT * FROM shopinfo where mobileno='".$mobile."'";
+		$query = $this->db->query($sql);
+        // var_dump($sql);
+        return $query->result_array();
+
+    }
 
     public function signupCustomerInsert($customer_name,$customer_mobileno,$customer_email){
         $sql = "INSERT INTO customers (firstname,mobileno,emailid)

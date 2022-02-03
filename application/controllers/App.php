@@ -330,12 +330,23 @@ die();
         
         $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
+
+        $loginFor = $this->post('loginfor');
         
-        $checkCustomer = $this->app_model->checkCustomer($mobile);
-        
+        if($loginFor === "shopowner") {
+            $checkCustomer = $this->app_model->checkShopOwner($mobile);
+            // $this->response($loginFor);
+            
+        }
+        if($loginFor === "customer") {
+            $checkCustomer = $this->app_model->checkCustomer($mobile);
+            // $this->response($loginFor);
+            
+        }
+
         if($checkCustomer === "0") {
            
-            $this->response('', 404, 'fail', "Mobile Number does not Exists Please Signup");
+            $this->response('', 404, 'fail', "Not a Registered ! Sign Up");
             
         }
         else {
@@ -354,6 +365,11 @@ die();
             $this->response('', 404, 'fail', $sendSms['message']);
         }
     }
+        
+        
+        
+        
+
 
     }
 
@@ -378,12 +394,25 @@ die();
 
 
     public function SingleCustomerDetails_get() {
-        // var_dump($mobile);
-        // $mobile = trim($request->customer_mobileno);
-        $mobile = $this->get('orderby');
+       
+
+        $mobile =   $_GET['customer_mobileno']; 
+        $loginfor = $_GET['loginfor']; 
+        
+
+        if($_GET['loginfor'] === 'customer') {
+
         $data['SingleCustomerDetails'] = $this->app_model->getSingleCustomerDetails($mobile);
         $this->response($data);
+        }
+        if($_GET['loginfor'] === 'shopowner') {
+        $data['SingleCustomerDetails'] = $this->app_model->getSingleshopDetails($mobile);
+        $this->response($data);
+        
+        }
 
+
+        
     }
 
     // public function SingleLoginTestimonial_get() {
@@ -402,7 +431,7 @@ die();
         
         if($checkCustomer != "0") {
             
-            $this->response('', 404, 'fail', "Mobile Number already Exists Please Login");
+            $this->response('', 404, 'fail', "Mobile Number Already Exists! Login");
             // echo json_encode(array("message" => "Mobile Number does not Exists Please Signup"));
         }
         else {
