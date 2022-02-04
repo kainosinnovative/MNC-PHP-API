@@ -549,7 +549,15 @@ public function AddCustomerdetails_post() {
 
         $AddCustomerdetails = $this->app_model->AddCustomerdetails($customer_id,$data);
         
-        $this->response(($AddCustomerdetails));
+        $this->response($AddCustomerdetails);
 }    
-
+public function AddContactUs_post()
+{
+    $json = file_get_contents('php://input');
+// Converts it into a PHP object
+        $data = json_decode($json);
+        $AddContactUs = $this->app_model->AddContactUs($data);
+        
+        $this->response($AddContactUs);
+}
     }

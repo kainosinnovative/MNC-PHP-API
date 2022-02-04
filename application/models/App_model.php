@@ -353,7 +353,10 @@ class App_model extends CI_Model
         // var_dump($sql);
         return $query->row_array();
     }
-
+  public function AddContactUs($data)
+  {
+    return $this->db->insert('contactus', $data);
+  }
 
     
 }

@@ -126,3 +126,4 @@ $route['app/AddCustomerdetails'] = 'app/AddCustomerdetails';
 
 
 $route['app/readCustomerDataById'] = 'app/readCustomerDataById';
+$route['app/addcontactus']='app/AddContactUs';
