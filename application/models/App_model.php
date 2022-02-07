@@ -321,8 +321,7 @@ class App_model extends CI_Model
     }
 
     public function getReviewCount($customer_id) {
-        echo "q>>>>>>";
-        $result =   $this->db->select('*')->from('testimonial')->where('customer_id', $customer_id)->get()->row_array();
+             $result =   $this->db->select('*')->from('testimonial')->where('customer_id', $customer_id)->get()->row_array();
 
         // $result = $this->db->query("SELECT * from testimonial where (customer_id='$customer_id')")->row_array();
         // var_dump(">>>>$result);
@@ -369,5 +368,29 @@ class App_model extends CI_Model
         $this->db->from('car_type');
         return $this->db->get()->result_array();
     }
+    public function getbrandtype()
+    {
+        $this->db->select('*');
+        $this->db->from('brand');
+        return $this->db->get()->result_array();
+    }
+    public function getmodel($car_type_id,$brand_id)
+    {
+        $this->db->select('id,model_name');
+        $this->db->from('models');
+        
+        $this->db->where('car_type_id', $car_type_id);
+        $this->db->where('brand_id', $brand_id);
+        return $this->db->get()->result_array();
+
+    }
+    public function getcarservices()
+    {
+        $this->db->select('*');
+        $this->db->from('services');
+        return $this->db->get()->result_array();
+    }
+    
+    
 }
 

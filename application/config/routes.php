@@ -130,3 +130,10 @@ $route['app/addcontactus']='app/AddContactUs';
 
 //General
 $route['app/cartype']='app/cartype';
+$route['app/brandtype']='app/brandtype';
+$route['app/model']='app/model';
+
+//Shop Services
+$route['app/services']='app/carservices';
+
+

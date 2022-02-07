@@ -594,5 +594,22 @@ public function cartype_get()
     $cartype["type"] = $this->app_model->getcartype();
     $this->response($cartype);
 }
+public function brandtype_get()
+{
+    $brand["type"] = $this->app_model->getbrandtype();
+    $this->response($brand);
+}
+public function model_get()
+{
+    $car_type_id =   $_GET['cartype']; 
+        $brand_id = $_GET['brand']; 
+    $model["type"] = $this->app_model->getmodel($car_type_id,$brand_id);
+    $this->response($model);
+}
+public function carservices_get()
+{
+    $carservices['type'] = $this->app_model->getcarservices();
+    $this->response($carservices);
+}
 
     }
