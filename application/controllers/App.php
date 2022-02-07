@@ -589,4 +589,10 @@ public function AddContactUs_post()
         
         $this->response($AddContactUs);
 }
+public function cartype_get()
+{
+    $cartype["type"] = $this->app_model->getcartype();
+    $this->response($cartype);
+}
+
     }

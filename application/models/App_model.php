@@ -363,6 +363,11 @@ class App_model extends CI_Model
     return $this->db->insert('contactus', $data);
   }
 
-    
+    public function getcartype()
+    {
+        $this->db->select('*');
+        $this->db->from('car_type');
+        return $this->db->get()->result_array();
+    }
 }
 
