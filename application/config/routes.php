@@ -136,5 +136,10 @@ $route['app/citylist']='app/citylist';
 //Shop Services
 $route['app/services']='app/carservices';
 
+$route['app/carAndShopservice']='app/carAndShopservice';
+
+$route['shop/AddshopService']='shop/AddshopService';
+$route['shop/UpdateshopService']='shop/UpdateshopService';
+
 
 

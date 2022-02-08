@@ -390,6 +390,17 @@ class App_model extends CI_Model
         $this->db->from('services');
         return $this->db->get()->result_array();
     }
+
+    public function getcarAndShopservice($currentUserId)
+    {
+        $sql = "select *,a.service_id  from services a LEFT join shop_service b ON a.service_id=b.service_id and b.shop_id = '".$currentUserId."' ORDER BY a.service_id;";
+        // $sql = "SELECT * FROM shopinfo where mobileno='".$mobile."'";
+		$query = $this->db->query($sql);
+        // var_dump($sql);
+        return $query->result_array();
+
+    }
+
     public function getcitylist()
     {
         $this->db->select('*');
