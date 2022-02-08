@@ -390,6 +390,12 @@ class App_model extends CI_Model
         $this->db->from('services');
         return $this->db->get()->result_array();
     }
+    public function getcitylist()
+    {
+        $this->db->select('*');
+        $this->db->from('city_list');
+        return $this->db->get()->result_array();
+    }
     
     
 }

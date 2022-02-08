@@ -132,8 +132,9 @@ $route['app/addcontactus']='app/AddContactUs';
 $route['app/cartype']='app/cartype';
 $route['app/brandtype']='app/brandtype';
 $route['app/model']='app/model';
-
+$route['app/citylist']='app/citylist';
 //Shop Services
 $route['app/services']='app/carservices';
+
 
 
