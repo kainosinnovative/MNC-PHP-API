@@ -26,6 +26,7 @@ class Shop extends REST_Controller
         $this->load->model("app_model");
         $this->load->model("shop_model");
         $this->load->model("dealer_model");
+        $this->load->model("shop_model");
     }
 
     public function getShopProfileById_get()
@@ -37,4 +38,27 @@ class Shop extends REST_Controller
         }
     
    
+    public function AddshopService_get() {
+
+        $service_amount =   $_GET['service_amount']; 
+        $serviceid = $_GET['serviceid']; 
+        $shopid = $_GET['currentUserId'];
+        
+         $insertResponse = $this->shop_model->AddshopServiceInsert($service_amount,$serviceid,$shopid);
+        $this->response($insertResponse);
+    
+    }
+
+
+    public function UpdateshopService_get() {
+
+        $service_amount =   $_GET['service_amount']; 
+        $serviceid = $_GET['serviceid']; 
+        $shopid = $_GET['currentUserId'];
+        
+         $insertResponse = $this->shop_model->shopServiceUpdate($service_amount,$serviceid,$shopid);
+        $this->response($insertResponse);
+    
+    }
+
     }

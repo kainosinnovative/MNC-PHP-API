@@ -613,10 +613,20 @@ public function carservices_get()
     $this->response($carservices);
 }
 
+public function carAndShopservice_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $carShopservices['carAndShopservice'] = $this->app_model->getcarAndShopservice($currentUserId);
+    $this->response($carShopservices);
+}
+
 public function citylist_get()
 {
     $citylist['list'] = $this->app_model->getcitylist();
     $this->response($citylist);
 }
+
+
+
 
     }

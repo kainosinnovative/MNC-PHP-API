@@ -137,5 +137,10 @@ $route['app/citylist']='app/citylist';
 $route['app/services']='app/carservices';
 $routw['shop/getShopProfileById']='shop/getShopProfileById';
 
+$route['app/carAndShopservice']='app/carAndShopservice';
+
+$route['shop/AddshopService']='shop/AddshopService';
+$route['shop/UpdateshopService']='shop/UpdateshopService';
+
 
 
