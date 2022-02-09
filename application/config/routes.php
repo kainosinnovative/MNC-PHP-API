@@ -135,6 +135,7 @@ $route['app/model']='app/model';
 $route['app/citylist']='app/citylist';
 //Shop Services
 $route['app/services']='app/carservices';
+$routw['shop/getShopProfileById']='shop/getShopProfileById';
 
 
 

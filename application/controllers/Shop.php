@@ -11,24 +11,30 @@ class Shop extends REST_Controller
         parent::__construct();
         header('Content-Type:  multipart/form-data');
         header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
-// header('Content-Type: application/json');
-$method = $_SERVER['REQUEST_METHOD'];
-if ($method == "OPTIONS") {
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
-header("HTTP/1.1 200 OK");
-die();
-}
+        header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+        // header('Content-Type: application/json');
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+        header("HTTP/1.1 200 OK");
+        die();
+        }
         
         $this->load->library("applib", array("controller" => $this));
         $this->load->model("app_model");
+        $this->load->model("shop_model");
         $this->load->model("dealer_model");
     }
 
-    /**
-     * Generate OTP for the requested phone number
-     */
+    public function getShopProfileById_get()
+        {
+
+            $shop_id = $_GET['shop_id'];
+            $ShopDetailsById["profile"] = $this->shop_model->getSingleShopById($shop_id);
+            $this->response($ShopDetailsById);
+        }
+    
    
     }
