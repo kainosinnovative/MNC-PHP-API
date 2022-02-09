@@ -142,6 +142,6 @@ $route['app/carAndShopservice']='app/carAndShopservice';
 
 $route['shop/AddshopService']='shop/AddshopService';
 $route['shop/UpdateshopService']='shop/UpdateshopService';
-
+$route['shop/AddShopdetails']='shop/AddShopdetails';
 
 

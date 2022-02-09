@@ -59,6 +59,20 @@ class Shop extends REST_Controller
          $insertResponse = $this->shop_model->shopServiceUpdate($service_amount,$serviceid,$shopid);
         $this->response($insertResponse);
     
+
     }
+    public function AddShopdetails_post() {
+        $json = file_get_contents('php://input');
+    // Converts it into a PHP object
+            $data = json_decode($json);
+            $shop_id = $this->post('shop_id');
+        // $currentDate = date('y-m-d');
+        //     $note_data = {"lastupddt":"$currentDate"};
+            
+    
+            $AddShopdetails = $this->shop_model->AddShopdetails($shop_id,$data);
+            
+            $this->response($AddShopdetails);
+    } 
 
     }

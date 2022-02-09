@@ -54,4 +54,9 @@ class Shop_model extends CI_Model
         $this->db->query($sql);
         return $this->db->query($sql);
     }
+    public function AddShopdetails($shop_id,$data) {
+        $this->db->where('shop_id', $shop_id);
+        $this->db->update('shopinfo', $data);
+        return 'updated';
+    }
 }
