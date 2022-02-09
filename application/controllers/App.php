@@ -528,8 +528,7 @@ $modified_fname=uniqid(rand(10,200)).'-'.rand(1000,1000000).'-'.$actual_fname;
 
 //set target file path
 $target_path = $target_path . basename($modified_fname).".".$ext;
-$usertype=$this->post('usertype');
-if($usertype=='')
+
 $customer_id = $this->post('currentUserId');
 
 $updateProfileImg = $this->app_model->updateProfileImg($customer_id,$target_path);
