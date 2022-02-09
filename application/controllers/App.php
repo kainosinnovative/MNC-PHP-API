@@ -24,6 +24,7 @@ die();
         
         $this->load->library("applib", array("controller" => $this));
         $this->load->model("app_model");
+        $this->load->model("shop_model");
         $this->load->model("dealer_model");
     }
 
@@ -528,12 +529,18 @@ $modified_fname=uniqid(rand(10,200)).'-'.rand(1000,1000000).'-'.$actual_fname;
 
 //set target file path
 $target_path = $target_path . basename($modified_fname).".".$ext;
-$usertype=$this->post('usertype');
-if($usertype=='')
-$customer_id = $this->post('currentUserId');
+$usertype=$this->post('shopownersession');
+$id = $this->post('currentUserId');
+if($usertype=='shopowner')
+{
+   
+    $updateProfileImg = $this->shop_model->updateProfileImg($id,$target_path);
 
-$updateProfileImg = $this->app_model->updateProfileImg($customer_id,$target_path);
-
+}
+else{
+   
+$updateProfileImg = $this->app_model->updateProfileImg($id,$target_path);
+}
 $result=array();
 
 //move the file to target folder
@@ -552,7 +559,7 @@ $result["message"]="File upload failed. Please try again.";
 
         // echo $customer_id;
 
-$this->response($customer_id);
+$this->response($id);
 
         }
 
@@ -624,6 +631,11 @@ public function citylist_get()
 {
     $citylist['list'] = $this->app_model->getcitylist();
     $this->response($citylist);
+}
+public function state_get()
+{
+    $statelist['list'] = $this->app_model->getstatelist();
+    $this->response($statelist);
 }
 
 
