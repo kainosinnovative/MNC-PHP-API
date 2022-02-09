@@ -47,4 +47,11 @@ class Shop_model extends CI_Model
           
 
     }
+    public function updateProfileImg($shop_id,$target_path) {
+        $sql = "UPDATE shopinfo
+        SET shop_image = '$target_path'
+        WHERE shop_id = $shop_id;";
+        $this->db->query($sql);
+        return $this->db->query($sql);
+    }
 }

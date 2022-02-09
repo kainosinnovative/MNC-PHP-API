@@ -407,7 +407,12 @@ class App_model extends CI_Model
         $this->db->from('city_list');
         return $this->db->get()->result_array();
     }
-    
+    public function getstatelist()
+    {
+        $this->db->select('*');
+        $this->db->from('state');
+        return $this->db->get()->result_array();
+    }
     
 }
 
