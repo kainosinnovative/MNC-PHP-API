@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2022 at 05:05 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.3.30
+-- Generation Time: Feb 10, 2022 at 01:04 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -121,16 +121,16 @@ CREATE TABLE `customers` (
   `mobileno` varchar(13) NOT NULL,
   `emailid` varchar(45) NOT NULL,
   `gender` varchar(6) NOT NULL,
-  `cartype` int(2) NOT NULL,
-  `brand` int(2) NOT NULL,
-  `model` int(2) NOT NULL,
+  `cartype` int(2) DEFAULT NULL,
+  `brand` int(2) DEFAULT NULL,
+  `model` int(2) DEFAULT NULL,
   `fueltype` varchar(10) NOT NULL,
   `color` varchar(25) NOT NULL,
   `doorno` varchar(25) NOT NULL,
   `street` varchar(25) NOT NULL,
-  `city` int(3) NOT NULL,
-  `state` varchar(20) NOT NULL,
-  `zipcode` int(6) NOT NULL,
+  `city` int(3) DEFAULT NULL,
+  `state` varchar(20) DEFAULT NULL,
+  `zipcode` int(6) DEFAULT NULL,
   `profile_img` varchar(100) NOT NULL,
   `lastupddt` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -145,7 +145,9 @@ INSERT INTO `customers` (`customer_id`, `firstname`, `lastname`, `dob`, `mobilen
 (26, 'R Vijaya', 'Sankar ', '2022-01-01', '7339528011', 'vijay@gm.com', 'Male', 0, 0, 0, '', '', '21ss', 'kovil street ss', 0, 'Telengana', 628822, 'docs/14661fa5fa9f3f26-817080-downloadpng.png', '2022-02-02'),
 (30, 'Vijaya sankar', '', NULL, '7339528000', 'l@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '2022-02-02'),
 (31, 'Vijaya sankar', 'R', '2022-01-12', '9994616327', 'vg@g.com', 'Male', 0, 0, 0, '', '', '40', 'west street', 0, 'TamilNadu', 628811, 'docs/9462035453dbf0c-301977-istockphotojpg.jpg', '2022-02-02'),
-(32, 'sundaram', '', NULL, '9894354613', 'ss@gmail.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '2022-02-03');
+(32, 'sundaram', '', NULL, '9894354613', 'ss@gmail.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '2022-02-03'),
+(34, 'Selvi', '', NULL, '6382841799', 'abhianand.j2k@gmail.com', '', NULL, 0, 0, '', '', '', '', 1, '', 0, '', '2022-02-10'),
+(36, 'abhi', '', NULL, '6385815161', 'abhianand.j2k@gmail.com', '', NULL, NULL, NULL, '', '', '', '', NULL, NULL, NULL, '', '2022-02-10');
 
 -- --------------------------------------------------------
 
@@ -223,12 +225,12 @@ CREATE TABLE `shopinfo` (
   `emailid` varchar(45) NOT NULL,
   `gender` varchar(10) NOT NULL,
   `dob` date DEFAULT NULL,
-  `aadharno` varchar(15) NOT NULL,
+  `aadharno` varchar(15) DEFAULT NULL,
   `doorno` varchar(10) NOT NULL,
   `street` varchar(45) NOT NULL,
-  `city` varchar(15) NOT NULL,
-  `state` varchar(25) NOT NULL,
-  `zipcode` int(6) NOT NULL,
+  `city` varchar(15) DEFAULT NULL,
+  `state` varchar(25) DEFAULT NULL,
+  `zipcode` int(6) DEFAULT NULL,
   `shop_image` varchar(100) NOT NULL,
   `lastupddt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -411,7 +413,7 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `models`
