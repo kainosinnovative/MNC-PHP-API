@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2022 at 06:47 AM
+-- Generation Time: Feb 10, 2022 at 05:05 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.30
 
@@ -144,7 +144,7 @@ INSERT INTO `customers` (`customer_id`, `firstname`, `lastname`, `dob`, `mobilen
 (13, 'abc', '', NULL, '8940460310', 'a@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '0000-00-00'),
 (26, 'R Vijaya', 'Sankar ', '2022-01-01', '7339528011', 'vijay@gm.com', 'Male', 0, 0, 0, '', '', '21ss', 'kovil street ss', 0, 'Telengana', 628822, 'docs/14661fa5fa9f3f26-817080-downloadpng.png', '2022-02-02'),
 (30, 'Vijaya sankar', '', NULL, '7339528000', 'l@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '2022-02-02'),
-(31, 'Vijaya sankar', 'R', '2022-01-12', '9994616327', 'vg@g.com', 'Male', 0, 0, 0, '', '', '40', 'west street', 0, 'TamilNadu', 628811, 'docs/2761fa7d9120ec2-802153-78-786207user-avatar-png-user-avatar-icon-png-transparentpng.png', '2022-02-02'),
+(31, 'Vijaya sankar', 'R', '2022-01-12', '9994616327', 'vg@g.com', 'Male', 0, 0, 0, '', '', '40', 'west street', 0, 'TamilNadu', 628811, 'docs/9462035453dbf0c-301977-istockphotojpg.jpg', '2022-02-02'),
 (32, 'sundaram', '', NULL, '9894354613', 'ss@gmail.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '2022-02-03');
 
 -- --------------------------------------------------------
@@ -222,6 +222,7 @@ CREATE TABLE `shopinfo` (
   `mobileno` varchar(15) NOT NULL,
   `emailid` varchar(45) NOT NULL,
   `gender` varchar(10) NOT NULL,
+  `dob` date DEFAULT NULL,
   `aadharno` varchar(15) NOT NULL,
   `doorno` varchar(10) NOT NULL,
   `street` varchar(45) NOT NULL,
@@ -236,8 +237,8 @@ CREATE TABLE `shopinfo` (
 -- Dumping data for table `shopinfo`
 --
 
-INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, `emailid`, `gender`, `aadharno`, `doorno`, `street`, `city`, `state`, `zipcode`, `shop_image`, `lastupddt`) VALUES
-(1, 'abc carwash', 'muthu', 'kumar', '9994616327', 'abc@g.com', 'Male', '', '11', 'south street', 'Chennai', 'TamilNadu', 600089, 'abc.png', '2022-02-03');
+INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, `emailid`, `gender`, `dob`, `aadharno`, `doorno`, `street`, `city`, `state`, `zipcode`, `shop_image`, `lastupddt`) VALUES
+(1, 'abc carwash', 'muthu', 'kumar', '9994616327', 'abc@g.com', 'Male', '2022-02-24', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '2022-02-09');
 
 -- --------------------------------------------------------
 
@@ -253,6 +254,40 @@ CREATE TABLE `shop_service` (
   `offer_price` int(10) NOT NULL,
   `lastupddt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `shop_service`
+--
+
+INSERT INTO `shop_service` (`service_id`, `shop_id`, `actual_amount`, `offer_percent`, `offer_price`, `lastupddt`) VALUES
+(4, 1, '1200', '', 0, '2022-02-09'),
+(1, 1, '1200', '', 0, '2022-02-09'),
+(6, 1, '1', '', 0, '2022-02-09'),
+(9, 1, '1', '', 0, '2022-02-09'),
+(8, 1, '1', '', 0, '2022-02-09'),
+(7, 1, '12', '', 0, '2022-02-09'),
+(2, 1, '300', '', 0, '2022-02-09'),
+(3, 1, '600', '', 0, '2022-02-09'),
+(19, 1, '458', '', 0, '2022-02-09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `state`
+--
+
+CREATE TABLE `state` (
+  `state_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `state`
+--
+
+INSERT INTO `state` (`state_id`, `name`) VALUES
+(1, 'TamilNadu'),
+(2, 'Karnataka');
 
 -- --------------------------------------------------------
 
@@ -333,6 +368,12 @@ ALTER TABLE `shopinfo`
   ADD PRIMARY KEY (`shop_id`);
 
 --
+-- Indexes for table `state`
+--
+ALTER TABLE `state`
+  ADD PRIMARY KEY (`state_id`);
+
+--
 -- Indexes for table `testimonial`
 --
 ALTER TABLE `testimonial`
@@ -389,6 +430,12 @@ ALTER TABLE `services`
 --
 ALTER TABLE `shopinfo`
   MODIFY `shop_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `state`
+--
+ALTER TABLE `state`
+  MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `testimonial`
