@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2022 at 12:32 PM
+-- Generation Time: Feb 10, 2022 at 05:05 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.30
 
@@ -238,7 +238,7 @@ CREATE TABLE `shopinfo` (
 --
 
 INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, `emailid`, `gender`, `dob`, `aadharno`, `doorno`, `street`, `city`, `state`, `zipcode`, `shop_image`, `lastupddt`) VALUES
-(1, 'abc carwash', 'muthu', 'kumar', '9994616327', 'abc@g.com', 'Male', '2022-02-24', '123456789456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '2022-02-09');
+(1, 'abc carwash', 'muthu', 'kumar', '9994616327', 'abc@g.com', 'Male', '2022-02-24', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '2022-02-09');
 
 -- --------------------------------------------------------
 
@@ -254,6 +254,21 @@ CREATE TABLE `shop_service` (
   `offer_price` int(10) NOT NULL,
   `lastupddt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `shop_service`
+--
+
+INSERT INTO `shop_service` (`service_id`, `shop_id`, `actual_amount`, `offer_percent`, `offer_price`, `lastupddt`) VALUES
+(4, 1, '1200', '', 0, '2022-02-09'),
+(1, 1, '1200', '', 0, '2022-02-09'),
+(6, 1, '1', '', 0, '2022-02-09'),
+(9, 1, '1', '', 0, '2022-02-09'),
+(8, 1, '1', '', 0, '2022-02-09'),
+(7, 1, '12', '', 0, '2022-02-09'),
+(2, 1, '300', '', 0, '2022-02-09'),
+(3, 1, '600', '', 0, '2022-02-09'),
+(19, 1, '458', '', 0, '2022-02-09');
 
 -- --------------------------------------------------------
 
