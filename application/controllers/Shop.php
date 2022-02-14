@@ -75,4 +75,22 @@ class Shop extends REST_Controller
             $this->response($AddShopdetails);
     } 
 
+
+    public function AddComboOfferDetails_get() {
+
+        $services =   $_GET['services']; 
+        $combo_price = $_GET['combo_price']; 
+        $shop_id = $_GET['shop_id'];
+        $offer_percent =   $_GET['offer_percent']; 
+        $start_date = $_GET['start_date']; 
+        $end_date = $_GET['end_date'];
+
+         $insertResponse = $this->shop_model->AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date);
+        $this->response($insertResponse);
+    
+    }
+
+
+
+
     }

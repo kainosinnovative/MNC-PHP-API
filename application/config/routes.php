@@ -144,4 +144,6 @@ $route['shop/AddshopService']='shop/AddshopService';
 $route['shop/UpdateshopService']='shop/UpdateshopService';
 $route['shop/AddShopdetails']='shop/AddShopdetails';
 
+$route['shop/AddComboOfferDetails']='shop/AddComboOfferDetails';
+
 

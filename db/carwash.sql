@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2022 at 08:00 AM
+-- Generation Time: Feb 14, 2022 at 02:24 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -104,8 +104,16 @@ CREATE TABLE `combo_offers` (
   `end_date` date NOT NULL,
   `shop_id` int(10) NOT NULL,
   `combo_price` varchar(10) NOT NULL,
-  `offer_percent` varchar(10) NOT NULL
+  `offer_percent` varchar(10) NOT NULL,
+  `lastupddt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `combo_offers`
+--
+
+INSERT INTO `combo_offers` (`offer_id`, `services`, `start_date`, `end_date`, `shop_id`, `combo_price`, `offer_percent`, `lastupddt`) VALUES
+(4, '1,5,9', '2022-02-04', '2022-02-25', 1, '228', '10', '2022-02-14');
 
 -- --------------------------------------------------------
 
@@ -285,7 +293,6 @@ INSERT INTO `shop_service` (`id`, `service_id`, `shop_id`, `actual_amount`, `off
 (1, 1, 1, '67', '', 0, '2022-02-12', 1),
 (2, 3, 1, '89', '', 0, '2022-02-12', 2),
 (3, 7, 1, '78', '', 0, '2022-02-12', 3),
-(4, 7, 1, '78', '', 0, '2022-02-12', 4),
 (5, 9, 1, '90', '', 0, '2022-02-14', 5),
 (6, 5, 1, '96', '', 0, '2022-02-14', 6);
 
@@ -435,7 +442,7 @@ ALTER TABLE `city_list`
 -- AUTO_INCREMENT for table `combo_offers`
 --
 ALTER TABLE `combo_offers`
-  MODIFY `offer_id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `offer_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `contact_us`
@@ -471,7 +478,7 @@ ALTER TABLE `shopinfo`
 -- AUTO_INCREMENT for table `shop_service`
 --
 ALTER TABLE `shop_service`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `state`

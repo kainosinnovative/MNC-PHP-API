@@ -59,4 +59,19 @@ class Shop_model extends CI_Model
         $this->db->update('shopinfo', $data);
         return 'updated';
     }
+    
+    public function AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date){
+        $currentDate = date('y-m-d');
+        $sql = "INSERT INTO combo_offers (services,combo_price,shop_id,offer_percent,start_date,end_date,lastupddt)
+        VALUES ('$services','$combo_price','$shop_id','$offer_percent','$start_date','$end_date','$currentDate')";
+        // echo($sql);
+
+        
+         $query = $this->db->query($sql);
+         return $query;
+        //  return $query->result_array();
+          
+
+    }
+    
 }
