@@ -23,7 +23,7 @@ class Shop_model extends CI_Model
         $currentDate = date('y-m-d');
         $sql = "INSERT INTO shop_service (shop_id,service_id,actual_amount,lastupddt)
         VALUES ('$shopid','$serviceid','$service_amount','$currentDate')";
-        echo($sql);
+        // echo($sql);
 
         
          $query = $this->db->query($sql);

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2022 at 01:04 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.8
+-- Generation Time: Feb 14, 2022 at 07:12 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -94,6 +94,20 @@ INSERT INTO `city_list` (`city_id`, `city_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `combo_offers`
+--
+
+CREATE TABLE `combo_offers` (
+  `offer_id` varchar(20) NOT NULL,
+  `services` varchar(45) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `shop_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `contact_us`
 --
 
@@ -141,9 +155,9 @@ CREATE TABLE `customers` (
 
 INSERT INTO `customers` (`customer_id`, `firstname`, `lastname`, `dob`, `mobileno`, `emailid`, `gender`, `cartype`, `brand`, `model`, `fueltype`, `color`, `doorno`, `street`, `city`, `state`, `zipcode`, `profile_img`, `lastupddt`) VALUES
 (12, 'vj', '', NULL, '7339528000', 'v@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '0000-00-00'),
-(13, 'abc', '', NULL, '8940460310', 'a@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '0000-00-00'),
+(13, 'abc', '', NULL, '9489840339', 'a@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, 'docs/1676209e00aeab14-154319-pngtree-cartoon-color-simple-male-avatar-png-image1934459jpg.jpg', '0000-00-00'),
 (26, 'R Vijaya', 'Sankar ', '2022-01-01', '7339528011', 'vijay@gm.com', 'Male', 0, 0, 0, '', '', '21ss', 'kovil street ss', 0, 'Telengana', 628822, 'docs/14661fa5fa9f3f26-817080-downloadpng.png', '2022-02-02'),
-(30, 'Vijaya sankar', '', NULL, '7339528000', 'l@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '2022-02-02'),
+(30, 'Vijaya sankar', '', NULL, '7339528035', 'l@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, 'docs/1386209df0ba349d-364073-imgavatarpng.png', '2022-02-02'),
 (31, 'Vijaya sankar', 'R', '2022-01-12', '9994616327', 'vg@g.com', 'Male', 0, 0, 0, '', '', '40', 'west street', 0, 'TamilNadu', 628811, 'docs/9462035453dbf0c-301977-istockphotojpg.jpg', '2022-02-02'),
 (32, 'sundaram', '', NULL, '9894354613', 'ss@gmail.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '2022-02-03'),
 (34, 'Selvi', '', NULL, '6382841799', 'abhianand.j2k@gmail.com', '', NULL, 0, 0, '', '', '', '', 1, '', 0, '', '2022-02-10'),
@@ -171,7 +185,8 @@ INSERT INTO `models` (`id`, `brand_id`, `model_name`, `car_type_id`) VALUES
 (2, 1, 'Toyota Fortuner', 1),
 (3, 1, 'Toyota Camry', 3),
 (4, 2, 'Datsun redi-GO', 2),
-(5, 2, 'Datsun Go Plus', 1);
+(5, 2, 'Datsun Go Plus', 1),
+(6, 2, 'Datsun Go', 3);
 
 -- --------------------------------------------------------
 
@@ -240,7 +255,7 @@ CREATE TABLE `shopinfo` (
 --
 
 INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, `emailid`, `gender`, `dob`, `aadharno`, `doorno`, `street`, `city`, `state`, `zipcode`, `shop_image`, `lastupddt`) VALUES
-(1, 'abc carwash', 'muthu', 'kumar', '9994616327', 'abc@g.com', 'Male', '2022-02-24', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '2022-02-09');
+(1, 'abc carwash', 'muthu', 'kumar', '7339528035', 'abc@g.com', 'Male', '2022-02-24', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '2022-02-09');
 
 -- --------------------------------------------------------
 
@@ -249,28 +264,27 @@ INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, 
 --
 
 CREATE TABLE `shop_service` (
+  `id` int(10) NOT NULL,
   `service_id` int(10) NOT NULL,
   `shop_id` int(10) NOT NULL,
   `actual_amount` varchar(10) NOT NULL,
   `offer_percent` varchar(10) NOT NULL,
   `offer_price` int(10) NOT NULL,
-  `lastupddt` date NOT NULL
+  `lastupddt` date NOT NULL,
+  `model_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `shop_service`
 --
 
-INSERT INTO `shop_service` (`service_id`, `shop_id`, `actual_amount`, `offer_percent`, `offer_price`, `lastupddt`) VALUES
-(4, 1, '1200', '', 0, '2022-02-09'),
-(1, 1, '1200', '', 0, '2022-02-09'),
-(6, 1, '1', '', 0, '2022-02-09'),
-(9, 1, '1', '', 0, '2022-02-09'),
-(8, 1, '1', '', 0, '2022-02-09'),
-(7, 1, '12', '', 0, '2022-02-09'),
-(2, 1, '300', '', 0, '2022-02-09'),
-(3, 1, '600', '', 0, '2022-02-09'),
-(19, 1, '458', '', 0, '2022-02-09');
+INSERT INTO `shop_service` (`id`, `service_id`, `shop_id`, `actual_amount`, `offer_percent`, `offer_price`, `lastupddt`, `model_id`) VALUES
+(1, 1, 1, '67', '', 0, '2022-02-12', 1),
+(2, 3, 1, '89', '', 0, '2022-02-12', 2),
+(3, 7, 1, '78', '', 0, '2022-02-12', 3),
+(4, 7, 1, '78', '', 0, '2022-02-12', 4),
+(5, 9, 1, '90', '', 0, '2022-02-14', 5),
+(6, 5, 1, '96', '', 0, '2022-02-14', 6);
 
 -- --------------------------------------------------------
 
@@ -313,9 +327,8 @@ CREATE TABLE `testimonial` (
 --
 
 INSERT INTO `testimonial` (`id`, `user_profile`, `user_title`, `user_description`, `user_rating`, `customer_id`, `review_count`, `review_date`) VALUES
-(124, '', '', 'test', '3', 26, '1', '2022-02-01'),
-(125, '', '', 'best application', '2', 13, '2', '2022-02-01'),
-(126, '', '', 'good to view', '5', 31, '2', '2022-02-07');
+(127, '', '', 'good service', '4', 30, '1', '2022-02-14'),
+(128, '', '', 'best application', '5', 13, '1', '2022-02-14');
 
 --
 -- Indexes for dumped tables
@@ -370,6 +383,12 @@ ALTER TABLE `shopinfo`
   ADD PRIMARY KEY (`shop_id`);
 
 --
+-- Indexes for table `shop_service`
+--
+ALTER TABLE `shop_service`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `state`
 --
 ALTER TABLE `state`
@@ -419,7 +438,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `models`
 --
 ALTER TABLE `models`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `services`
@@ -434,6 +453,12 @@ ALTER TABLE `shopinfo`
   MODIFY `shop_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `shop_service`
+--
+ALTER TABLE `shop_service`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `state`
 --
 ALTER TABLE `state`
@@ -443,7 +468,7 @@ ALTER TABLE `state`
 -- AUTO_INCREMENT for table `testimonial`
 --
 ALTER TABLE `testimonial`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
