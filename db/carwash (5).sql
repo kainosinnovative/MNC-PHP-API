@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2022 at 07:12 AM
+-- Generation Time: Feb 14, 2022 at 08:00 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -98,11 +98,13 @@ INSERT INTO `city_list` (`city_id`, `city_name`) VALUES
 --
 
 CREATE TABLE `combo_offers` (
-  `offer_id` varchar(20) NOT NULL,
+  `offer_id` int(20) NOT NULL,
   `services` varchar(45) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `shop_id` int(10) NOT NULL
+  `shop_id` int(10) NOT NULL,
+  `combo_price` varchar(10) NOT NULL,
+  `offer_percent` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -247,6 +249,7 @@ CREATE TABLE `shopinfo` (
   `state` varchar(25) DEFAULT NULL,
   `zipcode` int(6) DEFAULT NULL,
   `shop_image` varchar(100) NOT NULL,
+  `status` varchar(1) NOT NULL,
   `lastupddt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -254,8 +257,8 @@ CREATE TABLE `shopinfo` (
 -- Dumping data for table `shopinfo`
 --
 
-INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, `emailid`, `gender`, `dob`, `aadharno`, `doorno`, `street`, `city`, `state`, `zipcode`, `shop_image`, `lastupddt`) VALUES
-(1, 'abc carwash', 'muthu', 'kumar', '7339528035', 'abc@g.com', 'Male', '2022-02-24', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '2022-02-09');
+INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, `emailid`, `gender`, `dob`, `aadharno`, `doorno`, `street`, `city`, `state`, `zipcode`, `shop_image`, `status`, `lastupddt`) VALUES
+(1, 'abc carwash', 'muthu', 'kumar', '7339528035', 'abc@g.com', 'Male', '2022-02-24', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '1', '2022-02-09');
 
 -- --------------------------------------------------------
 
@@ -353,6 +356,12 @@ ALTER TABLE `city_list`
   ADD PRIMARY KEY (`city_id`);
 
 --
+-- Indexes for table `combo_offers`
+--
+ALTER TABLE `combo_offers`
+  ADD PRIMARY KEY (`offer_id`);
+
+--
 -- Indexes for table `contact_us`
 --
 ALTER TABLE `contact_us`
@@ -421,6 +430,12 @@ ALTER TABLE `car_type`
 --
 ALTER TABLE `city_list`
   MODIFY `city_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `combo_offers`
+--
+ALTER TABLE `combo_offers`
+  MODIFY `offer_id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `contact_us`

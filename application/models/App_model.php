@@ -391,13 +391,22 @@ class App_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    public function getcarAndShopservice($currentUserId)
+    public function getcarAndShopservice($shopid)
     {
-        $sql = "select a.service_id,a.service_name,c.model_name,b.actual_amount,b.id,b.offer_percent,b.offer_price,b.model_id,b.shop_id	  from services a , shop_service b, models c WHERE a.service_id=b.service_id and b.shop_id = '1' and c.id= b.model_id ORDER BY a.service_id;";
+        $this->db->select('a.service_id,a.service_name,b.actual_amount,c.model_name,b.offer_percent,b.offer_price,b.model_id,b.shop_id');
+        $this->db->join('services a','a.service_id=b.service_id');
+        
+        $this->db->join('models c','c.id= b.model_id');
+        $this->db->join('shopinfo d','d.status=1');
+        // $this->db->join('shopinfo d','d.status=1');
+        return $this->db->order_by('a.service_id')->get_where('shop_service b',array('b.shop_id' => $shopid))->result_array();
+
+
+        // $sql = "select a.service_id,a.service_name,c.model_name,b.actual_amount,b.id,b.offer_percent,b.offer_price,b.model_id,b.shop_id	  from services a , shop_service b, models c WHERE a.service_id=b.service_id and b.shop_id = '1' and c.id= b.model_id ORDER BY a.service_id;";
         // $sql = "SELECT * FROM shopinfo where mobileno='".$mobile."'";
-		$query = $this->db->query($sql);
-        // var_dump($sql);
-        return $query->result_array();
+		// $query = $this->db->query($sql);
+        
+        // return $query->result_array();
 
     }
 
