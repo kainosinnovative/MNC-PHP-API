@@ -114,5 +114,20 @@ public function combooffertblByModelid_get()
     $this->response($carShopservices);
 }
 
+public function dashboardShopList_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $carShopservices['dashboardShopList'] = $this->shop_model->getdashboardShopList($currentUserId);
+    $this->response($carShopservices);
+}
+
+
+public function OnlineBookingShopDetails_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $carShopservices['OnlineBookingShopDetails'] = $this->shop_model->getOnlineBookingShopDetails($currentUserId);
+    $this->response($carShopservices);
+}
+
 
     }
