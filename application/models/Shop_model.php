@@ -96,7 +96,7 @@ class Shop_model extends CI_Model
     }
 
     public function getcombooffertblByModelid($shop_id,$model_id) {
-        $this->db->select('a.service_id,a.service_name,b.actual_amount,c.model_name,b.offer_percent,b.offer_price,b.model_id,b.shop_id');
+        $this->db->select('DISTINCT(a.service_id),a.service_name,b.actual_amount,c.model_name,b.offer_percent,b.offer_price,b.model_id,b.shop_id');
         $this->db->join('services a','a.service_id=b.service_id');
         
         $this->db->join('models c','c.id= b.model_id');
@@ -107,22 +107,19 @@ class Shop_model extends CI_Model
 
 
 
-     public function getdashboardShopList($shopid)
+     public function getdashboardShopList($cityid)
     {
-        $this->db->select('a.service_id,a.service_name,b.actual_amount,c.model_name,b.offer_percent,b.offer_price,b.model_id,b.shop_id');
-        $this->db->join('services a','a.service_id=b.service_id');
+        $sql = "SELECT DISTINCT(a.service_id),a.*,b.services,b.combo_price,b.offer_percent,b.model_id, c.model_name, d.city_name FROM shopinfo a, combo_offers b, models c, city_list d WHERE a.shop_id = b.shop_id  and b.model_id= c.id and  d.city_id=a.city and a.city='".$cityid."'  order BY b.offer_percent DESC;";
+		$query = $this->db->query($sql);
         
-        $this->db->join('models c','c.id= b.model_id');
-        $this->db->join('shopinfo d','d.status=1');
-        // $this->db->join('shopinfo d','d.status=1');
-        return $this->db->order_by('a.service_id')->get_where('shop_service b',array('b.shop_id' => $shopid))->result_array();
+        return $query->result_array();
 
 
     }
 
     public function getOnlineBookingShopDetails($shopid)
     {
-        $sql = "SELECT *,b.services,b.combo_price,b.offer_percent,b.model_id, c.model_name FROM `shopinfo` a, combo_offers b, models c WHERE a.shop_id = b.shop_id and a.shop_id = '".$shopid."' and b.model_id= c.id order BY b.offer_percent DESC;";
+        $sql = "SELECT a.*,b.services,b.combo_price,b.offer_percent,b.model_id, c.model_name FROM `shopinfo` a, combo_offers b, models c WHERE a.shop_id = b.shop_id and a.shop_id = '".$shopid."' and b.model_id= c.id order BY b.offer_percent DESC;";
 		$query = $this->db->query($sql);
         
         return $query->result_array();
