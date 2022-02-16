@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2022 at 07:13 AM
+-- Generation Time: Feb 16, 2022 at 11:17 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -114,7 +114,8 @@ CREATE TABLE `combo_offers` (
 --
 
 INSERT INTO `combo_offers` (`offer_id`, `services`, `start_date`, `end_date`, `shop_id`, `combo_price`, `offer_percent`, `model_id`, `lastupddt`) VALUES
-(21, '1', '2022-02-16', '2022-02-19', 1, '66', '1', 1, '2022-02-16');
+(22, '7,9', '2022-02-16', '2022-02-18', 1, '101', '40', 2, '2022-02-16'),
+(23, '3,7', '2022-02-16', '2022-02-26', 1, '117', '30', 2, '2022-02-16');
 
 -- --------------------------------------------------------
 
@@ -288,6 +289,8 @@ CREATE TABLE `shop_service` (
   `actual_amount` varchar(10) NOT NULL,
   `offer_percent` varchar(10) NOT NULL,
   `offer_price` int(10) NOT NULL,
+  `from_date` date NOT NULL,
+  `to_date` date NOT NULL,
   `lastupddt` date NOT NULL,
   `model_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -296,12 +299,12 @@ CREATE TABLE `shop_service` (
 -- Dumping data for table `shop_service`
 --
 
-INSERT INTO `shop_service` (`id`, `service_id`, `shop_id`, `actual_amount`, `offer_percent`, `offer_price`, `lastupddt`, `model_id`) VALUES
-(1, 1, 1, '67', '', 0, '2022-02-12', 1),
-(2, 3, 1, '89', '', 0, '2022-02-12', 2),
-(3, 7, 1, '78', '', 0, '2022-02-12', 2),
-(5, 9, 1, '90', '', 0, '2022-02-14', 2),
-(6, 5, 2, '96', '', 0, '2022-02-14', 6);
+INSERT INTO `shop_service` (`id`, `service_id`, `shop_id`, `actual_amount`, `offer_percent`, `offer_price`, `from_date`, `to_date`, `lastupddt`, `model_id`) VALUES
+(1, 1, 1, '67', '', 0, '2022-02-16', '2022-02-16', '2022-02-12', 1),
+(2, 3, 1, '89', '', 0, '2022-02-16', '2022-02-16', '2022-02-12', 2),
+(3, 7, 1, '78', '', 0, '2022-02-16', '2022-02-16', '2022-02-12', 2),
+(5, 9, 1, '90', '', 0, '2022-02-16', '2022-02-16', '2022-02-14', 2),
+(6, 5, 2, '96', '', 0, '2022-02-16', '2022-02-16', '2022-02-14', 6);
 
 -- --------------------------------------------------------
 
@@ -449,7 +452,7 @@ ALTER TABLE `city_list`
 -- AUTO_INCREMENT for table `combo_offers`
 --
 ALTER TABLE `combo_offers`
-  MODIFY `offer_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `offer_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `contact_us`
