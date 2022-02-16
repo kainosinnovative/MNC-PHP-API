@@ -131,5 +131,13 @@ class Shop_model extends CI_Model
     }
 
     
+     public function AddShopOfferDetails($service_id,$model_id,$lastupddt,$offer_price,$shop_id,$offer_percent,$start_date,$end_date)
+    {
+        $sql = "UPDATE shop_service SET offer_percent='$offer_percent',from_date='$start_date',to_date='$end_date',offer_price='$offer_price',lastupddt='$lastupddt'
+        WHERE service_id=$service_id AND model_id=$model_id AND shop_id=$shop_id";
+            
+         $query = $this->db->query($sql);
+         return $query;
+    }
     
 }
