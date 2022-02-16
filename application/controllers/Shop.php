@@ -113,6 +113,20 @@ public function combooffertblByModelid_get()
     $carShopservices['combooffertblByModelid'] = $this->shop_model->getcombooffertblByModelid($currentUserId,$model_id);
     $this->response($carShopservices);
 }
-
+public function Updateshopoffer_get()
+    {
+        
+        $service_id = $_GET['serviceid'];
+        $shop_id = $_GET['currentUserId'];
+        $offer_percent =   $_GET['offerpercent']; 
+        $start_date = $_GET['fromdate']; 
+        $end_date = $_GET['todate'];
+        $model_id = $_GET['modelId']; 
+        $lastupddt= $_GET['lastupddt'];
+        $offer_price= $_GET['offer_amount'];
+        
+         $insertResponse = $this->shop_model->AddShopOfferDetails($service_id,$model_id,$lastupddt,$offer_price,$shop_id,$offer_percent,$start_date,$end_date);
+        $this->response($insertResponse);
+    }
 
     }

@@ -151,5 +151,5 @@ $route['shop/getComboOffersByShopid']='shop/getComboOffersByShopid';
 $route['shop/shopserviceByModelid']='shop/shopserviceByModelid';
 
 $route['shop/combooffertblByModelid']='shop/combooffertblByModelid';
-
+$route['shop/Updateshopoffer']='shop/Updateshopoffer';
 
