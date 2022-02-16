@@ -84,13 +84,35 @@ class Shop extends REST_Controller
         $offer_percent =   $_GET['offer_percent']; 
         $start_date = $_GET['start_date']; 
         $end_date = $_GET['end_date'];
+        $model_id = $_GET['model_id'];
 
-         $insertResponse = $this->shop_model->AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date);
+         $insertResponse = $this->shop_model->AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id);
         $this->response($insertResponse);
     
     }
 
+    public function getComboOffersByShopid_get()
+    {
+        $currentUserId = $_GET["currentUserId"];
+        $carShopservices['getComboOffersByShopid'] = $this->shop_model->getComboOffersByShopid($currentUserId);
+        $this->response($carShopservices);
+    }
 
+    public function shopserviceByModelid_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $carShopservices['shopserviceByModelid'] = $this->shop_model->getshopserviceByModelid($currentUserId);
+    $this->response($carShopservices);
+}
+
+
+public function combooffertblByModelid_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $model_id = $_GET["model_id"];
+    $carShopservices['combooffertblByModelid'] = $this->shop_model->getcombooffertblByModelid($currentUserId,$model_id);
+    $this->response($carShopservices);
+}
 
 
     }

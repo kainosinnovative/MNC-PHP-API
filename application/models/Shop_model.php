@@ -60,10 +60,10 @@ class Shop_model extends CI_Model
         return 'updated';
     }
     
-    public function AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date){
+    public function AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id){
         $currentDate = date('y-m-d');
-        $sql = "INSERT INTO combo_offers (services,combo_price,shop_id,offer_percent,start_date,end_date,lastupddt)
-        VALUES ('$services','$combo_price','$shop_id','$offer_percent','$start_date','$end_date','$currentDate')";
+        $sql = "INSERT INTO combo_offers (services,combo_price,shop_id,offer_percent,start_date,end_date,lastupddt,model_id)
+        VALUES ('$services','$combo_price','$shop_id','$offer_percent','$start_date','$end_date','$currentDate',$model_id)";
         // echo($sql);
 
         
@@ -73,5 +73,36 @@ class Shop_model extends CI_Model
           
 
     }
+
+    public function getComboOffersByShopid($shopid)
+    {
+        
+        
+        $sql = "SELECT * FROM combo_offers where shop_id='".$shopid."'";
+		$query = $this->db->query($sql);
+        
+        return $query->result_array();
+
+    }
+
+    public function getshopserviceByModelid($shopid)
+    {
+
+        $sql = "SELECT distinct(s.model_id) , m.model_name FROM models m, shop_service s WHERE m.id=s.model_id and s.shop_id='".$shopid."'";
+		$query = $this->db->query($sql);
+        
+        return $query->result_array();
+
+    }
+
+    public function getcombooffertblByModelid($shop_id,$model_id) {
+        $this->db->select('a.service_id,a.service_name,b.actual_amount,c.model_name,b.offer_percent,b.offer_price,b.model_id,b.shop_id');
+        $this->db->join('services a','a.service_id=b.service_id');
+        
+        $this->db->join('models c','c.id= b.model_id');
+        $this->db->join('shopinfo d','d.status=1');
+        // $this->db->join('shopinfo d','d.status=1');
+        return $this->db->order_by('a.service_id')->get_where('shop_service b',array('b.shop_id' => $shop_id,'b.model_id' => $model_id))->result_array();
+     }
     
 }

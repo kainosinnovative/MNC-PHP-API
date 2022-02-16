@@ -146,4 +146,10 @@ $route['shop/AddShopdetails']='shop/AddShopdetails';
 
 $route['shop/AddComboOfferDetails']='shop/AddComboOfferDetails';
 
+$route['shop/getComboOffersByShopid']='shop/getComboOffersByShopid';
+
+$route['shop/shopserviceByModelid']='shop/shopserviceByModelid';
+
+$route['shop/combooffertblByModelid']='shop/combooffertblByModelid';
+
 
