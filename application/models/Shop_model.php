@@ -109,7 +109,7 @@ class Shop_model extends CI_Model
 
      public function getdashboardShopList($cityid)
     {
-        $sql = "SELECT max(b.offer_percent),a.*,b.services,b.combo_price,b.model_id, c.model_name, d.city_name,b.shop_id FROM shopinfo a, combo_offers b, models c, city_list d WHERE a.shop_id = b.shop_id and b.model_id= c.id and d.city_id=a.city and a.city='".$cityid."' and !(CURDATE() between a.leave_from_date and a.leave_to_date) and (CURDATE() between b.start_date and b.end_date) GROUP BY b.shop_id;";
+        $sql = "SELECT max(b.offer_percent),a.*,b.services,b.combo_price,b.model_id, c.model_name, d.city_name,b.shop_id,b.offer_percent FROM shopinfo a, combo_offers b, models c, city_list d WHERE a.shop_id = b.shop_id and b.model_id= c.id and d.city_id=a.city and a.city='".$cityid."' and !(CURDATE() between a.leave_from_date and a.leave_to_date) and (CURDATE() between b.start_date and b.end_date) GROUP BY b.shop_id";
 		$query = $this->db->query($sql);
         
         return $query->result_array();
@@ -119,7 +119,7 @@ class Shop_model extends CI_Model
 
     public function getOnlineBookingShopDetails($shopid)
     {
-        $sql = "SELECT a.*,b.services,b.combo_price,b.offer_percent,b.model_id, c.model_name,b.original_amount FROM `shopinfo` a, combo_offers b, models c WHERE a.shop_id = b.shop_id and a.shop_id = '".$shopid."' and b.model_id= c.id order BY b.offer_percent DESC;";
+        $sql = "SELECT a.*,b.services,b.combo_price,b.offer_percent,b.model_id, c.model_name,b.original_amount,b.offer_id FROM `shopinfo` a, combo_offers b, models c WHERE a.shop_id = b.shop_id and a.shop_id = '".$shopid."' and b.model_id= c.id order BY b.offer_percent DESC;";
 		$query = $this->db->query($sql);
         
         return $query->result_array();
