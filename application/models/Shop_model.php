@@ -60,10 +60,10 @@ class Shop_model extends CI_Model
         return 'updated';
     }
     
-    public function AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id){
+    public function AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id,$original_amount){
         $currentDate = date('y-m-d');
-        $sql = "INSERT INTO combo_offers (services,combo_price,shop_id,offer_percent,start_date,end_date,lastupddt,model_id)
-        VALUES ('$services','$combo_price','$shop_id','$offer_percent','$start_date','$end_date','$currentDate',$model_id)";
+        $sql = "INSERT INTO combo_offers (services,combo_price,shop_id,offer_percent,start_date,end_date,lastupddt,model_id,original_amount)
+        VALUES ('$services','$combo_price','$shop_id','$offer_percent','$start_date','$end_date','$currentDate','$model_id','$original_amount')";
         // echo($sql);
 
         
@@ -109,7 +109,7 @@ class Shop_model extends CI_Model
 
      public function getdashboardShopList($cityid)
     {
-        $sql = "SELECT DISTINCT(a.service_id),a.*,b.services,b.combo_price,b.offer_percent,b.model_id, c.model_name, d.city_name FROM shopinfo a, combo_offers b, models c, city_list d WHERE a.shop_id = b.shop_id  and b.model_id= c.id and  d.city_id=a.city and a.city='".$cityid."'  order BY b.offer_percent DESC;";
+        $sql = "SELECT max(b.offer_percent),a.*,b.services,b.combo_price,b.model_id, c.model_name, d.city_name,b.shop_id FROM shopinfo a, combo_offers b, models c, city_list d WHERE a.shop_id = b.shop_id and b.model_id= c.id and d.city_id=a.city and a.city='".$cityid."' and !(CURDATE() between a.leave_from_date and a.leave_to_date) and (CURDATE() between b.start_date and b.end_date) GROUP BY b.shop_id;";
 		$query = $this->db->query($sql);
         
         return $query->result_array();

@@ -85,8 +85,9 @@ class Shop extends REST_Controller
         $start_date = $_GET['start_date']; 
         $end_date = $_GET['end_date'];
         $model_id = $_GET['model_id'];
+        $original_amount = $_GET['original_amount'];
 
-         $insertResponse = $this->shop_model->AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id);
+         $insertResponse = $this->shop_model->AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id,$original_amount);
         $this->response($insertResponse);
     
     }
@@ -116,7 +117,7 @@ public function combooffertblByModelid_get()
 
 public function dashboardShopList_get()
 {
-    $currentUserId = $_GET["currentUserId"];
+    $currentUserId = $_GET["cityid"];
     $carShopservices['dashboardShopList'] = $this->shop_model->getdashboardShopList($currentUserId);
     $this->response($carShopservices);
 }
