@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2022 at 05:09 AM
+-- Generation Time: Feb 18, 2022 at 08:57 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -115,8 +115,12 @@ CREATE TABLE `combo_offers` (
 --
 
 INSERT INTO `combo_offers` (`offer_id`, `services`, `start_date`, `end_date`, `shop_id`, `combo_price`, `offer_percent`, `model_id`, `original_amount`, `lastupddt`) VALUES
-(28, '7,3,9', '2022-02-16', '2022-02-16', 1, '244', '5', 2, '257', '2022-02-16'),
-(29, '7,9', '2022-02-16', '2022-02-16', 1, '77', '54', 2, '168', '2022-02-16');
+(28, '7,3,9', '2022-02-16', '2022-02-20', 1, '244', '5', 2, '257', '2022-02-16'),
+(29, '7,9', '2022-02-16', '2022-02-20', 1, '77', '54', 2, '168', '2022-02-16'),
+(30, '3,7', '2022-02-17', '2022-02-25', 1, '134', '20', 2, '167', '2022-02-17'),
+(31, '5,8', '2022-02-17', '2022-02-26', 2, '356', '10', 6, '396', '2022-02-17'),
+(32, '7', '2022-02-01', '2022-02-02', 2, '560', '20', 6, '700', '2022-02-17'),
+(33, '1,3', '2022-02-07', '2022-02-15', 3, '425', '15', 1, '500', '2022-02-17');
 
 -- --------------------------------------------------------
 
@@ -275,8 +279,9 @@ CREATE TABLE `shopinfo` (
 --
 
 INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, `emailid`, `gender`, `dob`, `aadharno`, `doorno`, `street`, `city`, `state`, `zipcode`, `shop_image`, `status`, `lastupddt`, `shop_pic`, `shop_logo`, `shop_timing_from`, `shop_timing_to`, `leave_from_date`, `leave_to_date`) VALUES
-(1, 'abc carwash', 'muthu', 'kumar', '7339528035', 'abc@g.com', 'Male', '2022-02-24', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '1', '2022-02-09', '', '', '', '', '2022-02-17', '2022-02-18'),
-(2, 'kumaran carwash', 'kumar', 'k', '9489840339', 'abc@g.com', 'Male', '2022-02-01', '424234', '11', 'south street', '3', '1', 600089, 'docs/189620cd9443729c-355282-computer-icons-iconjpg.jpg', '1', '2022-02-16', '', '', '9', '18', '2022-02-17', '2022-02-19');
+(1, 'abc carwash', 'muthu', 'kumar', '7339528035', 'abc@g.com', 'Male', '2022-02-24', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '1', '2022-02-09', '', '', '', '', '0000-00-00', '2022-02-18'),
+(2, 'kumaran carwash', 'kumar', 'k', '9489840339', 'abc@g.com', 'Male', '2022-02-01', '424234', '11', 'south street', '3', '1', 600089, 'docs/189620cd9443729c-355282-computer-icons-iconjpg.jpg', '1', '2022-02-16', '', '', '9', '18', '2022-02-18', '2022-02-19'),
+(3, 'xyz carwash', 'bharath', 'k', '8940460339', 'xyz@g.com', 'Male', '2022-02-01', '1234', '11', 'south street', '3', '1', 123456, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '1', '2022-02-17', '', '', '9', '6', '2022-02-18', '2022-02-18');
 
 -- --------------------------------------------------------
 
@@ -308,7 +313,11 @@ INSERT INTO `shop_service` (`id`, `service_id`, `shop_id`, `actual_amount`, `off
 (5, 9, 1, '90', '', 0, '2022-02-16', '2022-02-16', '2022-02-14', 2),
 (6, 5, 2, '96', '', 0, '2022-02-16', '2022-02-16', '2022-02-14', 6),
 (13, 8, 2, '300', '10', 270, '2022-02-01', '2022-02-02', '2022-02-16', 6),
-(14, 7, 2, '700', '', 0, '0000-00-00', '0000-00-00', '2022-02-16', 6);
+(14, 7, 2, '700', '', 0, '0000-00-00', '0000-00-00', '2022-02-16', 6),
+(15, 1, 3, '300', '', 0, '0000-00-00', '0000-00-00', '2022-02-17', 1),
+(16, 2, 3, '400', '', 0, '0000-00-00', '0000-00-00', '2022-02-17', 2),
+(17, 3, 3, '200', '', 0, '0000-00-00', '0000-00-00', '2022-02-17', 1),
+(18, 4, 3, '500', '', 0, '0000-00-00', '0000-00-00', '2022-02-17', 2);
 
 -- --------------------------------------------------------
 
@@ -456,7 +465,7 @@ ALTER TABLE `city_list`
 -- AUTO_INCREMENT for table `combo_offers`
 --
 ALTER TABLE `combo_offers`
-  MODIFY `offer_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `offer_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `contact_us`
@@ -486,13 +495,13 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `shopinfo`
 --
 ALTER TABLE `shopinfo`
-  MODIFY `shop_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `shop_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_service`
 --
 ALTER TABLE `shop_service`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `state`

@@ -146,4 +146,12 @@ public function Updateshopoffer_get()
         $this->response($insertResponse);
     }
 
+
+    public function dashboardShopDetailsByOffer_get()
+{
+    $currentUserId = $_GET["cityid"];
+    $carShopservices['dashboardShopDetailsByOffer'] = $this->shop_model->getdashboardShopDetailsByOffer($currentUserId);
+    $this->response($carShopservices);
+}
+
     }

@@ -158,3 +158,5 @@ $route['shop/OnlineBookingShopDetails']='shop/OnlineBookingShopDetails';
 
 $route['shop/Updateshopoffer']='shop/Updateshopoffer';
 
+$route['shop/dashboardShopDetailsByOffer']='shop/dashboardShopDetailsByOffer';
+
