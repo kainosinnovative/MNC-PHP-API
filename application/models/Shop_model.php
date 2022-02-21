@@ -54,6 +54,14 @@ class Shop_model extends CI_Model
         $this->db->query($sql);
         return $this->db->query($sql);
     }
+    public function updateShopLogo($shop_id,$target_path) {
+        $sql = "UPDATE shopinfo
+        SET shop_logo = '$target_path'
+        WHERE shop_id = $shop_id;";
+       // echo($sql);
+        $this->db->query($sql);
+        return $this->db->query($sql);
+    }
     public function AddShopdetails($shop_id,$data) {
         $this->db->where('shop_id', $shop_id);
         $this->db->update('shopinfo', $data);

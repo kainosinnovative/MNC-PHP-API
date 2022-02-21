@@ -537,6 +537,10 @@ if($usertype=='shopowner')
     $updateProfileImg = $this->shop_model->updateProfileImg($id,$target_path);
 
 }
+else if($usertype=='shopownerlogo')
+{
+    $updateProfileImg = $this->shop_model->updateShopLogo($id,$target_path);   
+}
 else{
    
 $updateProfileImg = $this->app_model->updateProfileImg($id,$target_path);
