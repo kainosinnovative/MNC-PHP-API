@@ -643,6 +643,27 @@ public function state_get()
 }
 
 
+public function CustomerCarDetailsInsert_post() {
+    $json = file_get_contents('php://input');
+// Converts it into a PHP object
+        $data = json_decode($json);
+        $customer_id = $this->post('customer_id');
+    // $currentDate = date('y-m-d');
+    //     $note_data = {"lastupddt":"$currentDate"};
+        
+
+        $AddCustomerCardetails = $this->app_model->CustomerCarDetailsInsert($customer_id,$data);
+        
+        $this->response($AddCustomerCardetails);
+} 
+
+
+public function CarDetailsByCustomerId_get()
+{
+    $currentUserId = $_GET["customer_id"];
+    $carDetails['CarDetailsByCustomerId'] = $this->app_model->getCarDetailsByCustomerId($currentUserId);
+    $this->response($carDetails);
+}
 
 
     }
