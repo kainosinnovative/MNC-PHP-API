@@ -423,6 +423,22 @@ class App_model extends CI_Model
         $this->db->from('state');
         return $this->db->get()->result_array();
     }
+
+    public function CustomerCarDetailsInsert($customer_id,$data) {
+        $this->db->where('customer_id', $customer_id);
+        $this->db->insert('customer_carinfo', $data);
+        return 'inserted';
+    }
     
+    
+    public function getCarDetailsByCustomerId($customer_id)
+    {
+
+        $sql = "SELECT * FROM customer_carinfo a, car_type b, models c,brand d WHERE a.customer_id = '".$customer_id."' and a.cartype= b.id and a.model=c.id and a.brand=d.id";
+		$query = $this->db->query($sql);
+        
+        return $query->result_array();
+
+    }
 }
 

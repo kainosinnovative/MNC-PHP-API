@@ -160,3 +160,6 @@ $route['shop/Updateshopoffer']='shop/Updateshopoffer';
 
 $route['shop/dashboardShopDetailsByOffer']='shop/dashboardShopDetailsByOffer';
 
+$route['shop/CustomerCarDetailsInsert']='shop/CustomerCarDetailsInsert';
+// 
+$route['app/CarDetailsByCustomerId']='app/CarDetailsByCustomerId';

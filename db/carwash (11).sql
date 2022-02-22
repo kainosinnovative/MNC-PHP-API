@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 21, 2022 at 05:20 AM
+-- Generation Time: Feb 22, 2022 at 12:45 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `carwash1`
+-- Database: `carwash`
 --
 
 -- --------------------------------------------------------
@@ -118,8 +118,8 @@ INSERT INTO `combo_offers` (`offer_id`, `services`, `start_date`, `end_date`, `s
 (28, '7,3,9', '2022-02-16', '2022-02-25', 1, '244', '5', 2, '257', '2022-02-16'),
 (29, '7,9', '2022-02-16', '2022-02-27', 1, '77', '54', 2, '168', '2022-02-16'),
 (30, '3,7', '2022-02-17', '2022-02-25', 1, '134', '20', 2, '167', '2022-02-17'),
-(31, '5,8', '2022-02-17', '2022-02-26', 2, '356', '10', 6, '396', '2022-02-17'),
-(32, '7', '2022-02-01', '2022-02-02', 2, '560', '20', 6, '700', '2022-02-17'),
+(31, '5,8', '2022-02-17', '2022-02-26', 1, '356', '10', 6, '396', '2022-02-17'),
+(32, '7', '2022-02-01', '2022-02-28', 1, '560', '20', 6, '700', '2022-02-17'),
 (33, '1,3', '2022-02-07', '2022-02-15', 3, '425', '15', 1, '500', '2022-02-17'),
 (34, '1,3', '2022-02-07', '2022-02-24', 4, '425', '15', 1, '500', '2022-02-17');
 
@@ -175,11 +175,41 @@ INSERT INTO `customers` (`customer_id`, `firstname`, `lastname`, `dob`, `mobilen
 (12, 'vj', '', NULL, '7339528000', 'v@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '0000-00-00'),
 (13, 'abc', '', NULL, '9489840339', 'a@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, 'docs/1676209e00aeab14-154319-pngtree-cartoon-color-simple-male-avatar-png-image1934459jpg.jpg', '0000-00-00'),
 (26, 'R Vijaya', 'Sankar ', '2022-01-01', '7339528011', 'vijay@gm.com', 'Male', 0, 0, 0, '', '', '21ss', 'kovil street ss', 0, 'Telengana', 628822, 'docs/14661fa5fa9f3f26-817080-downloadpng.png', '2022-02-02'),
-(30, 'Vijaya sankar', '', NULL, '7339528035', 'l@g.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, 'docs/1386209df0ba349d-364073-imgavatarpng.png', '2022-02-02'),
-(31, 'Vijaya sankar', 'R', '2022-01-12', '9994616327', 'vg@g.com', 'Male', 0, 0, 0, '', '', '40', 'west street', 0, 'TamilNadu', 628811, 'docs/9462035453dbf0c-301977-istockphotojpg.jpg', '2022-02-02'),
+(30, 'Vijaya R', 'Sankar', '2022-02-04', '7339528035', 'vj@g.com', 'Male', 1, 1, 2, 'petrol', 'black', '11', 'nattar amman kovil st', 5, '1', 666666, 'docs/79621386ce62aba-922322-imgjpg.jpg', '2022-02-22'),
+(31, 'Vijaya sankar', 'R', NULL, '9994616327', 'vg@g.com', 'Male', 0, 0, 0, '', '', '40', 'west street', 0, 'TamilNadu', 628811, 'docs/9462035453dbf0c-301977-istockphotojpg.jpg', '2022-02-02'),
 (32, 'sundaram', '', NULL, '9894354613', 'ss@gmail.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '2022-02-03'),
 (34, 'Selvi', '', NULL, '6382841799', 'abhianand.j2k@gmail.com', '', NULL, 0, 0, '', '', '', '', 1, '', 0, '', '2022-02-10'),
 (36, 'abhi', '', NULL, '6385815161', 'abhianand.j2k@gmail.com', '', NULL, NULL, NULL, '', '', '', '', NULL, NULL, NULL, '', '2022-02-10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_carinfo`
+--
+
+CREATE TABLE `customer_carinfo` (
+  `carinfo_id` int(10) NOT NULL,
+  `customer_id` int(10) NOT NULL,
+  `cartype` int(11) NOT NULL,
+  `brand` int(11) NOT NULL,
+  `model` int(10) NOT NULL,
+  `fueltype` varchar(10) NOT NULL,
+  `color` varchar(25) NOT NULL,
+  `lastupddt` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customer_carinfo`
+--
+
+INSERT INTO `customer_carinfo` (`carinfo_id`, `customer_id`, `cartype`, `brand`, `model`, `fueltype`, `color`, `lastupddt`) VALUES
+(5, 30, 3, 1, 3, 'diesel', 'yellow', '2022-02-22'),
+(6, 30, 3, 1, 3, 'petrol', 'yellow', '2022-02-22'),
+(7, 30, 2, 2, 4, 'petrol', 'red', '2022-02-22'),
+(8, 30, 2, 1, 1, 'petrol', 'black', '2022-02-22'),
+(9, 30, 1, 1, 2, 'diesel', 'black', '2022-02-22'),
+(10, 30, 1, 2, 5, 'petrol', 'black', '2022-02-22'),
+(11, 30, 1, 2, 5, 'petrol', 'black', '2022-02-22');
 
 -- --------------------------------------------------------
 
@@ -406,6 +436,12 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`);
 
 --
+-- Indexes for table `customer_carinfo`
+--
+ALTER TABLE `customer_carinfo`
+  ADD PRIMARY KEY (`carinfo_id`);
+
+--
 -- Indexes for table `models`
 --
 ALTER TABLE `models`
@@ -480,6 +516,12 @@ ALTER TABLE `contact_us`
 --
 ALTER TABLE `customers`
   MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `customer_carinfo`
+--
+ALTER TABLE `customer_carinfo`
+  MODIFY `carinfo_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `models`
