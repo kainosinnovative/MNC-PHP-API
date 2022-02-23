@@ -123,7 +123,7 @@ $route['app/signupcustomer'] = 'app/signupcustomer';
 $route['app/AddTestimonial'] = 'app/AddTestimonialInsert';
 $route['app/AddCustomer'] = 'app/AddCustomerInsert';
 $route['app/AddCustomerdetails'] = 'app/AddCustomerdetails';
-
+$route['app/Addwhislist']='app/Addwhislist';
 
 $route['app/readCustomerDataById'] = 'app/readCustomerDataById';
 $route['app/addcontactus']='app/AddContactUs';
@@ -163,3 +163,5 @@ $route['shop/dashboardShopDetailsByOffer']='shop/dashboardShopDetailsByOffer';
 $route['shop/CustomerCarDetailsInsert']='shop/CustomerCarDetailsInsert';
 // 
 $route['app/CarDetailsByCustomerId']='app/CarDetailsByCustomerId';
+//onlinebooking
+$route['onlinebooking/addonlinebooking']='onlinebooking/addonlinebooking';
