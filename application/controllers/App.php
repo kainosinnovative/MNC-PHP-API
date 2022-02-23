@@ -664,6 +664,14 @@ public function CarDetailsByCustomerId_get()
     $carDetails['CarDetailsByCustomerId'] = $this->app_model->getCarDetailsByCustomerId($currentUserId);
     $this->response($carDetails);
 }
+public function Addwhislist_get()
+{
+    $whislist=$_GET['shop_id'];
+    $Customer_id=$_GET['Customer_id'];
+    $date=$_GET['date'];
+    $queryresponse= $this->app_model->Addwhislisttodb($whislist,$Customer_id,$date);
+    $this->response($queryresponse);
+}
 
 
 public function RemoveMyCarInfo_get()
