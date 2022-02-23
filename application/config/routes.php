@@ -163,3 +163,5 @@ $route['shop/dashboardShopDetailsByOffer']='shop/dashboardShopDetailsByOffer';
 $route['shop/CustomerCarDetailsInsert']='shop/CustomerCarDetailsInsert';
 // 
 $route['app/CarDetailsByCustomerId']='app/CarDetailsByCustomerId';
+
+$route['app/RemoveMyCarInfo']='app/RemoveMyCarInfo';

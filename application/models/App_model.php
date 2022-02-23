@@ -440,5 +440,16 @@ class App_model extends CI_Model
         return $query->result_array();
 
     }
+
+
+    public function RemoveMyCarInfoDelete($carinfo_id)
+    {
+        $where = ['carinfo_id ' => $carinfo_id];
+        $this->db->where($where);
+        $this->db->delete('customer_carinfo');
+        return "deleted";
+    }
+
+    
 }
 

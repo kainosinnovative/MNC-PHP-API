@@ -666,4 +666,14 @@ public function CarDetailsByCustomerId_get()
 }
 
 
+public function RemoveMyCarInfo_get()
+{
+    $carinfo_id = $_GET["carinfo_id"];
+    $data['message'] = $this->app_model->RemoveMyCarInfoDelete($carinfo_id);
+        $this->response($data);
+    // $carDetails['RemoveMyCarInfo'] = $this->app_model->RemoveMyCarInfoDelete($customer_id);
+    // $this->response($carDetails);
+}
+
+
     }
