@@ -485,5 +485,13 @@ class App_model extends CI_Model
          }   
          return 'Success';
     }
+
+
+    public function getallmodels()
+    {
+        $this->db->select('*');
+        $this->db->from('models');
+        return $this->db->get()->result_array();
+    }
 }
 

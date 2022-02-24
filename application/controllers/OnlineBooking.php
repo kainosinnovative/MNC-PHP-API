@@ -28,8 +28,9 @@ class OnlineBooking extends REST_Controller
         $this->load->model("dealer_model");
         $this->load->model("onlinebooking_model");
       
-    
-       public function addonlinebooking_post()
+}
+
+public function addonlinebooking_post()
        {
         
             $json = file_get_contents('php://input');

@@ -158,4 +158,44 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
 
     }
     
+
+    public function Addonlinebooking($data)
+    {
+        var_dump($data);
+      return $this->db->insert('onlinebooking', $data);
+    }
+
+    public function AddShopserviceDetailsInsert($data)
+    {
+        
+        // print_r($data[0]);
+        // var_dump($data);
+      return $this->db->insert('shop_service', $data);
+    }
+
+    public function getMaxServiceId()
+    {
+        $maxid = 0;
+        $row = $this->db->query('SELECT MAX(service_id+1) AS `maxid` FROM `services`')->row();
+        if ($row) {
+            $maxid = $row->maxid; 
+            return $maxid;
+        }
+    }
+
+    
+    public function MasterServiceShopserviceInsert($data)
+    {
+         return $this->db->insert('services', $data);
+    }
+
+    public function getMasterServiceAndShopService($currentUserId)
+    {
+
+        $sql = "SELECT * FROM services WHERE  service_id NOT IN (SELECT service_id FROM shop_service WHERE shop_id='".$currentUserId."')";
+		$query = $this->db->query($sql);
+        
+        return $query->result_array();
+
+    }
 }

@@ -154,4 +154,70 @@ public function Updateshopoffer_get()
     $this->response($carShopservices);
 }
 
+
+public function addonlinebooking_post()
+       {
+        
+            $json = file_get_contents('php://input');
+        // Converts it into a PHP object
+                $data = json_decode($json);
+                
+                $res = $this->shop_model->Addonlinebooking($data);
+                
+                $this->response($res);
+       
+   
+
+    }
+
+
+    public function AddShopserviceDetails_post()
+       {
+           
+        
+            $json = file_get_contents('php://input');
+        // Converts it into a PHP object
+                $request = json_decode($json);
+                $shopserviceForm = $request->shopserviceForm;
+                // $hidden_service = $request->hidden_service;
+                // var_dump($hidden_service);
+                // if($hidden_service == "") {
+                    $res = $this->shop_model->AddShopserviceDetailsInsert($shopserviceForm);
+                // }
+                // else {
+                    // $maxServiceid = $this->shop_model->getMaxServiceId();
+                    // var_dump($maxServiceid);
+                    // $res = $this->shop_model->MasterServiceShopserviceInsert($shopserviceForm,$hidden_service,$maxServiceid);
+                // }
+                
+                
+                $this->response($res);
+       
+   
+
+    }
+
+    public function AddMasterservice_post()
+       {
+           
+            $json = file_get_contents('php://input');
+        // Converts it into a PHP object
+                $request = json_decode($json);
+                $MasterserviceForm = $request->MasterserviceForm;
+                var_dump($MasterserviceForm);
+                    $res = $this->shop_model->MasterServiceShopserviceInsert($MasterserviceForm);
+                
+                
+                
+                $this->response($res);
+       
+    }
+
+    public function MasterServiceAndShopService_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $Details['MasterServiceAndShopService'] = $this->shop_model->getMasterServiceAndShopService($currentUserId);
+    $this->response($Details);
+}
+
     }
