@@ -167,3 +167,13 @@ $route['app/CarDetailsByCustomerId']='app/CarDetailsByCustomerId';
 $route['app/RemoveMyCarInfo']='app/RemoveMyCarInfo';
 //onlinebooking
 $route['onlinebooking/addonlinebooking']='onlinebooking/addonlinebooking';
+
+$route['shop/addonlinebooking']='shop/addonlinebooking';
+
+$route['app/allmodels']='app/allmodels';
+
+$route['shop/AddShopserviceDetails']='shop/AddShopserviceDetails';
+
+$route['shop/AddMasterservice']='shop/AddMasterservice'; 
+
+$route['shop/MasterServiceAndShopService']='shop/MasterServiceAndShopService';  

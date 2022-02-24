@@ -683,5 +683,11 @@ public function RemoveMyCarInfo_get()
     // $this->response($carDetails);
 }
 
+public function allmodels_get()
+{
+    $allmodels['list'] = $this->app_model->getallmodels();
+    $this->response($allmodels);
+}
+
 
     }
