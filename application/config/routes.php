@@ -124,7 +124,7 @@ $route['app/AddTestimonial'] = 'app/AddTestimonialInsert';
 $route['app/AddCustomer'] = 'app/AddCustomerInsert';
 $route['app/AddCustomerdetails'] = 'app/AddCustomerdetails';
 $route['app/Addwhislist']='app/Addwhislist';
-
+$route['app/customerwhislist']='app/customerwhislist';
 $route['app/readCustomerDataById'] = 'app/readCustomerDataById';
 $route['app/addcontactus']='app/AddContactUs';
 

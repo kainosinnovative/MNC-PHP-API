@@ -682,6 +682,11 @@ public function RemoveMyCarInfo_get()
     // $carDetails['RemoveMyCarInfo'] = $this->app_model->RemoveMyCarInfoDelete($customer_id);
     // $this->response($carDetails);
 }
-
+public function customerwhislist_get()
+{
+    $Customer_id=$_GET['currentUserId'];
+    $data['whislist']=$this->app_model->getcustomerwhislist($Customer_id);
+    $this->response($data);
+}
 
     }

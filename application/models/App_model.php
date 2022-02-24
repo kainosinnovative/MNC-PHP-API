@@ -385,6 +385,13 @@ class App_model extends CI_Model
         return $this->db->get()->result_array();
 
     }
+    public function getcustomerwhislist($Customer_id)
+    {
+        $this->db->select('whislist');
+        $this->db->from('customer_whislist');
+      $this->db->where('Customer_id', $Customer_id);
+        return $this->db->get()->result_array();
+    }
     public function getcarservices()
     {
         $this->db->select('*');

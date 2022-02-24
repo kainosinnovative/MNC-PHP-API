@@ -28,7 +28,7 @@ class OnlineBooking extends REST_Controller
         $this->load->model("dealer_model");
         $this->load->model("onlinebooking_model");
       
-    }
+    
        public function addonlinebooking_post()
        {
         
@@ -42,3 +42,4 @@ class OnlineBooking extends REST_Controller
    
 
     }
+}
