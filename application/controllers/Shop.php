@@ -220,4 +220,16 @@ public function addonlinebooking_post()
     $this->response($Details);
 }
 
+
+public function changeShopServiceStatus_get() {
+
+    $status =   $_GET['status']; 
+    $shopserviceid = $_GET['shopserviceid']; 
+    
+    
+     $insertResponse = $this->shop_model->changeShopServiceStatusUpdate($status,$shopserviceid);
+    $this->response($insertResponse);
+
+}
+
     }

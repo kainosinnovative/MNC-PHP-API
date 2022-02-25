@@ -177,3 +177,5 @@ $route['shop/AddShopserviceDetails']='shop/AddShopserviceDetails';
 $route['shop/AddMasterservice']='shop/AddMasterservice'; 
 
 $route['shop/MasterServiceAndShopService']='shop/MasterServiceAndShopService';  
+
+$route['shop/changeShopServiceStatus']='shop/changeShopServiceStatus'; 

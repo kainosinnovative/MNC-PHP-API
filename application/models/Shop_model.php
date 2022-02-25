@@ -200,4 +200,26 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
         return $query->result_array();
 
     }
+
+
+    public function changeShopServiceStatusUpdate($status,$shopserviceid){
+        $currentDate = date('y-m-d');
+        if($status == 0){
+            $status = 1;
+        }
+        else {
+            $status = 0;
+        }
+
+        $sql = "UPDATE shop_service
+        SET status = '$status', lastupddt = '$currentDate'
+        WHERE id = $shopserviceid";
+
+        
+         $query = $this->db->query($sql);
+         return $query;
+        //  return $query->result_array();
+          
+
+    }
 }
