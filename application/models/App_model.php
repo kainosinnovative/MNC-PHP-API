@@ -458,31 +458,19 @@ class App_model extends CI_Model
     }
 
     
-    public function Addwhislisttodb($whislist,$Customer_id,$date)
+    public function Addwhislisttodb($whislist,$Customer_id,$date,$city_id)
     {   
       // echo $whislist;
-        $this->db->where('Customer_id', $Customer_id);
-        $query = $this->db->get('customer_whislist');
-        $res= $query->num_rows();
-        $dbdata = array(
-            "whislist" => $whislist,
-            "lastupddt" => $date
-            
-       ); 
+       
        $dbdata1 = array(
         "whislist" => $whislist,
         "lastupddt" => $date,
-        "Customer_id" => $Customer_id
+        "Customer_id" => $Customer_id,
+        "city_id"=>$city_id
    ); 
-      if($res>0)
-        {
-            $this->db->where('customer_id', $Customer_id);
-            $this->db->update('customer_whislist', $dbdata);
-        }   
-        else{
-           
+      
             $this->db->insert("customer_whislist", $dbdata1);
-         }   
+         
          return 'Success';
     }
 

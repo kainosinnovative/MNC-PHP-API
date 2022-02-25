@@ -669,7 +669,8 @@ public function Addwhislist_get()
     $whislist=$_GET['shop_id'];
     $Customer_id=$_GET['Customer_id'];
     $date=$_GET['date'];
-    $queryresponse= $this->app_model->Addwhislisttodb($whislist,$Customer_id,$date);
+    $city_id=$_GET['city_id'];
+    $queryresponse= $this->app_model->Addwhislisttodb($whislist,$Customer_id,$date,$city_id);
     $this->response($queryresponse);
 }
 
