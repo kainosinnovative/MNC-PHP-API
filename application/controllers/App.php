@@ -673,7 +673,15 @@ public function Addwhislist_get()
     $queryresponse= $this->app_model->Addwhislisttodb($whislist,$Customer_id,$date,$city_id);
     $this->response($queryresponse);
 }
-
+public function customerwhislist_get()
+{
+   // $whislist=$_GET['currentUserId'];
+    $Customer_id=$_GET['currentUserId'];
+   // $date=$_GET['date'];
+    $city_id=$_GET['city_id'];
+    $queryresponse= $this->app_model->getCustomerwhislist($Customer_id,$city_id);
+    $this->response($queryresponse);
+}
 
 public function RemoveMyCarInfo_get()
 {

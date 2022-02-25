@@ -481,5 +481,13 @@ class App_model extends CI_Model
         $this->db->from('models');
         return $this->db->get()->result_array();
     }
+    public funciton getCustomerwhislist($Customer_id.$city_id)
+    {
+        $this->db->select('*');
+        $this->db->from('customer_whislist');
+        $this->db->where('customer_id', $Customer_id);
+        $this->db->where('city_id', $city_id);
+        return $this->db->get()->result_array();
+    }
 }
 
