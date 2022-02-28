@@ -401,7 +401,7 @@ class App_model extends CI_Model
 
     public function getcarAndShopservice($shopid)
     {
-        $this->db->select('DISTINCT(a.service_id),a.service_name,b.actual_amount,c.model_name,b.offer_percent,b.offer_price,b.model_id,b.shop_id,b.status,b.id');
+        $this->db->select('DISTINCT(a.service_id),a.service_name,b.actual_amount,c.model_name,b.offer_percent,b.offer_price,b.model_id,b.shop_id');
         $this->db->join('services a','a.service_id=b.service_id');
         
         $this->db->join('models c','c.id= b.model_id');
@@ -479,14 +479,6 @@ class App_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('models');
-        return $this->db->get()->result_array();
-    }
-    public funciton getCustomerwhislist($Customer_id.$city_id)
-    {
-        $this->db->select('*');
-        $this->db->from('customer_whislist');
-        $this->db->where('customer_id', $Customer_id);
-        $this->db->where('city_id', $city_id);
         return $this->db->get()->result_array();
     }
 }
