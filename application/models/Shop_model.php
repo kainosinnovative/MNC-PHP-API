@@ -68,10 +68,10 @@ class Shop_model extends CI_Model
         return 'updated';
     }
     
-    public function AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id,$original_amount){
+    public function AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id,$original_amount,$offer_name){
         $currentDate = date('y-m-d');
-        $sql = "INSERT INTO combo_offers (services,combo_price,shop_id,offer_percent,start_date,end_date,lastupddt,model_id,original_amount)
-        VALUES ('$services','$combo_price','$shop_id','$offer_percent','$start_date','$end_date','$currentDate','$model_id','$original_amount')";
+        $sql = "INSERT INTO combo_offers (services,combo_price,shop_id,offer_percent,start_date,end_date,lastupddt,model_id,original_amount,offer_name)
+        VALUES ('$services','$combo_price','$shop_id','$offer_percent','$start_date','$end_date','$currentDate','$model_id','$original_amount','$offer_name')";
         // echo($sql);
 
         
