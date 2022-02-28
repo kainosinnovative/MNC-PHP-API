@@ -673,6 +673,14 @@ public function Addwhislist_get()
     $queryresponse= $this->app_model->Addwhislisttodb($whislist,$Customer_id,$date,$city_id);
     $this->response($queryresponse);
 }
+public function Deletewhislist_get()
+{
+    $whislist=$_GET['shop_id'];
+    $Customer_id=$_GET['Customer_id'];
+    $city_id=$_GET['city_id'];
+    $queryresponse= $this->app_model->Deletewhislisttodb($whislist,$Customer_id,$city_id);
+    $this->response($queryresponse);
+}
 public function customerwhislist_get()
 {
 

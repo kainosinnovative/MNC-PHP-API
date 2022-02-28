@@ -467,6 +467,14 @@ class App_model extends CI_Model
          
          return 'Success';
     }
+    public function Deletewhislisttodb($whislist,$Customer_id,$city_id)
+    {
+        $where = array("Customer_id "=>$Customer_id,"city_id"=>$city_id);
+        $this->db->where($where);
+        $this->db->delete('customer_whislist');
+        return "deleted";
+
+    }
 
 
     public function getallmodels()

@@ -86,8 +86,9 @@ class Shop extends REST_Controller
         $end_date = $_GET['end_date'];
         $model_id = $_GET['model_id'];
         $original_amount = $_GET['original_amount'];
+        $offer_name = $_GET['offer_name'];
 
-         $insertResponse = $this->shop_model->AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id,$original_amount);
+         $insertResponse = $this->shop_model->AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id,$original_amount, $offer_name);
         $this->response($insertResponse);
     
     }
