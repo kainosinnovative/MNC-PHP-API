@@ -675,9 +675,9 @@ public function Addwhislist_get()
 }
 public function customerwhislist_get()
 {
-   // $whislist=$_GET['currentUserId'];
+
     $Customer_id=$_GET['currentUserId'];
-   // $date=$_GET['date'];
+  
     $city_id=$_GET['city_id'];
     $queryresponse= $this->app_model->getCustomerwhislist($Customer_id,$city_id);
     $this->response($queryresponse);
