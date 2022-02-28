@@ -385,13 +385,7 @@ class App_model extends CI_Model
         return $this->db->get()->result_array();
 
     }
-    public function getcustomerwhislist($Customer_id)
-    {
-        $this->db->select('whislist');
-        $this->db->from('customer_whislist');
-      $this->db->where('Customer_id', $Customer_id);
-        return $this->db->get()->result_array();
-    }
+   
     public function getcarservices()
     {
         $this->db->select('*');
@@ -479,6 +473,14 @@ class App_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('models');
+        return $this->db->get()->result_array();
+    }
+    public function getCustomerwhislist($Customer_id,$city_id)
+    {
+        $this->db->select('*');
+        $this->db->from('customer_whislist');
+        $this->db->where('Customer_id', $Customer_id);
+        $this->db->where('city_id', $city_id);
         return $this->db->get()->result_array();
     }
 }
