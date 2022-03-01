@@ -205,9 +205,16 @@ public function addonlinebooking_post()
         // Converts it into a PHP object
                 $request = json_decode($json);
                 $MasterserviceForm = $request->MasterserviceForm;
-                var_dump($MasterserviceForm);
-                    $res = $this->shop_model->MasterServiceShopserviceInsert($MasterserviceForm);
+                // var_dump($MasterserviceForm);
+                $service_name = $MasterserviceForm->service_name;
+                    $res = $this->shop_model->MasterServiceInsert($service_name);
                 
+                    $model_id = $MasterserviceForm->model_id;
+                    $actual_amount = $MasterserviceForm->actual_amount;
+                    $maxServiceid = $this->shop_model->getMaxServiceId();
+                    $shop_id = $MasterserviceForm->shop_id;
+                    var_dump($actual_amount);
+                    $res = $this->shop_model->MasterServiceShopserviceInsert($model_id,$maxServiceid,$actual_amount,$shop_id);
                 
                 
                 $this->response($res);
