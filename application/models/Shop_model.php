@@ -175,17 +175,40 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
     public function getMaxServiceId()
     {
         $maxid = 0;
-        $row = $this->db->query('SELECT MAX(service_id+1) AS `maxid` FROM `services`')->row();
+        $row = $this->db->query('SELECT MAX(service_id) AS `maxid` FROM `services`')->row();
         if ($row) {
             $maxid = $row->maxid; 
             return $maxid;
         }
     }
 
-    
-    public function MasterServiceShopserviceInsert($data)
+
+    public function MasterServiceShopserviceInsert($model_id,$serviceid,$actual_amount,$shop_id)
     {
-         return $this->db->insert('services', $data);
+        //  return $this->db->insert('services', $data);
+        $currentDate = date('y-m-d');
+        $sql = "INSERT INTO shop_service (model_id,service_id,actual_amount,lastupddt,shop_id,status)
+        VALUES ('$model_id','$serviceid','$actual_amount','$currentDate','$shop_id','1')";
+        echo($sql);
+
+        
+         $query = $this->db->query($sql);
+         return $query;
+
+    }
+    
+    public function MasterServiceInsert($service_name)
+    {
+        //  return $this->db->insert('services', $data);
+        $currentDate = date('y-m-d');
+        $sql = "INSERT INTO services (service_name,lastupddt)
+        VALUES ('$service_name','$currentDate')";
+        echo($sql);
+
+        
+         $query = $this->db->query($sql);
+         return $query;
+
     }
 
     public function getMasterServiceAndShopService($currentUserId)
