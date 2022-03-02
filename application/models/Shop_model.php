@@ -242,4 +242,14 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
           
 
     }
+
+    public function getcustomerBookingForShop($currentUserId)
+    {
+
+        $sql = "SELECT a.*,b.model_name,c.firstname FROM onlinebooking a, models b,customers c WHERE a.Shop_id='$currentUserId' and a.model_id=b.id and a.Customer_id=c.customer_id";
+		$query = $this->db->query($sql);
+        
+        return $query->result_array();
+
+    }
 }

@@ -707,4 +707,15 @@ public function allmodels_get()
 }
 
 
+public function getCarinfomodels_get()
+{
+
+    $vehicle_number=$_GET['vehicle_number'];
+  
+    
+    $queryresponse= $this->app_model->SelectCarinfomodels($vehicle_number);
+    $this->response($queryresponse);
+}
+
+
     }
