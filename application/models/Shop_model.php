@@ -82,13 +82,10 @@ class Shop_model extends CI_Model
 
     }
 
-    public function getComboOffersByShopid($shopid)
+    public function getComboOffersByShopid($month,$year,$id)
     {
-        
-        
-        $sql = "SELECT * FROM combo_offers where shop_id='$shopid'  and ((MONTH(start_date)=MONTH(now())
-        and YEAR(start_date)=YEAR(now())) OR (MONTH(end_date)=MONTH(now())
-        and YEAR(end_date)=YEAR(now()))) ;";
+       
+        $sql = "SELECT * FROM combo_offers where shop_id='$id' and YEAR(DATE(start_date))='$year' and  MONTH(DATE(start_date)) = '$month'";
 		$query = $this->db->query($sql);
         
         return $query->result_array();

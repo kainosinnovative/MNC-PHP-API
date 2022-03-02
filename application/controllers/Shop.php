@@ -95,8 +95,10 @@ class Shop extends REST_Controller
 
     public function getComboOffersByShopid_get()
     {
-        $currentUserId = $_GET["currentUserId"];
-        $carShopservices['getComboOffersByShopid'] = $this->shop_model->getComboOffersByShopid($currentUserId);
+        $month = $_GET["month"];
+        $year=$_GET["year"];
+        $id=$_GET["id"];
+        $carShopservices['getComboOffersByShopid'] = $this->shop_model->getComboOffersByShopid($month,$year,$id);
         $this->response($carShopservices);
     }
 
@@ -231,6 +233,11 @@ public function changeShopServiceStatus_get() {
      $insertResponse = $this->shop_model->changeShopServiceStatusUpdate($status,$shopserviceid);
     $this->response($insertResponse);
 
+}
+public function DisplayComboOfferDetails_get()
+{
+    $month=$_GET['month'];
+    $year=$_GET['year'];
 }
 
     }
