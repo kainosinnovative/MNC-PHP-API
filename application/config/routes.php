@@ -129,6 +129,7 @@ $route['app/customerwhislist']='app/customerwhislist';
 $route['app/readCustomerDataById'] = 'app/readCustomerDataById';
 $route['app/addcontactus']='app/AddContactUs';
 
+
 //General
 $route['app/cartype']='app/cartype';
 $route['app/brandtype']='app/brandtype';
@@ -162,6 +163,7 @@ $route['shop/Updateshopoffer']='shop/Updateshopoffer';
 $route['shop/dashboardShopDetailsByOffer']='shop/dashboardShopDetailsByOffer';
 
 $route['shop/CustomerCarDetailsInsert']='shop/CustomerCarDetailsInsert';
+$route['shop/getallshoplist']='shop/getallshoplist';
 // 
 $route['app/CarDetailsByCustomerId']='app/CarDetailsByCustomerId';
 
@@ -180,3 +182,7 @@ $route['shop/AddMasterservice']='shop/AddMasterservice';
 $route['shop/MasterServiceAndShopService']='shop/MasterServiceAndShopService';  
 
 $route['shop/changeShopServiceStatus']='shop/changeShopServiceStatus'; 
+
+$route['car/getCarinfomodels'] = 'app/getCarinfomodels'; 
+
+$route['shop/customerBookingForShop'] = 'shop/customerBookingForShop';

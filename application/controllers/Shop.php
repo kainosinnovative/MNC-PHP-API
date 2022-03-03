@@ -95,8 +95,10 @@ class Shop extends REST_Controller
 
     public function getComboOffersByShopid_get()
     {
-        $currentUserId = $_GET["currentUserId"];
-        $carShopservices['getComboOffersByShopid'] = $this->shop_model->getComboOffersByShopid($currentUserId);
+        $month = $_GET["month"];
+        $year=$_GET["year"];
+        $id=$_GET["id"];
+        $carShopservices['getComboOffersByShopid'] = $this->shop_model->getComboOffersByShopid($month,$year,$id);
         $this->response($carShopservices);
     }
 
@@ -161,7 +163,8 @@ public function addonlinebooking_post()
         
             $json = file_get_contents('php://input');
         // Converts it into a PHP object
-                $data = json_decode($json);
+                $data = json_decode($json,true);
+
                 
                 $res = $this->shop_model->Addonlinebooking($data);
                 
@@ -205,9 +208,16 @@ public function addonlinebooking_post()
         // Converts it into a PHP object
                 $request = json_decode($json);
                 $MasterserviceForm = $request->MasterserviceForm;
-                var_dump($MasterserviceForm);
-                    $res = $this->shop_model->MasterServiceShopserviceInsert($MasterserviceForm);
+                // var_dump($MasterserviceForm);
+                $service_name = $MasterserviceForm->service_name;
+                    $res = $this->shop_model->MasterServiceInsert($service_name);
                 
+                    $model_id = $MasterserviceForm->model_id;
+                    $actual_amount = $MasterserviceForm->actual_amount;
+                    $maxServiceid = $this->shop_model->getMaxServiceId();
+                    $shop_id = $MasterserviceForm->shop_id;
+                    var_dump($actual_amount);
+                    $res = $this->shop_model->MasterServiceShopserviceInsert($model_id,$maxServiceid,$actual_amount,$shop_id);
                 
                 
                 $this->response($res);
@@ -231,6 +241,18 @@ public function changeShopServiceStatus_get() {
      $insertResponse = $this->shop_model->changeShopServiceStatusUpdate($status,$shopserviceid);
     $this->response($insertResponse);
 
+}
+public function DisplayComboOfferDetails_get()
+{
+    $month=$_GET['month'];
+    $year=$_GET['year'];
+}
+
+public function customerBookingForShop_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $Details['customerBookingForShop'] = $this->shop_model->getcustomerBookingForShop($currentUserId);
+    $this->response($Details);
 }
 
     }

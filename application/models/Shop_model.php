@@ -82,13 +82,10 @@ class Shop_model extends CI_Model
 
     }
 
-    public function getComboOffersByShopid($shopid)
+    public function getComboOffersByShopid($month,$year,$id)
     {
-        
-        
-        $sql = "SELECT * FROM combo_offers where shop_id='$shopid'  and ((MONTH(start_date)=MONTH(now())
-        and YEAR(start_date)=YEAR(now())) OR (MONTH(end_date)=MONTH(now())
-        and YEAR(end_date)=YEAR(now()))) ;";
+       
+        $sql = "SELECT * FROM combo_offers where shop_id='$id' and YEAR(DATE(start_date))='$year' and  MONTH(DATE(start_date)) = '$month'";
 		$query = $this->db->query($sql);
         
         return $query->result_array();
@@ -178,17 +175,40 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
     public function getMaxServiceId()
     {
         $maxid = 0;
-        $row = $this->db->query('SELECT MAX(service_id+1) AS `maxid` FROM `services`')->row();
+        $row = $this->db->query('SELECT MAX(service_id) AS `maxid` FROM `services`')->row();
         if ($row) {
             $maxid = $row->maxid; 
             return $maxid;
         }
     }
 
-    
-    public function MasterServiceShopserviceInsert($data)
+
+    public function MasterServiceShopserviceInsert($model_id,$serviceid,$actual_amount,$shop_id)
     {
-         return $this->db->insert('services', $data);
+        //  return $this->db->insert('services', $data);
+        $currentDate = date('y-m-d');
+        $sql = "INSERT INTO shop_service (model_id,service_id,actual_amount,lastupddt,shop_id,status)
+        VALUES ('$model_id','$serviceid','$actual_amount','$currentDate','$shop_id','1')";
+        echo($sql);
+
+        
+         $query = $this->db->query($sql);
+         return $query;
+
+    }
+    
+    public function MasterServiceInsert($service_name)
+    {
+        //  return $this->db->insert('services', $data);
+        $currentDate = date('y-m-d');
+        $sql = "INSERT INTO services (service_name,lastupddt)
+        VALUES ('$service_name','$currentDate')";
+        echo($sql);
+
+        
+         $query = $this->db->query($sql);
+         return $query;
+
     }
 
     public function getMasterServiceAndShopService($currentUserId)
@@ -220,6 +240,16 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
          return $query;
         //  return $query->result_array();
           
+
+    }
+
+    public function getcustomerBookingForShop($currentUserId)
+    {
+
+        $sql = "SELECT a.*,b.model_name,c.firstname FROM onlinebooking a, models b,customers c WHERE a.Shop_id='$currentUserId' and a.model_id=b.id and a.Customer_id=c.customer_id";
+		$query = $this->db->query($sql);
+        
+        return $query->result_array();
 
     }
 }
