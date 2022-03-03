@@ -246,5 +246,10 @@ public function DisplayComboOfferDetails_get()
     $month=$_GET['month'];
     $year=$_GET['year'];
 }
+public function getallshoplist_get()
+{
+    $shoplist[] = $this->shop_model->getshoplist();
+    $this->response($shoplist);
+}
 
     }

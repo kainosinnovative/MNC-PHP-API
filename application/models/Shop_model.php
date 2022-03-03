@@ -242,4 +242,10 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
           
 
     }
+    public function getshoplist()
+    {
+        $this->db->select('*');
+        $this->db->from('shopinfo');
+        return $this->db->get()->result_array();
+    }
 }
