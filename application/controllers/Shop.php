@@ -163,7 +163,8 @@ public function addonlinebooking_post()
         
             $json = file_get_contents('php://input');
         // Converts it into a PHP object
-                $data = json_decode($json);
+                $data = json_decode($json,true);
+
                 
                 $res = $this->shop_model->Addonlinebooking($data);
                 
@@ -250,6 +251,13 @@ public function getallshoplist_get()
 {
     $shoplist[] = $this->shop_model->getshoplist();
     $this->response($shoplist);
+}
+
+public function customerBookingForShop_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $Details['customerBookingForShop'] = $this->shop_model->getcustomerBookingForShop($currentUserId);
+    $this->response($Details);
 }
 
     }

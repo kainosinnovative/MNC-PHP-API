@@ -182,3 +182,7 @@ $route['shop/AddMasterservice']='shop/AddMasterservice';
 $route['shop/MasterServiceAndShopService']='shop/MasterServiceAndShopService';  
 
 $route['shop/changeShopServiceStatus']='shop/changeShopServiceStatus'; 
+
+$route['car/getCarinfomodels'] = 'app/getCarinfomodels'; 
+
+$route['shop/customerBookingForShop'] = 'shop/customerBookingForShop';

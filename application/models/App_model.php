@@ -491,5 +491,16 @@ class App_model extends CI_Model
         $this->db->where('city_id', $city_id);
         return $this->db->get()->result_array();
     }
+
+    public function SelectCarinfomodels($vehicle_number)
+    {
+
+        $sql = "SELECT * FROM customer_carinfo a, models c WHERE a.vehicle_number = '".$vehicle_number."'  and a.model=c.id";
+		$query = $this->db->query($sql);
+        
+        return $query->result_array();
+
+    }
+    
 }
 
