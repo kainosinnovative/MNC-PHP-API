@@ -384,8 +384,8 @@ die();
         $customer_name =   $_GET['customer_name'];
         $customer_mobileno = $_GET['customer_mobileno'];
         $customer_email = $_GET['customer_email'];
-            $loginfor=$_GET['loginFor'];
-            if($loginfor=='shopownersignup')
+            // $loginfor=$_GET['loginFor'];
+            if($_GET['loginFor'] ==='shopownersignup')
             {
                 $insertResponse = $this->app_model->signupShopOwnerInsert($customer_name,$customer_mobileno,$customer_email);
             }
@@ -437,6 +437,7 @@ die();
 
         $mobile = $this->checkEmptyParam($this->post('registermobno'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
+        $loginFor = $this->post('loginFor');
         // $this->response('', 404, 'pass', $this->app_model->checkDealer($mobile))
       //  $checkCustomer = $this->app_model->checkCustomer($mobile);
       if($loginFor === "shopownersignup") {
