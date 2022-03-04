@@ -124,8 +124,12 @@ public function dashboardShopList_get()
     $carShopservices['dashboardShopList'] = $this->shop_model->getdashboardShopList($currentUserId);
     $this->response($carShopservices);
 }
-
-
+public function dashboardShopSearch_get()
+{
+    $shopname=$_GET["shopname"];
+    $shopsearch['dashboardShopSearch'] = $this->shop_model->getdashboardShopSearch($shopname);
+    $this->response($shopsearch);
+}
 public function OnlineBookingShopDetails_get()
 {
     $currentUserId = $_GET["currentUserId"];
@@ -245,6 +249,11 @@ public function DisplayComboOfferDetails_get()
 {
     $month=$_GET['month'];
     $year=$_GET['year'];
+}
+public function getallshoplist_get()
+{
+    $shoplist=$this->shop_model->getshoplist();
+   echo json_encode($shoplist);
 }
 
 public function customerBookingForShop_get()

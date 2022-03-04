@@ -21,7 +21,7 @@ header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Conte
 header("HTTP/1.1 200 OK");
 die();
 }
-        
+
         $this->load->library("applib", array("controller" => $this));
         $this->load->model("app_model");
         $this->load->model("shop_model");
@@ -291,7 +291,7 @@ die();
     }
 
     public function sendOtp2_post() {
-        
+
         $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
         // $this->response('', 404, 'pass', $this->app_model->checkDealer($mobile))
@@ -300,19 +300,19 @@ die();
         // echo "hi";
         // echo "a>>>>>$checkCustomer";
         // if($checkCustomer === "0") {
-           
+
         //     $this->response('', 404, 'fail', "Mobile Number does not Exists Please Signup");
-            
+
         // }
         // else {
-       
+
         if (!$otp) {
             $otp = mt_rand(1000, 9999);
-        
+
         }
         $msg = "Your MYDEALER Platform OTP is " . $otp;
         $sendSms = $this->applib->sendSms($msg, $mobile);
-        
+
         if ($sendSms['status']) {
             // $this->response(
             //     'success',
@@ -328,78 +328,88 @@ die();
 
 
     public function sendOtp1_post() {
-        
+
         $mobile = $this->checkEmptyParam($this->post('mobile'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
 
         $loginFor = $this->post('loginfor');
-        
+
         if($loginFor === "shopowner") {
             $checkCustomer = $this->app_model->checkShopOwner($mobile);
             // $this->response($loginFor);
-            
+
         }
         if($loginFor === "customer") {
             $checkCustomer = $this->app_model->checkCustomer($mobile);
             // $this->response($loginFor);
-            
+
         }
 
         if($checkCustomer === "0") {
-           
+
             $this->response('', 404, 'fail', "Not a Registered ! Sign Up");
-            
+
         }
         else {
-       
+
         if (!$otp) {
             $otp = mt_rand(1000, 9999);
-        
+
         }
         $msg = "Your MYDEALER Platform OTP is " . $otp;
         $sendSms = $this->applib->sendSms($msg, $mobile);
-        
+
         if ($sendSms['status']) {
-           
+
             $this->response('', 200, 'pass', $otp);
         } else {
             $this->response('', 404, 'fail', $sendSms['message']);
         }
     }
-        
-        
-        
-        
+
+
+
+
 
 
     }
 
 
 
-    
+
 
 
     public function signupCustomer_get() {
 
-        $customer_name =   $_GET['customer_name']; 
-        $customer_mobileno = $_GET['customer_mobileno']; 
+        $customer_name =   $_GET['customer_name'];
+        $customer_mobileno = $_GET['customer_mobileno'];
         $customer_email = $_GET['customer_email'];
+            $loginfor=$_GET['loginFor'];
+            if($loginfor=='shopownersignup')
+            {
+                $insertResponse = $this->app_model->signupShopOwnerInsert($customer_name,$customer_mobileno,$customer_email);
+            }
         // $customer_name = "test";
+        else{
         echo $customer_mobileno;
         echo $customer_name;
         echo $customer_email;
          $insertResponse = $this->app_model->signupCustomerInsert($customer_name,$customer_mobileno,$customer_email);
+        }
         $this->response($insertResponse);
 
     }
 
 
-    public function SingleCustomerDetails_get() {
-       
 
-        $mobile =   $_GET['customer_mobileno']; 
-        $loginfor = $_GET['loginfor']; 
-        
+
+
+    public function SingleCustomerDetails_get() {
+
+
+        $mobile =   $_GET['customer_mobileno'];
+        $loginfor = $_GET['loginfor'];
+
 
         if($_GET['loginfor'] === 'customer') {
 
@@ -409,11 +419,11 @@ die();
         if($_GET['loginfor'] === 'shopowner') {
         $data['SingleCustomerDetails'] = $this->app_model->getSingleshopDetails($mobile);
         $this->response($data);
-        
+
         }
 
 
-        
+
     }
 
     // public function SingleLoginTestimonial_get() {
@@ -424,26 +434,35 @@ die();
 
 
     public function sendOtp3_post() {
-        
+
         $mobile = $this->checkEmptyParam($this->post('registermobno'), 'Mobile');
         $validateMobile = $this->applib->checkMobile($mobile);
         // $this->response('', 404, 'pass', $this->app_model->checkDealer($mobile))
+      //  $checkCustomer = $this->app_model->checkCustomer($mobile);
+      if($loginFor === "shopownersignup") {
+        $checkCustomer = $this->app_model->checkShopOwner($mobile);
+        // $this->response($loginFor);
+
+    }
+    if($loginFor === "customersignup") {
         $checkCustomer = $this->app_model->checkCustomer($mobile);
-        
+        // $this->response($loginFor);
+
+    }
         if($checkCustomer != "0") {
-            
+
             $this->response('', 404, 'fail', "Mobile Number Already Exists! Login");
             // echo json_encode(array("message" => "Mobile Number does not Exists Please Signup"));
         }
         else {
-       
+
         if (!$otp) {
             $otp = mt_rand(1000, 9999);
-        
+
         }
         $msg = "Your MYDEALER Platform OTP is " . $otp;
         $sendSms = $this->applib->sendSms($msg, $mobile);
-        
+
         if ($sendSms['status']) {
             // $this->response(
             //     'success',
@@ -458,25 +477,25 @@ die();
     }
 
 
-  
+
 
 
     public function AddTestimonialInsert_post() {
-       
-       
+
+
         $json = file_get_contents('php://input');
 // Converts it into a PHP object
         $data = json_decode($json);
         $customer_id = $this->post('customer_id');
 
         $isCustomerReviewed = $this->app_model->isCustomerReviewed($customer_id);
-  
+
 
         if($isCustomerReviewed == "0") {
             $insertTestimonial = $this->app_model->AddTestimonial($data);
-        
+
          $jsonen = json_encode($insertTestimonial);
-        
+
         $this->response($jsonen);
         }
         else {
@@ -494,8 +513,8 @@ die();
     public function AddCustomerInsert_post() {
 
         $firstname = $this->post('file');
-        
-       
+
+
 //         $json = file_get_contents('php://input');
 // // Converts it into a PHP object
 //         $data = json_decode($json);
@@ -504,7 +523,7 @@ die();
 //         $customer_id = 26;
 
 
-       
+
 $info=$_POST["file_data"];
 $info=json_decode($info);
 //get the file
@@ -533,16 +552,16 @@ $usertype=$this->post('shopownersession');
 $id = $this->post('currentUserId');
 if($usertype=='shopowner')
 {
-   
+
     $updateProfileImg = $this->shop_model->updateProfileImg($id,$target_path);
 
 }
 else if($usertype=='shopownerlogo')
 {
-    $updateProfileImg = $this->shop_model->updateShopLogo($id,$target_path);   
+    $updateProfileImg = $this->shop_model->updateShopLogo($id,$target_path);
 }
 else{
-   
+
 $updateProfileImg = $this->app_model->updateProfileImg($id,$target_path);
 }
 $result=array();
@@ -574,10 +593,10 @@ public function readCustomerDataById_get() {
     $customer_id = $this->get('customer_id');
     $SingleCustomerdata["profile"] = $this->app_model->getSingleCustomerById($customer_id);
     $this->response($SingleCustomerdata);
-    
+
     // echo $data;
     // echo json_encode($data);
-}    
+}
 
 public function AddCustomerdetails_post() {
     $json = file_get_contents('php://input');
@@ -586,19 +605,19 @@ public function AddCustomerdetails_post() {
         $customer_id = $this->post('customer_id');
     // $currentDate = date('y-m-d');
     //     $note_data = {"lastupddt":"$currentDate"};
-        
+
 
         $AddCustomerdetails = $this->app_model->AddCustomerdetails($customer_id,$data);
-        
+
         $this->response($AddCustomerdetails);
-}    
+}
 public function AddContactUs_post()
 {
     $json = file_get_contents('php://input');
 // Converts it into a PHP object
         $data = json_decode($json);
         $AddContactUs = $this->app_model->AddContactUs($data);
-        
+
         $this->response($AddContactUs);
 }
 public function cartype_get()
@@ -613,8 +632,8 @@ public function brandtype_get()
 }
 public function model_get()
 {
-    $car_type_id =   $_GET['cartype']; 
-        $brand_id = $_GET['brand']; 
+    $car_type_id =   $_GET['cartype'];
+        $brand_id = $_GET['brand'];
     $model['type'] = $this->app_model->getmodel($car_type_id,$brand_id);
     $this->response($model);
 }
@@ -650,12 +669,12 @@ public function CustomerCarDetailsInsert_post() {
         $customer_id = $this->post('customer_id');
     // $currentDate = date('y-m-d');
     //     $note_data = {"lastupddt":"$currentDate"};
-        
+
 
         $AddCustomerCardetails = $this->app_model->CustomerCarDetailsInsert($customer_id,$data);
-        
+
         $this->response($AddCustomerCardetails);
-} 
+}
 
 
 public function CarDetailsByCustomerId_get()
@@ -685,7 +704,7 @@ public function customerwhislist_get()
 {
 
     $Customer_id=$_GET['currentUserId'];
-  
+
     $city_id=$_GET['city_id'];
     $queryresponse= $this->app_model->getCustomerwhislist($Customer_id,$city_id);
     $this->response($queryresponse);
@@ -711,8 +730,8 @@ public function getCarinfomodels_get()
 {
 
     $vehicle_number=$_GET['vehicle_number'];
-  
-    
+
+
     $queryresponse= $this->app_model->SelectCarinfomodels($vehicle_number);
     $this->response($queryresponse);
 }

@@ -125,6 +125,13 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
 
 
     }
+    public function getdashboardShopSearch($shopname)
+    {
+        $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.original_amount,b.model_id, c.model_name, d.city_name,b.shop_id FROM shopinfo a, combo_offers b, models c, city_list d WHERE a.shop_id = b.shop_id and b.model_id= c.id and d.city_id=a.city and a.name like '%$shopname%' and (CURDATE() between b.start_date and b.end_date) order by b.offer_percent desc";
+		$query = $this->db->query($sql);
+        
+        return $query->result_array();
+    }
 
     public function getOnlineBookingShopDetails($shopid)
     {
@@ -255,7 +262,12 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
           
 
     }
-
+    public function getshoplist()
+    {
+        $this->db->select('name');
+        $this->db->from('shopinfo');
+        return $this->db->get()->result_array();
+    }
     public function getcustomerBookingForShop($currentUserId)
     {
 

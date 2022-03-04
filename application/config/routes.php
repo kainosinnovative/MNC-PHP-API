@@ -155,6 +155,7 @@ $route['shop/shopserviceByModelid']='shop/shopserviceByModelid';
 $route['shop/combooffertblByModelid']='shop/combooffertblByModelid';
 
 $route['shop/dashboardShopList']='shop/dashboardShopList';
+$route['shop/dashboardShopSearch']='shop/dashboardShopSearch';
 
 $route['shop/OnlineBookingShopDetails']='shop/OnlineBookingShopDetails';
 
