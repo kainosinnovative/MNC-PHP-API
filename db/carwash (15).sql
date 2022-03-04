@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2022 at 09:02 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.3.30
+-- Generation Time: Mar 04, 2022 at 12:36 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `carwash`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `booking_status`
+--
+
+CREATE TABLE `booking_status` (
+  `id` int(10) NOT NULL,
+  `Booking_id` varchar(20) NOT NULL,
+  `booked_status` varchar(20) NOT NULL,
+  `carwash_status` int(20) NOT NULL,
+  `lastup_bookstatus_date` date DEFAULT NULL,
+  `lastup_carwashstatus_date` date DEFAULT NULL,
+  `pickedAndDrop_status` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `booking_status`
+--
+
+INSERT INTO `booking_status` (`id`, `Booking_id`, `booked_status`, `carwash_status`, `lastup_bookstatus_date`, `lastup_carwashstatus_date`, `pickedAndDrop_status`) VALUES
+(15, '880512-4', 'Rejected', 0, '2022-03-04', NULL, ''),
+(16, '996099-3', 'Accepted', 0, '2022-03-04', NULL, 'Today, please drop your car'),
+(17, '114443-4', 'Accepted', 0, '2022-03-04', NULL, 'Today, Our employee will pick your car at your door step');
 
 -- --------------------------------------------------------
 
@@ -116,13 +141,13 @@ CREATE TABLE `combo_offers` (
 --
 
 INSERT INTO `combo_offers` (`offer_id`, `services`, `start_date`, `end_date`, `shop_id`, `combo_price`, `offer_percent`, `model_id`, `original_amount`, `lastupddt`, `offer_name`) VALUES
-(28, '7,3,9', '2022-02-16', '2022-02-25', 1, '244', '5', 2, '257', '2022-02-16', 'Classic'),
-(29, '7,9', '2022-02-16', '2022-02-27', 1, '77', '54', 2, '168', '2022-02-16', 'SuperPremium'),
-(30, '3,7', '2022-02-17', '2022-02-25', 1, '134', '20', 2, '167', '2022-02-17', 'Basic'),
-(31, '5,8', '2022-02-17', '2022-02-26', 2, '356', '10', 6, '396', '2022-02-17', ''),
-(32, '7', '2022-02-01', '2022-02-02', 2, '560', '20', 6, '700', '2022-02-17', ''),
-(33, '1,3', '2022-02-07', '2022-02-15', 3, '425', '15', 1, '500', '2022-02-17', ''),
-(34, '1,3', '2022-02-07', '2022-02-24', 4, '425', '15', 1, '500', '2022-02-17', '');
+(28, '7,3,9', '2022-02-16', '2022-03-31', 4, '244', '5', 2, '257', '2022-02-16', 'Classic'),
+(29, '7,9', '2022-02-16', '2022-02-25', 4, '77', '54', 2, '168', '2022-02-16', 'SuperPremium'),
+(30, '3,7', '2022-02-17', '2022-02-25', 4, '134', '20', 2, '167', '2022-02-17', 'Basic'),
+(31, '5,8', '2022-02-17', '2022-02-20', 4, '356', '10', 6, '396', '2022-02-17', ''),
+(32, '7', '2022-02-01', '2022-02-25', 2, '560', '20', 6, '700', '2022-02-17', ''),
+(33, '1,3', '2022-02-07', '2022-02-26', 3, '425', '15', 1, '500', '2022-02-17', ''),
+(34, '1,3', '2022-02-07', '2022-02-12', 4, '425', '15', 1, '500', '2022-02-17', '');
 
 -- --------------------------------------------------------
 
@@ -180,7 +205,9 @@ INSERT INTO `customers` (`customer_id`, `firstname`, `lastname`, `dob`, `mobilen
 (31, 'Vijaya sankar', 'R', '2022-01-12', '9994616327', 'vg@g.com', 'Male', 0, 0, 0, '', '', '40', 'west street', 0, 'TamilNadu', 628811, 'docs/9462035453dbf0c-301977-istockphotojpg.jpg', '2022-02-02'),
 (32, 'sundaram', '', NULL, '9894354613', 'ss@gmail.com', '', 0, 0, 0, '', '', '', '', 0, '', 0, '', '2022-02-03'),
 (34, 'Selvi', '', NULL, '6382841799', 'abhianand.j2k@gmail.com', '', NULL, 0, 0, '', '', '', '', 1, '', 0, '', '2022-02-10'),
-(36, 'abhi', '', NULL, '6385815161', 'abhianand.j2k@gmail.com', '', NULL, NULL, NULL, '', '', '', '', NULL, NULL, NULL, '', '2022-02-10');
+(36, 'abhi', '', NULL, '6385815161', 'abhianand.j2k@gmail.com', '', NULL, NULL, NULL, '', '', '', '', NULL, NULL, NULL, '', '2022-02-10'),
+(37, 'vijay', '', NULL, '8940460311', 'a@g.com', '', NULL, NULL, NULL, '', '', '', '', NULL, NULL, NULL, '', '2022-03-03'),
+(38, 'a', '', NULL, '8940460339', 'a@g.com', '', NULL, NULL, NULL, '', '', '', '', NULL, NULL, NULL, '', '2022-03-04');
 
 -- --------------------------------------------------------
 
@@ -196,6 +223,7 @@ CREATE TABLE `customer_carinfo` (
   `model` int(10) NOT NULL,
   `fueltype` varchar(10) NOT NULL,
   `color` varchar(25) NOT NULL,
+  `vehicle_number` varchar(20) NOT NULL,
   `lastupddt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -203,9 +231,12 @@ CREATE TABLE `customer_carinfo` (
 -- Dumping data for table `customer_carinfo`
 --
 
-INSERT INTO `customer_carinfo` (`carinfo_id`, `customer_id`, `cartype`, `brand`, `model`, `fueltype`, `color`, `lastupddt`) VALUES
-(19, 30, 1, 1, 2, 'diesel', 'black', '2022-02-23'),
-(20, 30, 2, 1, 1, 'petrol', 'black', '2022-02-23');
+INSERT INTO `customer_carinfo` (`carinfo_id`, `customer_id`, `cartype`, `brand`, `model`, `fueltype`, `color`, `vehicle_number`, `lastupddt`) VALUES
+(19, 30, 1, 1, 2, 'diesel', 'black', 'TN69 989111', '2022-02-23'),
+(20, 30, 2, 1, 1, 'petrol', 'black', 'TN61 555876', '2022-02-23'),
+(21, 30, 1, 1, 2, 'petrol', 'black', 'TN61 123456', '2022-03-02'),
+(22, 29, 1, 1, 2, 'petrol', 'black', 'TN61 989876', '2022-03-02'),
+(23, 37, 1, 1, 2, 'petrol', 'black', 'TN69 900987', '2022-03-03');
 
 -- --------------------------------------------------------
 
@@ -217,6 +248,7 @@ CREATE TABLE `customer_whislist` (
   `Customer_id` int(10) NOT NULL,
   `whislist` varchar(15) NOT NULL,
   `id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
   `lastupddt` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -224,10 +256,30 @@ CREATE TABLE `customer_whislist` (
 -- Dumping data for table `customer_whislist`
 --
 
-INSERT INTO `customer_whislist` (`Customer_id`, `whislist`, `id`, `lastupddt`) VALUES
-(1, '6,7', 1, '2022-02-23'),
-(0, '6,7', 2, '2022-02-23'),
-(3, '6,7', 3, '2022-02-23');
+INSERT INTO `customer_whislist` (`Customer_id`, `whislist`, `id`, `city_id`, `lastupddt`) VALUES
+(1, '6,7', 1, 0, '2022-02-23'),
+(0, '6,7', 2, 0, '2022-02-23'),
+(3, '6,7', 3, 0, '2022-02-23'),
+(0, '4', 4, 0, '2022-03-03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `master_pickdrop_status`
+--
+
+CREATE TABLE `master_pickdrop_status` (
+  `id` int(10) NOT NULL,
+  `status_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `master_pickdrop_status`
+--
+
+INSERT INTO `master_pickdrop_status` (`id`, `status_name`) VALUES
+(1, 'Today, please drop your car'),
+(2, 'Today, Our employee will pick your car at your door step');
 
 -- --------------------------------------------------------
 
@@ -265,15 +317,32 @@ CREATE TABLE `onlinebooking` (
   `Booking_id` varchar(25) NOT NULL,
   `Customer_id` int(10) NOT NULL,
   `Shop_id` int(10) NOT NULL,
-  `combo_id` varchar(10) NOT NULL,
-  `services` varchar(20) NOT NULL,
+  `combo_id` varchar(10) DEFAULT NULL,
+  `comboprice_total` decimal(10,0) DEFAULT NULL,
+  `services` varchar(20) DEFAULT NULL,
+  `serviceprice_total` decimal(10,0) DEFAULT NULL,
   `payable_amt` decimal(10,0) NOT NULL,
   `lastupddt` date DEFAULT NULL,
   `status` varchar(25) NOT NULL,
   `model_id` int(5) NOT NULL,
-  `instructions` varchar(300) NOT NULL,
-  `bookingdate` date DEFAULT NULL
+  `instructions` varchar(300) DEFAULT NULL,
+  `vehicle_number` varchar(20) NOT NULL,
+  `pickup_drop` varchar(10) NOT NULL,
+  `bookingdate` date DEFAULT NULL,
+  `pickup_date` date DEFAULT NULL,
+  `pickup_time` varchar(20) DEFAULT NULL,
+  `drop_date` date DEFAULT NULL,
+  `drop_time` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `onlinebooking`
+--
+
+INSERT INTO `onlinebooking` (`id`, `Booking_id`, `Customer_id`, `Shop_id`, `combo_id`, `comboprice_total`, `services`, `serviceprice_total`, `payable_amt`, `lastupddt`, `status`, `model_id`, `instructions`, `vehicle_number`, `pickup_drop`, `bookingdate`, `pickup_date`, `pickup_time`, `drop_date`, `drop_time`) VALUES
+(52, '880512-4', 30, 4, '29', '77', '1', '108', '185', '2022-03-04', '', 0, 'test', 'TN69 989111', '0', '2022-03-12', '2022-03-10', '9', '2022-03-25', '10'),
+(53, '996099-3', 30, 4, '33', '425', '1', '300', '725', '2022-03-04', '', 0, 'without pickup', 'TN61 555876', '0', '2022-03-04', NULL, NULL, NULL, NULL),
+(54, '114443-4', 37, 4, '30,34', '559', '3,25', '1060', '1619', '2022-03-04', '', 0, 'no instructions', 'TN69 900987', '1', '2022-03-12', '2022-03-18', '9', '2022-03-26', '10.30');
 
 -- --------------------------------------------------------
 
@@ -310,7 +379,9 @@ INSERT INTO `services` (`service_id`, `service_name`, `lastupddt`) VALUES
 (16, 'Emblems and License Plates', NULL),
 (17, 'Vacuuming', NULL),
 (18, 'Washing Upholstery', NULL),
-(19, 'Clean Leather-Covered Elements', NULL);
+(19, 'Clean Leather-Covered Elements', NULL),
+(24, 'engine service', '2022-03-01'),
+(25, 'tyre change', '2022-03-01');
 
 -- --------------------------------------------------------
 
@@ -341,18 +412,19 @@ CREATE TABLE `shopinfo` (
   `shop_timing_from` varchar(10) NOT NULL,
   `shop_timing_to` varchar(10) NOT NULL,
   `leave_from_date` date NOT NULL,
-  `leave_to_date` date DEFAULT NULL
+  `leave_to_date` date DEFAULT NULL,
+  `is_pickup_drop_avl` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `shopinfo`
 --
 
-INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, `emailid`, `gender`, `dob`, `aadharno`, `doorno`, `street`, `city`, `state`, `zipcode`, `shop_image`, `status`, `lastupddt`, `shop_pic`, `shop_logo`, `shop_timing_from`, `shop_timing_to`, `leave_from_date`, `leave_to_date`) VALUES
-(1, 'abc carwash', 'muthu', 'kumar', '9994616327', 'abc@g.com', 'Male', '2022-02-01', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '1', '2022-02-21', '', 'docs/1676214d69d0c158-702952-coffeeshopjpg.jpg', '9.30', '5.30', '2022-02-01', '2022-02-28'),
-(2, 'kumaran carwash', 'kumar', 'k', '9489840339', 'abc@g.com', 'Male', '2022-02-01', '424234', '11', 'south street', '3', '1', 600089, 'docs/photo-1505761283622-7fe50142c97f.jpg', '1', '2022-02-16', '', 'docs/depositphotos_124010534-stock-illustration-car-logo-auto-symbol-and.jpg', '9', '18', '2022-02-18', '2022-02-21'),
-(3, 'xyz carwash', 'bharath', 'k', '8940460339', 'xyz@g.com', 'Male', '2022-02-01', '1234', '11', 'south street', '3', '1', 123456, 'docs/photo-1505761283622-7fe50142c97f.jpg', '1', '2022-02-17', '', 'docs/depositphotos_124010534-stock-illustration-car-logo-auto-symbol-and.jpg', '9', '6', '2022-01-25', '2022-02-01'),
-(4, 'ramesh carwash', 'bharath', 'k', '8940460377', 'xyz@g.com', 'Male', '2022-02-01', '1234', '11', 'south street', '3', '1', 123456, 'docs/photo-1505761283622-7fe50142c97f.jpg', '1', '2022-02-17', '', 'docs/depositphotos_124010534-stock-illustration-car-logo-auto-symbol-and.jpg', '9', '6', '2022-02-18', '2022-02-18');
+INSERT INTO `shopinfo` (`shop_id`, `name`, `firstname`, `lastname`, `mobileno`, `emailid`, `gender`, `dob`, `aadharno`, `doorno`, `street`, `city`, `state`, `zipcode`, `shop_image`, `status`, `lastupddt`, `shop_pic`, `shop_logo`, `shop_timing_from`, `shop_timing_to`, `leave_from_date`, `leave_to_date`, `is_pickup_drop_avl`) VALUES
+(1, 'abc carwash', 'muthu', 'kumar', '9994616327', 'abc@g.com', 'Male', '2022-02-01', '2234 5678 9456', 'streetno', 'south street', '3', '1', 600089, 'docs/506203a12aaa69a-194343-coffeeshopjpg.jpg', '1', '2022-02-21', '', 'docs/1676214d69d0c158-702952-coffeeshopjpg.jpg', '9.30', '5.30', '2022-02-01', '2022-02-28', '0'),
+(2, 'kumaran carwash', 'kumar', 'k', '9489840339', 'abc@g.com', 'Male', '2022-02-01', '424234', '11', 'south street', '3', '1', 600089, 'docs/photo-1505761283622-7fe50142c97f.jpg', '1', '2022-02-16', '', 'docs/depositphotos_124010534-stock-illustration-car-logo-auto-symbol-and.jpg', '9', '18', '2022-02-18', '2022-02-21', '1'),
+(3, 'xyz carwash', 'bharath', 'k', '8940460339', 'xyz@g.com', 'Male', '2022-02-01', '1234', '11', 'south street', '3', '1', 123456, 'docs/photo-1505761283622-7fe50142c97f.jpg', '1', '2022-02-17', '', 'docs/depositphotos_124010534-stock-illustration-car-logo-auto-symbol-and.jpg', '9', '6', '2022-01-25', '2022-02-01', '0'),
+(4, 'ramesh carwash', 'bharath', 'k', '7339528035', 'xyz@g.com', 'Male', '2022-02-01', '1234', '11', 'south street', '3', '1', 123456, 'docs/photo-1505761283622-7fe50142c97f.jpg', '1', '2022-02-17', '', 'docs/depositphotos_124010534-stock-illustration-car-logo-auto-symbol-and.jpg', '9', '6', '2022-02-18', '2022-02-18', '1');
 
 -- --------------------------------------------------------
 
@@ -369,6 +441,7 @@ CREATE TABLE `shop_service` (
   `offer_price` int(10) NOT NULL,
   `from_date` date NOT NULL,
   `to_date` date NOT NULL,
+  `status` varchar(10) NOT NULL,
   `lastupddt` date NOT NULL,
   `model_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -377,18 +450,24 @@ CREATE TABLE `shop_service` (
 -- Dumping data for table `shop_service`
 --
 
-INSERT INTO `shop_service` (`id`, `service_id`, `shop_id`, `actual_amount`, `offer_percent`, `offer_price`, `from_date`, `to_date`, `lastupddt`, `model_id`) VALUES
-(1, 1, 1, '67', '0', 0, '2022-02-16', '2022-02-23', '2022-02-12', 1),
-(2, 3, 1, '89', '0', 0, '2022-02-16', '2022-02-25', '2022-02-12', 2),
-(3, 7, 1, '78', '0', 0, '2022-02-16', '2022-02-19', '2022-02-12', 2),
-(5, 9, 1, '90', '0', 0, '2022-02-16', '2022-02-16', '2022-02-14', 2),
-(6, 5, 2, '96', '0', 0, '2022-02-16', '2022-02-16', '2022-02-14', 6),
-(13, 8, 2, '300', '10', 270, '2022-02-01', '2022-02-28', '2022-02-16', 6),
-(14, 7, 2, '700', '0', 0, '0000-00-00', '0000-00-00', '2022-02-16', 6),
-(15, 1, 3, '300', '0', 0, '0000-00-00', '0000-00-00', '2022-02-17', 1),
-(16, 2, 3, '400', '0', 0, '0000-00-00', '0000-00-00', '2022-02-17', 2),
-(17, 3, 4, '200', '0', 0, '2022-02-16', '2022-02-28', '2022-02-17', 1),
-(18, 4, 3, '500', '0', 0, '0000-00-00', '0000-00-00', '2022-02-17', 2);
+INSERT INTO `shop_service` (`id`, `service_id`, `shop_id`, `actual_amount`, `offer_percent`, `offer_price`, `from_date`, `to_date`, `status`, `lastupddt`, `model_id`) VALUES
+(1, 1, 1, '67', '0', 0, '2022-02-16', '2022-02-23', '1', '2022-02-12', 1),
+(2, 3, 1, '89', '0', 0, '2022-02-16', '2022-02-25', '1', '2022-02-12', 2),
+(3, 7, 1, '78', '0', 0, '2022-02-16', '2022-02-19', '1', '2022-02-12', 2),
+(5, 9, 1, '90', '0', 0, '2022-02-16', '2022-02-16', '1', '2022-02-14', 2),
+(6, 5, 2, '96', '0', 0, '2022-02-16', '2022-02-16', '1', '2022-02-14', 6),
+(13, 8, 2, '300', '10', 270, '2022-02-01', '2022-02-28', '1', '2022-02-16', 6),
+(14, 7, 2, '700', '0', 0, '0000-00-00', '0000-00-00', '1', '2022-02-16', 6),
+(15, 1, 3, '300', '0', 0, '0000-00-00', '0000-00-00', '1', '2022-02-17', 1),
+(16, 2, 3, '400', '0', 0, '0000-00-00', '0000-00-00', '1', '2022-02-17', 2),
+(17, 3, 4, '200', '20', 160, '2022-02-16', '2022-02-25', '1', '2022-03-01', 1),
+(18, 4, 3, '500', '0', 0, '0000-00-00', '0000-00-00', '1', '2022-02-17', 2),
+(19, 1, 4, '120', '10', 108, '2022-03-01', '2022-03-31', '1', '2022-03-01', 1),
+(20, 5, 4, '78', '0', 0, '0000-00-00', '0000-00-00', '0', '2022-03-01', 2),
+(21, 4, 4, '600', '0', 0, '0000-00-00', '0000-00-00', '1', '2022-03-01', 1),
+(29, 2, 4, '670', '0', 0, '0000-00-00', '0000-00-00', '1', '2022-03-01', 3),
+(33, 24, 4, '300', '0', 0, '0000-00-00', '0000-00-00', '1', '2022-03-02', 1),
+(34, 25, 4, '900', '0', 0, '0000-00-00', '0000-00-00', '1', '2022-03-01', 2);
 
 -- --------------------------------------------------------
 
@@ -440,6 +519,12 @@ INSERT INTO `testimonial` (`id`, `user_profile`, `user_title`, `user_description
 --
 
 --
+-- Indexes for table `booking_status`
+--
+ALTER TABLE `booking_status`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `brand`
 --
 ALTER TABLE `brand`
@@ -485,6 +570,12 @@ ALTER TABLE `customer_carinfo`
 -- Indexes for table `customer_whislist`
 --
 ALTER TABLE `customer_whislist`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `master_pickdrop_status`
+--
+ALTER TABLE `master_pickdrop_status`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -534,6 +625,12 @@ ALTER TABLE `testimonial`
 --
 
 --
+-- AUTO_INCREMENT for table `booking_status`
+--
+ALTER TABLE `booking_status`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
@@ -567,19 +664,25 @@ ALTER TABLE `contact_us`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `customer_carinfo`
 --
 ALTER TABLE `customer_carinfo`
-  MODIFY `carinfo_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `carinfo_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `customer_whislist`
 --
 ALTER TABLE `customer_whislist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `master_pickdrop_status`
+--
+ALTER TABLE `master_pickdrop_status`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `models`
@@ -591,13 +694,13 @@ ALTER TABLE `models`
 -- AUTO_INCREMENT for table `onlinebooking`
 --
 ALTER TABLE `onlinebooking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `service_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `service_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `shopinfo`
@@ -609,7 +712,7 @@ ALTER TABLE `shopinfo`
 -- AUTO_INCREMENT for table `shop_service`
 --
 ALTER TABLE `shop_service`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `state`
