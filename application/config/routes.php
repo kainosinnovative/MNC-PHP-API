@@ -186,3 +186,7 @@ $route['shop/changeShopServiceStatus']='shop/changeShopServiceStatus';
 $route['car/getCarinfomodels'] = 'app/getCarinfomodels'; 
 
 $route['shop/customerBookingForShop'] = 'shop/customerBookingForShop';
+
+$route['shop/master_pickdrop_status'] = 'shop/master_pickdrop_status';
+
+$route['shop/changeBookingStatus']='shop/changeBookingStatus'; 

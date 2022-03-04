@@ -164,13 +164,12 @@ public function addonlinebooking_post()
             $json = file_get_contents('php://input');
         // Converts it into a PHP object
                 $data = json_decode($json,true);
-
+                
+                $res1 = $this->shop_model->bookingstatusInsert($data["Booking_id"]);
                 
                 $res = $this->shop_model->Addonlinebooking($data);
                 
                 $this->response($res);
-       
-   
 
     }
 
@@ -253,6 +252,39 @@ public function customerBookingForShop_get()
     $currentUserId = $_GET["currentUserId"];
     $Details['customerBookingForShop'] = $this->shop_model->getcustomerBookingForShop($currentUserId);
     $this->response($Details);
+}
+
+public function master_pickdrop_status_get()
+{
+    $details['master_pickdrop_status'] = $this->shop_model->getmaster_pickdrop_status();
+    echo json_encode($details);
+}
+
+public function changeBookingStatus_get() {
+
+    $booking_status =   $_GET['booking_status']; 
+    $Booking_id = $_GET['Booking_id']; 
+    $pickup_drop = $_GET['pickup_drop'];
+    if($booking_status == "Accepted") {
+        if($pickup_drop == 0) {
+            $pickup_message = "Today, please drop your car";
+        }
+        else {
+            $pickup_message = "Today, Our employee will pick your car at your door step";
+        }
+        
+        $insertResponse = $this->shop_model->changeBookingStatusUpdate($booking_status,$Booking_id,$pickup_message);
+        $this->response($insertResponse);
+    }
+    else {
+        $pickup_message = "";
+        $insertResponse = $this->shop_model->changeBookingStatusUpdate($booking_status,$Booking_id,$pickup_message);
+        $this->response($insertResponse);
+
+    }
+    
+    
+
 }
 
     }

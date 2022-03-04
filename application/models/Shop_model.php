@@ -160,8 +160,21 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
 
     public function Addonlinebooking($data)
     {
-        var_dump($data);
+        // var_dump($data);
       return $this->db->insert('onlinebooking', $data);
+    }
+
+    public function bookingstatusInsert($Booking_id)
+    {
+        
+        $sql = "INSERT INTO booking_status (Booking_id)
+        VALUES ('$Booking_id')";
+        // echo($sql);
+
+        
+         $query = $this->db->query($sql);
+         return $query;
+
     }
 
     public function AddShopserviceDetailsInsert($data)
@@ -246,10 +259,33 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
     public function getcustomerBookingForShop($currentUserId)
     {
 
-        $sql = "SELECT a.*,b.model_name,c.firstname FROM onlinebooking a, models b,customers c WHERE a.Shop_id='$currentUserId' and a.model_id=b.id and a.Customer_id=c.customer_id";
+        $sql = "SELECT a.*,c.firstname,d.services as comboservices,e.* FROM onlinebooking a, customers c, combo_offers d, booking_status e WHERE a.Shop_id='$currentUserId'  and a.Customer_id=c.customer_id and a.combo_id=d.offer_id and a.Booking_id=e.Booking_id and e.booked_status=''";
 		$query = $this->db->query($sql);
         
         return $query->result_array();
+
+    }
+
+    public function getmaster_pickdrop_status()
+    {
+        $this->db->select('*');
+        $this->db->from('master_pickdrop_status');
+        return $this->db->get()->result_array();
+    }
+
+    public function changeBookingStatusUpdate($booking_status,$Booking_id,$pickup_message){
+        $currentDate = date('y-m-d');
+        
+
+        $sql = "UPDATE booking_status
+        SET booked_status = '$booking_status', lastup_bookstatus_date = '$currentDate', pickedAndDrop_status = '$pickup_message'
+        WHERE Booking_id = '$Booking_id'";
+    // var_dump($sql);
+        
+         $query = $this->db->query($sql);
+         return $query;
+        
+          
 
     }
 }
