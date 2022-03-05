@@ -515,5 +515,15 @@ class App_model extends CI_Model
 
     }
 
+    public function getMybookingDetails($currentUserId)
+    {
+       
+        $sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Customer_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id";
+        $query = $this->db->query($sql);
+        
+        return $query->result_array();
+
+    }
+
 }
 

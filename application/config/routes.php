@@ -191,3 +191,15 @@ $route['shop/customerBookingForShop'] = 'shop/customerBookingForShop';
 $route['shop/master_pickdrop_status'] = 'shop/master_pickdrop_status';
 
 $route['shop/changeBookingStatus']='shop/changeBookingStatus'; 
+
+$route['shop/AcceptedBookingList'] = 'shop/AcceptedBookingList';
+
+$route['shop/master_carwash_status'] = 'shop/master_carwash_status';
+
+$route['shop/changeCarwashStatus']='shop/changeCarwashStatus'; 
+
+$route['shop/getcurrentComboOffersByShopid']='shop/getcurrentComboOffersByShopid';
+
+$route['shop/getServiceDataOffersByCurdate']='shop/getServiceDataOffersByCurdate';
+
+$route['app/getMybookingDetails']='app/getMybookingDetails';

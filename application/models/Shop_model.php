@@ -271,8 +271,20 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
     public function getcustomerBookingForShop($currentUserId)
     {
 
-        $sql = "SELECT a.*,c.firstname,d.services as comboservices,e.* FROM onlinebooking a, customers c, combo_offers d, booking_status e WHERE a.Shop_id='$currentUserId'  and a.Customer_id=c.customer_id and a.combo_id=d.offer_id and a.Booking_id=e.Booking_id and e.booked_status=''";
-		$query = $this->db->query($sql);
+        // $sql = "SELECT a.*,c.firstname,d.services as comboservices,e.* FROM onlinebooking a, customers c, combo_offers d, booking_status e WHERE a.Shop_id='$currentUserId'  and a.Customer_id=c.customer_id and a.combo_id=d.offer_id and a.Booking_id=e.Booking_id and e.booked_status=''";
+		$sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Shop_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id and e.booked_status=''";
+        $query = $this->db->query($sql);
+        
+        return $query->result_array();
+
+    }
+    
+    public function getAcceptedBookingList($currentUserId)
+    {
+
+        // $sql = "SELECT a.*,c.firstname,d.services as comboservices,e.* FROM onlinebooking a, customers c, combo_offers d, booking_status e WHERE a.Shop_id='$currentUserId'  and a.Customer_id=c.customer_id and a.combo_id=d.offer_id and a.Booking_id=e.Booking_id and e.booked_status=''";
+		$sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Shop_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id and e.booked_status='Accepted'";
+        $query = $this->db->query($sql);
         
         return $query->result_array();
 
@@ -285,10 +297,15 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
         return $this->db->get()->result_array();
     }
 
+    public function getmaster_carwash_status()
+    {
+        $this->db->select('*');
+        $this->db->from('master_carwash_status');
+        return $this->db->get()->result_array();
+    }
+
     public function changeBookingStatusUpdate($booking_status,$Booking_id,$pickup_message){
         $currentDate = date('y-m-d');
-        
-
         $sql = "UPDATE booking_status
         SET booked_status = '$booking_status', lastup_bookstatus_date = '$currentDate', pickedAndDrop_status = '$pickup_message'
         WHERE Booking_id = '$Booking_id'";
@@ -296,8 +313,37 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
         
          $query = $this->db->query($sql);
          return $query;
+    }
+
+    public function changeCarwashStatusUpdate($carwash_status,$Booking_id){
+        $currentDate = date('y-m-d');
+        $sql = "UPDATE booking_status
+        SET  carwash_status = '$carwash_status' , lastup_carwashstatus_date = '$currentDate' WHERE Booking_id = '$Booking_id'";
+    // var_dump($sql);
         
-          
+         $query = $this->db->query($sql);
+         return $query;
+    }
+
+
+    public function getcurrentComboOffersByShopid($currentUserId)
+    {
+       
+        $sql = "SELECT * FROM combo_offers a, models b where a.shop_id='$currentUserId' and (CURRENT_DATE() BETWEEN a.start_date and a.end_date) and a.model_id = b.id";
+		$query = $this->db->query($sql);
+        // var_dump($sql);
+        return $query->result_array();
+
+    }
+
+
+    public function getServiceDataOffersByCurdate($currentUserId)
+    {
+       
+        $sql = "SELECT * FROM shop_service a, models b, services c where a.shop_id='$currentUserId' and (CURRENT_DATE() BETWEEN a.from_date and a.to_date) and a.model_id = b.id and a.service_id=c.service_id and a.status = 1";
+		$query = $this->db->query($sql);
+        // var_dump($sql);
+        return $query->result_array();
 
     }
 }

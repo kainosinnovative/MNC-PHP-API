@@ -737,5 +737,12 @@ public function getCarinfomodels_get()
     $this->response($queryresponse);
 }
 
+public function getMybookingDetails_get()
+    {
+        $currentUserId = $_GET["currentUserId"];
+        
+        $res['getMybookingDetails'] = $this->app_model->getMybookingDetails($currentUserId);
+        $this->response($res);
+    }
 
     }

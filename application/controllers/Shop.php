@@ -263,9 +263,22 @@ public function customerBookingForShop_get()
     $this->response($Details);
 }
 
+public function AcceptedBookingList_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $Details['AcceptedBookingList'] = $this->shop_model->getAcceptedBookingList($currentUserId);
+    $this->response($Details);
+}
+
 public function master_pickdrop_status_get()
 {
     $details['master_pickdrop_status'] = $this->shop_model->getmaster_pickdrop_status();
+    echo json_encode($details);
+}
+
+public function master_carwash_status_get()
+{
+    $details['master_carwash_status'] = $this->shop_model->getmaster_carwash_status();
     echo json_encode($details);
 }
 
@@ -295,5 +308,36 @@ public function changeBookingStatus_get() {
     
 
 }
+
+
+
+
+public function changeCarwashStatus_get() {
+
+    $carwash_status =   $_GET['carwash_status']; 
+    $Booking_id = $_GET['Booking_id']; 
+    
+    
+        $insertResponse = $this->shop_model->changeCarwashStatusUpdate($carwash_status,$Booking_id);
+        $this->response($insertResponse);
+
+}
+
+public function getcurrentComboOffersByShopid_get()
+    {
+        $currentUserId = $_GET["currentUserId"];
+        
+        $carShopservices['getcurrentComboOffersByShopid'] = $this->shop_model->getcurrentComboOffersByShopid($currentUserId);
+        $this->response($carShopservices);
+    }
+
+
+    public function getServiceDataOffersByCurdate_get()
+    {
+        $currentUserId = $_GET["currentUserId"];
+        
+        $carShopservices['getcurrentComboOffersByShopid'] = $this->shop_model->getServiceDataOffersByCurdate($currentUserId);
+        $this->response($carShopservices);
+    }
 
     }
