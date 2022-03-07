@@ -118,7 +118,7 @@ $route['app/sendOtp1'] = 'app/sendOtp1';
 $route['app/sendOtp2'] = 'app/sendOtp2';
 // $route['app/signupCustomer'] = 'app/signupCustomer';
 $route['app/SingleCustomerDetails'] = 'app/SingleCustomerDetails';
-$route['app/sendOtp3'] = 'app/sendOtp3';  
+$route['app/sendOtp3'] = 'app/sendOtp3';
 $route['app/signupcustomer'] = 'app/signupcustomer';
 $route['app/AddTestimonial'] = 'app/AddTestimonialInsert';
 $route['app/AddCustomer'] = 'app/AddCustomerInsert';
@@ -165,7 +165,7 @@ $route['shop/dashboardShopDetailsByOffer']='shop/dashboardShopDetailsByOffer';
 
 $route['shop/CustomerCarDetailsInsert']='shop/CustomerCarDetailsInsert';
 $route['shop/getallshoplist']='shop/getallshoplist';
-// 
+//
 $route['app/CarDetailsByCustomerId']='app/CarDetailsByCustomerId';
 
 $route['app/RemoveMyCarInfo']='app/RemoveMyCarInfo';
@@ -178,28 +178,29 @@ $route['app/allmodels']='app/allmodels';
 
 $route['shop/AddShopserviceDetails']='shop/AddShopserviceDetails';
 
-$route['shop/AddMasterservice']='shop/AddMasterservice'; 
+$route['shop/AddMasterservice']='shop/AddMasterservice';
 
-$route['shop/MasterServiceAndShopService']='shop/MasterServiceAndShopService';  
+$route['shop/MasterServiceAndShopService']='shop/MasterServiceAndShopService';
 
-$route['shop/changeShopServiceStatus']='shop/changeShopServiceStatus'; 
+$route['shop/changeShopServiceStatus']='shop/changeShopServiceStatus';
 
-$route['car/getCarinfomodels'] = 'app/getCarinfomodels'; 
+$route['car/getCarinfomodels'] = 'app/getCarinfomodels';
 
 $route['shop/customerBookingForShop'] = 'shop/customerBookingForShop';
 
 $route['shop/master_pickdrop_status'] = 'shop/master_pickdrop_status';
 
-$route['shop/changeBookingStatus']='shop/changeBookingStatus'; 
+$route['shop/changeBookingStatus']='shop/changeBookingStatus';
 
 $route['shop/AcceptedBookingList'] = 'shop/AcceptedBookingList';
 
 $route['shop/master_carwash_status'] = 'shop/master_carwash_status';
 
-$route['shop/changeCarwashStatus']='shop/changeCarwashStatus'; 
+$route['shop/changeCarwashStatus']='shop/changeCarwashStatus';
 
 $route['shop/getcurrentComboOffersByShopid']='shop/getcurrentComboOffersByShopid';
 
 $route['shop/getServiceDataOffersByCurdate']='shop/getServiceDataOffersByCurdate';
 
 $route['app/getMybookingDetails']='app/getMybookingDetails';
+$route['shop/dashboardShopSearchOffer']='shop/dashboardShopSearchOffer';

@@ -21,7 +21,7 @@ class Shop extends REST_Controller
         header("HTTP/1.1 200 OK");
         die();
         }
-        
+
         $this->load->library("applib", array("controller" => $this));
         $this->load->model("app_model");
         $this->load->model("shop_model");
@@ -36,29 +36,29 @@ class Shop extends REST_Controller
             $ShopDetailsById["profile"] = $this->shop_model->getSingleShopById($shop_id);
             $this->response($ShopDetailsById);
         }
-    
-   
+
+
     public function AddshopService_get() {
 
-        $service_amount =   $_GET['service_amount']; 
-        $serviceid = $_GET['serviceid']; 
+        $service_amount =   $_GET['service_amount'];
+        $serviceid = $_GET['serviceid'];
         $shopid = $_GET['currentUserId'];
-        
+
          $insertResponse = $this->shop_model->AddshopServiceInsert($service_amount,$serviceid,$shopid);
         $this->response($insertResponse);
-    
+
     }
 
 
     public function UpdateshopService_get() {
 
-        $service_amount =   $_GET['service_amount']; 
-        $serviceid = $_GET['serviceid']; 
+        $service_amount =   $_GET['service_amount'];
+        $serviceid = $_GET['serviceid'];
         $shopid = $_GET['currentUserId'];
-        
+
          $insertResponse = $this->shop_model->shopServiceUpdate($service_amount,$serviceid,$shopid);
         $this->response($insertResponse);
-    
+
 
     }
     public function AddShopdetails_post() {
@@ -68,21 +68,21 @@ class Shop extends REST_Controller
             $shop_id = $this->post('shop_id');
         // $currentDate = date('y-m-d');
         //     $note_data = {"lastupddt":"$currentDate"};
-            
-    
+
+
             $AddShopdetails = $this->shop_model->AddShopdetails($shop_id,$data);
-            
+
             $this->response($AddShopdetails);
-    } 
+    }
 
 
     public function AddComboOfferDetails_get() {
 
-        $services =   $_GET['services']; 
-        $combo_price = $_GET['combo_price']; 
+        $services =   $_GET['services'];
+        $combo_price = $_GET['combo_price'];
         $shop_id = $_GET['shop_id'];
-        $offer_percent =   $_GET['offer_percent']; 
-        $start_date = $_GET['start_date']; 
+        $offer_percent =   $_GET['offer_percent'];
+        $start_date = $_GET['start_date'];
         $end_date = $_GET['end_date'];
         $model_id = $_GET['model_id'];
         $original_amount = $_GET['original_amount'];
@@ -90,7 +90,7 @@ class Shop extends REST_Controller
 
          $insertResponse = $this->shop_model->AddComboOfferDetailsInsert($services,$combo_price,$shop_id,$offer_percent,$start_date,$end_date,$model_id,$original_amount, $offer_name);
         $this->response($insertResponse);
-    
+
     }
 
     public function getComboOffersByShopid_get()
@@ -127,9 +127,38 @@ public function dashboardShopList_get()
 public function dashboardShopSearch_get()
 {
     $shopname=$_GET["shopname"];
+    $city_id=$_GET["cityid"];
+    if(ctype_alpha($shopname[0]))
+    {
+        // $carShopservices['dashboardShopSearch'] = '';
+       $this->response("hi");
+    }
+    else
+    {
     $shopsearch['dashboardShopSearch'] = $this->shop_model->getdashboardShopSearch($shopname);
     $this->response($shopsearch);
+    }
+
 }
+public function dashboardShopSearchOffer_get()
+{
+    $cityid = $_GET["cityid"];
+    $shop_id=$_GET["shopname"];
+    if(ctype_alpha($shop_id[0]))
+    {
+    //     $shopsearch['dashboardShopSearch'] = $this->shop_model->getdashboardServiceSearch($shopname,$city_id);
+    //    $this->response($shopsearch);
+    $carShopservices['dashboardShopDetailsByOffer'] = $this->shop_model->getdashboardServiceSearch($shop_id,$cityid);
+    $this->response($carShopservices);
+
+
+    }
+    else{
+    $carShopservices['dashboardShopDetailsByOffer'] = $this->shop_model->getdashboardShopSearchOffer($cityid,$shop_id);
+    $this->response($carShopservices);
+    }
+}
+
 public function OnlineBookingShopDetails_get()
 {
     $currentUserId = $_GET["currentUserId"];
@@ -139,16 +168,16 @@ public function OnlineBookingShopDetails_get()
 
 public function Updateshopoffer_get()
     {
-        
+
         $service_id = $_GET['serviceid'];
         $shop_id = $_GET['currentUserId'];
-        $offer_percent =   $_GET['offerpercent']; 
-        $start_date = $_GET['fromdate']; 
+        $offer_percent =   $_GET['offerpercent'];
+        $start_date = $_GET['fromdate'];
         $end_date = $_GET['todate'];
-        $model_id = $_GET['modelId']; 
+        $model_id = $_GET['modelId'];
         $lastupddt= $_GET['lastupddt'];
         $offer_price= $_GET['offer_amount'];
-        
+
          $insertResponse = $this->shop_model->AddShopOfferDetails($service_id,$model_id,$lastupddt,$offer_price,$shop_id,$offer_percent,$start_date,$end_date);
         $this->response($insertResponse);
     }
@@ -161,18 +190,17 @@ public function Updateshopoffer_get()
     $this->response($carShopservices);
 }
 
-
 public function addonlinebooking_post()
        {
-        
+
             $json = file_get_contents('php://input');
         // Converts it into a PHP object
                 $data = json_decode($json,true);
-                
+
                 $res1 = $this->shop_model->bookingstatusInsert($data["Booking_id"]);
-                
+
                 $res = $this->shop_model->Addonlinebooking($data);
-                
+
                 $this->response($res);
 
     }
@@ -180,8 +208,8 @@ public function addonlinebooking_post()
 
     public function AddShopserviceDetails_post()
        {
-           
-        
+
+
             $json = file_get_contents('php://input');
         // Converts it into a PHP object
                 $request = json_decode($json);
@@ -196,17 +224,17 @@ public function addonlinebooking_post()
                     // var_dump($maxServiceid);
                     // $res = $this->shop_model->MasterServiceShopserviceInsert($shopserviceForm,$hidden_service,$maxServiceid);
                 // }
-                
-                
+
+
                 $this->response($res);
-       
-   
+
+
 
     }
 
     public function AddMasterservice_post()
        {
-           
+
             $json = file_get_contents('php://input');
         // Converts it into a PHP object
                 $request = json_decode($json);
@@ -214,17 +242,17 @@ public function addonlinebooking_post()
                 // var_dump($MasterserviceForm);
                 $service_name = $MasterserviceForm->service_name;
                     $res = $this->shop_model->MasterServiceInsert($service_name);
-                
+
                     $model_id = $MasterserviceForm->model_id;
                     $actual_amount = $MasterserviceForm->actual_amount;
                     $maxServiceid = $this->shop_model->getMaxServiceId();
                     $shop_id = $MasterserviceForm->shop_id;
                     var_dump($actual_amount);
                     $res = $this->shop_model->MasterServiceShopserviceInsert($model_id,$maxServiceid,$actual_amount,$shop_id);
-                
-                
+
+
                 $this->response($res);
-       
+
     }
 
     public function MasterServiceAndShopService_get()
@@ -237,10 +265,10 @@ public function addonlinebooking_post()
 
 public function changeShopServiceStatus_get() {
 
-    $status =   $_GET['status']; 
-    $shopserviceid = $_GET['shopserviceid']; 
-    
-    
+    $status =   $_GET['status'];
+    $shopserviceid = $_GET['shopserviceid'];
+
+
      $insertResponse = $this->shop_model->changeShopServiceStatusUpdate($status,$shopserviceid);
     $this->response($insertResponse);
 
@@ -252,8 +280,11 @@ public function DisplayComboOfferDetails_get()
 }
 public function getallshoplist_get()
 {
-    $shoplist=$this->shop_model->getshoplist();
+    $city_id=$_GET['city_id'];
+    $shoplist=$this->shop_model->getshoplist($city_id);
+   // print_r($shoplist);
    echo json_encode($shoplist);
+  // $this->response($shoplist);
 }
 
 public function customerBookingForShop_get()
@@ -284,8 +315,8 @@ public function master_carwash_status_get()
 
 public function changeBookingStatus_get() {
 
-    $booking_status =   $_GET['booking_status']; 
-    $Booking_id = $_GET['Booking_id']; 
+    $booking_status =   $_GET['booking_status'];
+    $Booking_id = $_GET['Booking_id'];
     $pickup_drop = $_GET['pickup_drop'];
     if($booking_status == "Accepted") {
         if($pickup_drop == 0) {
@@ -294,7 +325,7 @@ public function changeBookingStatus_get() {
         else {
             $pickup_message = "Today, Our employee will pick your car at your door step";
         }
-        
+
         $insertResponse = $this->shop_model->changeBookingStatusUpdate($booking_status,$Booking_id,$pickup_message);
         $this->response($insertResponse);
     }
@@ -304,8 +335,8 @@ public function changeBookingStatus_get() {
         $this->response($insertResponse);
 
     }
-    
-    
+
+
 
 }
 
@@ -314,10 +345,10 @@ public function changeBookingStatus_get() {
 
 public function changeCarwashStatus_get() {
 
-    $carwash_status =   $_GET['carwash_status']; 
-    $Booking_id = $_GET['Booking_id']; 
-    
-    
+    $carwash_status =   $_GET['carwash_status'];
+    $Booking_id = $_GET['Booking_id'];
+
+
         $insertResponse = $this->shop_model->changeCarwashStatusUpdate($carwash_status,$Booking_id);
         $this->response($insertResponse);
 
@@ -326,7 +357,7 @@ public function changeCarwashStatus_get() {
 public function getcurrentComboOffersByShopid_get()
     {
         $currentUserId = $_GET["currentUserId"];
-        
+
         $carShopservices['getcurrentComboOffersByShopid'] = $this->shop_model->getcurrentComboOffersByShopid($currentUserId);
         $this->response($carShopservices);
     }
@@ -335,7 +366,7 @@ public function getcurrentComboOffersByShopid_get()
     public function getServiceDataOffersByCurdate_get()
     {
         $currentUserId = $_GET["currentUserId"];
-        
+
         $carShopservices['getcurrentComboOffersByShopid'] = $this->shop_model->getServiceDataOffersByCurdate($currentUserId);
         $this->response($carShopservices);
     }
