@@ -242,7 +242,7 @@ class App_model extends CI_Model
         $sql = "INSERT INTO customers (customer_name,mobileno,emailid)
         VALUES ('$registerUserName','$registerMobileNo','$registerEmailid')";
         var_dump($sql);
-        
+
         $query = $this->db->query($sql);
         return $query;
     }
@@ -252,8 +252,8 @@ class App_model extends CI_Model
         $sql = " SELECT * FROM testimonial t, customers c where t.customer_id=c.customer_id ORDER BY t.user_rating desc,  t.review_date desc limit 0,3";
 		$query = $this->db->query($sql);
         return $query->result_array();
-		
-        
+
+
     }
 
     public function checkCustomer($mobile) {
@@ -292,19 +292,32 @@ class App_model extends CI_Model
         VALUES ('$customer_name','$customer_mobileno','$customer_email')";
         echo($sql);
 
-        
+
          $query = $this->db->query($sql);
          return $query;
         //  return $query->result_array();
-          
+
+
+    }
+    public function signupShopOwnerInsert($customer_name,$customer_mobileno,$customer_email){
+        $sql = "INSERT INTO shopinfo (name,mobileno,emailid)
+        VALUES ('$customer_name','$customer_mobileno','$customer_email')";
+        echo($sql);
+
+
+         $query = $this->db->query($sql);
+         return $query;
+        //  return $query->result_array();
+
 
     }
 
+
     public function AddTestimonial($data){
-        
+
         // var_dump($Finaldata)
        return $this->db->insert('testimonial', $data);
-        
+
     }
 
     public function AddCustomerdetails($customer_id,$data) {
@@ -349,7 +362,7 @@ class App_model extends CI_Model
         $this->db->query($sql);
         return $this->db->query($sql);
     }
-  
+
 
 
     public function getSingleCustomerById($customer_id){
@@ -379,13 +392,13 @@ class App_model extends CI_Model
     {
         $this->db->select('id,model_name');
         $this->db->from('models');
-        
+
         $this->db->where('car_type_id', $car_type_id);
         $this->db->where('brand_id', $brand_id);
         return $this->db->get()->result_array();
 
     }
-   
+
     public function getcarservices()
     {
         $this->db->select('*');
@@ -397,7 +410,7 @@ class App_model extends CI_Model
     {
         $this->db->select('DISTINCT(a.service_id),a.service_name,b.actual_amount,c.model_name,b.offer_percent,b.offer_price,b.model_id,b.shop_id,b.status,b.id,b.from_date,b.to_date');
         $this->db->join('services a','a.service_id=b.service_id');
-        
+
         $this->db->join('models c','c.id= b.model_id');
         $this->db->join('shopinfo d','d.status=1');
         // $this->db->join('shopinfo d','d.status=1');
@@ -407,7 +420,7 @@ class App_model extends CI_Model
         // $sql = "select a.service_id,a.service_name,c.model_name,b.actual_amount,b.id,b.offer_percent,b.offer_price,b.model_id,b.shop_id	  from services a , shop_service b, models c WHERE a.service_id=b.service_id and b.shop_id = '1' and c.id= b.model_id ORDER BY a.service_id;";
         // $sql = "SELECT * FROM shopinfo where mobileno='".$mobile."'";
 		// $query = $this->db->query($sql);
-        
+
         // return $query->result_array();
 
     }
@@ -430,14 +443,14 @@ class App_model extends CI_Model
         $this->db->insert('customer_carinfo', $data);
         return 'inserted';
     }
-    
-    
+
+
     public function getCarDetailsByCustomerId($customer_id)
     {
 
         $sql = "SELECT * FROM customer_carinfo a, car_type b, models c,brand d WHERE a.customer_id = '".$customer_id."' and a.cartype= b.id and a.model=c.id and a.brand=d.id";
 		$query = $this->db->query($sql);
-        
+
         return $query->result_array();
 
     }
@@ -451,20 +464,20 @@ class App_model extends CI_Model
         return "deleted";
     }
 
-    
+
     public function Addwhislisttodb($whislist,$Customer_id,$date,$city_id)
-    {   
+    {
       // echo $whislist;
-       
+
        $dbdata1 = array(
         "whislist" => $whislist,
         "lastupddt" => $date,
         "Customer_id" => $Customer_id,
         "city_id"=>$city_id
-   ); 
-      
+   );
+
             $this->db->insert("customer_whislist", $dbdata1);
-         
+
          return 'Success';
     }
     public function Deletewhislisttodb($whislist,$Customer_id,$city_id)
@@ -497,10 +510,20 @@ class App_model extends CI_Model
 
         $sql = "SELECT * FROM customer_carinfo a, models c WHERE a.vehicle_number = '".$vehicle_number."'  and a.model=c.id";
 		$query = $this->db->query($sql);
+
+        return $query->result_array();
+
+    }
+
+    public function getMybookingDetails($currentUserId)
+    {
+       
+        $sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Customer_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id";
+        $query = $this->db->query($sql);
         
         return $query->result_array();
 
     }
-    
+
 }
 

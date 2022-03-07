@@ -124,8 +124,12 @@ public function dashboardShopList_get()
     $carShopservices['dashboardShopList'] = $this->shop_model->getdashboardShopList($currentUserId);
     $this->response($carShopservices);
 }
-
-
+public function dashboardShopSearch_get()
+{
+    $shopname=$_GET["shopname"];
+    $shopsearch['dashboardShopSearch'] = $this->shop_model->getdashboardShopSearch($shopname);
+    $this->response($shopsearch);
+}
 public function OnlineBookingShopDetails_get()
 {
     $currentUserId = $_GET["currentUserId"];
@@ -164,13 +168,12 @@ public function addonlinebooking_post()
             $json = file_get_contents('php://input');
         // Converts it into a PHP object
                 $data = json_decode($json,true);
-
+                
+                $res1 = $this->shop_model->bookingstatusInsert($data["Booking_id"]);
                 
                 $res = $this->shop_model->Addonlinebooking($data);
                 
                 $this->response($res);
-       
-   
 
     }
 
@@ -249,8 +252,8 @@ public function DisplayComboOfferDetails_get()
 }
 public function getallshoplist_get()
 {
-    $shoplist[] = $this->shop_model->getshoplist();
-    $this->response($shoplist);
+    $shoplist=$this->shop_model->getshoplist();
+   echo json_encode($shoplist);
 }
 
 public function customerBookingForShop_get()
@@ -259,5 +262,82 @@ public function customerBookingForShop_get()
     $Details['customerBookingForShop'] = $this->shop_model->getcustomerBookingForShop($currentUserId);
     $this->response($Details);
 }
+
+public function AcceptedBookingList_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $Details['AcceptedBookingList'] = $this->shop_model->getAcceptedBookingList($currentUserId);
+    $this->response($Details);
+}
+
+public function master_pickdrop_status_get()
+{
+    $details['master_pickdrop_status'] = $this->shop_model->getmaster_pickdrop_status();
+    echo json_encode($details);
+}
+
+public function master_carwash_status_get()
+{
+    $details['master_carwash_status'] = $this->shop_model->getmaster_carwash_status();
+    echo json_encode($details);
+}
+
+public function changeBookingStatus_get() {
+
+    $booking_status =   $_GET['booking_status']; 
+    $Booking_id = $_GET['Booking_id']; 
+    $pickup_drop = $_GET['pickup_drop'];
+    if($booking_status == "Accepted") {
+        if($pickup_drop == 0) {
+            $pickup_message = "Today, please drop your car";
+        }
+        else {
+            $pickup_message = "Today, Our employee will pick your car at your door step";
+        }
+        
+        $insertResponse = $this->shop_model->changeBookingStatusUpdate($booking_status,$Booking_id,$pickup_message);
+        $this->response($insertResponse);
+    }
+    else {
+        $pickup_message = "";
+        $insertResponse = $this->shop_model->changeBookingStatusUpdate($booking_status,$Booking_id,$pickup_message);
+        $this->response($insertResponse);
+
+    }
+    
+    
+
+}
+
+
+
+
+public function changeCarwashStatus_get() {
+
+    $carwash_status =   $_GET['carwash_status']; 
+    $Booking_id = $_GET['Booking_id']; 
+    
+    
+        $insertResponse = $this->shop_model->changeCarwashStatusUpdate($carwash_status,$Booking_id);
+        $this->response($insertResponse);
+
+}
+
+public function getcurrentComboOffersByShopid_get()
+    {
+        $currentUserId = $_GET["currentUserId"];
+        
+        $carShopservices['getcurrentComboOffersByShopid'] = $this->shop_model->getcurrentComboOffersByShopid($currentUserId);
+        $this->response($carShopservices);
+    }
+
+
+    public function getServiceDataOffersByCurdate_get()
+    {
+        $currentUserId = $_GET["currentUserId"];
+        
+        $carShopservices['getcurrentComboOffersByShopid'] = $this->shop_model->getServiceDataOffersByCurdate($currentUserId);
+        $this->response($carShopservices);
+    }
 
     }

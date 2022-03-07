@@ -155,6 +155,7 @@ $route['shop/shopserviceByModelid']='shop/shopserviceByModelid';
 $route['shop/combooffertblByModelid']='shop/combooffertblByModelid';
 
 $route['shop/dashboardShopList']='shop/dashboardShopList';
+$route['shop/dashboardShopSearch']='shop/dashboardShopSearch';
 
 $route['shop/OnlineBookingShopDetails']='shop/OnlineBookingShopDetails';
 
@@ -186,3 +187,19 @@ $route['shop/changeShopServiceStatus']='shop/changeShopServiceStatus';
 $route['car/getCarinfomodels'] = 'app/getCarinfomodels'; 
 
 $route['shop/customerBookingForShop'] = 'shop/customerBookingForShop';
+
+$route['shop/master_pickdrop_status'] = 'shop/master_pickdrop_status';
+
+$route['shop/changeBookingStatus']='shop/changeBookingStatus'; 
+
+$route['shop/AcceptedBookingList'] = 'shop/AcceptedBookingList';
+
+$route['shop/master_carwash_status'] = 'shop/master_carwash_status';
+
+$route['shop/changeCarwashStatus']='shop/changeCarwashStatus'; 
+
+$route['shop/getcurrentComboOffersByShopid']='shop/getcurrentComboOffersByShopid';
+
+$route['shop/getServiceDataOffersByCurdate']='shop/getServiceDataOffersByCurdate';
+
+$route['app/getMybookingDetails']='app/getMybookingDetails';
