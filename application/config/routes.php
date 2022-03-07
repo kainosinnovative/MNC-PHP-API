@@ -203,3 +203,5 @@ $route['shop/getcurrentComboOffersByShopid']='shop/getcurrentComboOffersByShopid
 $route['shop/getServiceDataOffersByCurdate']='shop/getServiceDataOffersByCurdate';
 
 $route['app/getMybookingDetails']='app/getMybookingDetails';
+
+$route['shop/getBookingDetailsById']='shop/getBookingDetailsById';

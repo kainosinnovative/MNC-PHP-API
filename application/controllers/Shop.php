@@ -327,8 +327,9 @@ public function getcurrentComboOffersByShopid_get()
     {
         $currentUserId = $_GET["currentUserId"];
         
-        $carShopservices['getcurrentComboOffersByShopid'] = $this->shop_model->getcurrentComboOffersByShopid($currentUserId);
-        $this->response($carShopservices);
+        $carShopservices = $this->shop_model->getcurrentComboOffersByShopid($currentUserId);
+        // $this->response($carShopservices);
+        echo json_encode($carShopservices);
     }
 
 
@@ -336,8 +337,18 @@ public function getcurrentComboOffersByShopid_get()
     {
         $currentUserId = $_GET["currentUserId"];
         
-        $carShopservices['getcurrentComboOffersByShopid'] = $this->shop_model->getServiceDataOffersByCurdate($currentUserId);
+        $carShopservices['getcurrentOffersByShopid'] = $this->shop_model->getServiceDataOffersByCurdate($currentUserId);
         $this->response($carShopservices);
+    }
+
+
+    public function getBookingDetailsById_get()
+    {
+        $Booking_id = $_GET["Booking_id"];
+        
+        $details = $this->shop_model->getBookingDetailsById($Booking_id);
+        // $this->response($carShopservices);
+        echo json_encode($details);
     }
 
     }
