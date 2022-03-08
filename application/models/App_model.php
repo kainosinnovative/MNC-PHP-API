@@ -498,7 +498,7 @@ class App_model extends CI_Model
     }
     public function getCustomerwhislist($Customer_id,$city_id)
     {
-        $this->db->select('*');
+        $this->db->select('*',);
         $this->db->from('customer_whislist');
         $this->db->where('Customer_id', $Customer_id);
         $this->db->where('city_id', $city_id);
@@ -517,12 +517,19 @@ class App_model extends CI_Model
 
     public function getMybookingDetails($currentUserId)
     {
-       
+
         $sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Customer_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id";
         $query = $this->db->query($sql);
-        
+
         return $query->result_array();
 
+    }
+    public function getcustomerwhislistprofile($currentUserId)
+    {
+        $sql="SELECT a.name,c.city_name,a.shop_logo from shopinfo a ,customer_whislist b,city_list c WHERE a.city=b.city_id and c.city_id=b.city_id and a.shop_id=b.whislist and b.Customer_id='$currentUserId'";
+          $query = $this->db->query($sql);
+
+return $query->result_array();
     }
 
 }
