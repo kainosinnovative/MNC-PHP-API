@@ -375,4 +375,14 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
         return $query->result_array();
 
     }
+
+    public function getBookingDetailsById($Booking_id)
+    {
+       
+        $sql = "SELECT a.*,e.* FROM onlinebooking a, booking_status e WHERE a.Booking_id=e.Booking_id and a.Booking_id='$Booking_id'";
+		$query = $this->db->query($sql);
+        // var_dump($sql);
+        return $query->result_array();
+
+    }
 }
