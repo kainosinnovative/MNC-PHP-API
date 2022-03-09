@@ -740,8 +740,15 @@ public function getCarinfomodels_get()
 public function getMybookingDetails_get()
     {
         $currentUserId = $_GET["currentUserId"];
-        
+
         $res['getMybookingDetails'] = $this->app_model->getMybookingDetails($currentUserId);
+        $this->response($res);
+    }
+    public function getcustomerwhislistprofile_get()
+    {
+        $currentUserId=$_GET["currentUserId"];
+
+        $res['getcustomerwhislist'] = $this->app_model->getcustomerwhislistprofile($currentUserId);
         $this->response($res);
     }
 
