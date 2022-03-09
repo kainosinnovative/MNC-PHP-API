@@ -382,4 +382,11 @@ public function getcurrentComboOffersByShopid_get()
         echo json_encode($details);
     }
 
+
+    public function getloadmasterComboOffer_get()
+{
+    $details = $this->shop_model->getloadmasterComboOffer();
+    echo json_encode($details);
+    
+}
     }

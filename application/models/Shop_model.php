@@ -385,4 +385,11 @@ $sql = "SELECT b.offer_percent,a.*,b.services,b.combo_price as comboprice ,b.ori
         return $query->result_array();
 
     }
+
+    public function getloadmasterComboOffer()
+    {
+        $this->db->select('*');
+        $this->db->from('combo_offers');
+        return $this->db->get()->result_array();
+    }
 }

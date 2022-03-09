@@ -206,3 +206,5 @@ $route['app/getMybookingDetails']='app/getMybookingDetails';
 $route['shop/dashboardShopSearchOffer']='shop/dashboardShopSearchOffer';
 
 $route['shop/getBookingDetailsById']='shop/getBookingDetailsById';
+
+$route['shop/getloadmasterComboOffer']='shop/getloadmasterComboOffer';
