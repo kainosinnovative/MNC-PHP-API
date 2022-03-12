@@ -320,10 +320,10 @@ public function changeBookingStatus_get() {
     $pickup_drop = $_GET['pickup_drop'];
     if($booking_status == "Accepted") {
         if($pickup_drop == 0) {
-            $pickup_message = "Today, please drop your car";
+            $pickup_message = "Please drop your car";
         }
         else {
-            $pickup_message = "Today, Our employee will pick your car at your door step";
+            $pickup_message = "We will pickup your car at your door step";
         }
 
         $insertResponse = $this->shop_model->changeBookingStatusUpdate($booking_status,$Booking_id,$pickup_message);

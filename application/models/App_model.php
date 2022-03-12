@@ -300,7 +300,7 @@ class App_model extends CI_Model
 
     }
     public function signupShopOwnerInsert($customer_name,$customer_mobileno,$customer_email){
-        $sql = "INSERT INTO shopinfo (name,mobileno,emailid)
+        $sql = "INSERT INTO shopinfo (firstname,mobileno,emailid)
         VALUES ('$customer_name','$customer_mobileno','$customer_email')";
         echo($sql);
 
@@ -482,7 +482,7 @@ class App_model extends CI_Model
     }
     public function Deletewhislisttodb($whislist,$Customer_id,$city_id)
     {
-        $where = array("Customer_id "=>$Customer_id,"city_id"=>$city_id);
+        $where = array("Customer_id "=>$Customer_id,"city_id"=>$city_id,"whislist"=>$whislist);
         $this->db->where($where);
         $this->db->delete('customer_whislist');
         return "deleted";
