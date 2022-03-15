@@ -389,4 +389,58 @@ public function getcurrentComboOffersByShopid_get()
     echo json_encode($details);
     
 }
+
+
+public function insertShopHolidays_get() {
+
+    $leave_date =   $_GET['leave_date'];
+    $currentUserId = $_GET['currentUserId'];
+
+    $leave_dateArr = explode(',', $leave_date);
+
+    // $FinalArray = array();
+    foreach ($leave_dateArr as $key => $value) {
+        // echo "$value <br>";
+        $checkHolidays = $this->shop_model->checkHolidays($currentUserId,$value);
+// echo $checkHolidays;
+if($checkHolidays == 0){
+$insertResponse = $this->shop_model->insertShopHolidays($currentUserId,$value);
+        
+}
+// else{
+// $this->response('', 404, 'fail', "Already added");
+// }
+
+        
+      }
+      $this->response($insertResponse);
+}
+
+public function getShopHolidays_get()
+        {
+
+            $shop_id = $_GET['shop_id'];
+            $details  = $this->shop_model->getShopHolidays($shop_id);
+            echo json_encode($details);
+        }
+
+        public function DeleteHolidays_get() {
+
+            $holidayid =   $_GET['holidayid'];
+            
+        
+        
+                $insertResponse = $this->shop_model->DeleteHolidays($holidayid);
+                $this->response($insertResponse);
+        
+        }
+
+        public function getholidaysForAll_get()
+        {
+
+            
+            $details  = $this->shop_model->getholidaysForAll();
+            echo json_encode($details);
+        }
+
     }

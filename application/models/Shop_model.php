@@ -392,4 +392,51 @@ class Shop_model extends CI_Model
         $this->db->from('combo_offers');
         return $this->db->get()->result_array();
     }
+
+    // 
+    public function insertShopHolidays($currentUserId,$leave_date)
+    {
+        //  return $this->db->insert('services', $data);
+        $currentDate = date('y-m-d');
+        $sql = "INSERT INTO shop_holidays (shop_id,	leave_date,lastupddt)
+        VALUES ('$currentUserId','$leave_date','$currentDate')";
+        // echo($sql);
+
+
+         $query = $this->db->query($sql);
+         return $query;
+
+    }
+
+    public function checkHolidays($currentUserId,$value) {
+        $result = $this->db->query("SELECT count(*) as cnt from shop_holidays where (shop_id='$currentUserId' and leave_date='$value')")->row_array();
+           $cnt = $result['cnt'];
+           return $cnt;
+   }
+
+   public function getShopHolidays($shop_id)
+    {
+        $this->db->select('*');
+        $this->db->from('shop_holidays');
+        $this->db->where('shop_id', $shop_id);
+        return $this->db->get()->result_array();
+    }
+
+    public function DeleteHolidays($holidayid){
+        
+        $where = ['id ' => $holidayid];
+        $this->db->where($where);
+        $this->db->delete('shop_holidays');
+        return "deleted";
+    }
+
+    public function getholidaysForAll()
+    {
+        $currentDate = date('y-m-d');
+        $this->db->select('*');
+        $this->db->from('shop_holidays');
+        $this->db->where('leave_date', $currentDate);
+        return $this->db->get()->result_array();
+    }
+    
 }
