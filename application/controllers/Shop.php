@@ -413,13 +413,13 @@ public function insertShopHolidays_get() {
 // echo $checkHolidays;
 if($checkHolidays == 0){
 $insertResponse = $this->shop_model->insertShopHolidays($currentUserId,$value);
-        
+
 }
 // else{
 // $this->response('', 404, 'fail', "Already added");
 // }
 
-        
+
       }
       $this->response($insertResponse);
 }
@@ -435,18 +435,18 @@ public function getShopHolidays_get()
         public function DeleteHolidays_get() {
 
             $holidayid =   $_GET['holidayid'];
-            
-        
-        
+
+
+
                 $insertResponse = $this->shop_model->DeleteHolidays($holidayid);
                 $this->response($insertResponse);
-        
+
         }
 
         public function getholidaysForAll_get()
         {
 
-            
+
             $details  = $this->shop_model->getholidaysForAll();
             echo json_encode($details);
         }

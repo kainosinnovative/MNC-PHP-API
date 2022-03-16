@@ -241,12 +241,34 @@ class Shop_model extends CI_Model
     {
         //  return $this->db->insert('services', $data);
         $currentDate = date('y-m-d');
-        $sql = "INSERT INTO services (service_name,lastupddt)
-        VALUES ('$service_name','$currentDate')";
+        $result = $this->db->query("SELECT count(*) as cnt from services")->row_array();
+        $cnt = $result['cnt'];
+        // return $cnt;
+        if($cnt==0)
+        {
+            $search_id="S1";
+        $sql = "INSERT INTO services (search_id,service_name,lastupddt)
+        VALUES ('$search_id','$service_name','$currentDate')";
         echo($sql);
 
+        $query = $this->db->query($sql);
+        }
+        else
+        {
+            $maxid = 0;
+            $row = $this->db->query('SELECT MAX(service_id) AS `maxid` FROM `services`')->row();
+            if ($row) {
+                $maxid = $row->maxid;
+                $maximumserviceid= "S".($maxid+1) ;
+            }
+            $sql = "INSERT INTO services (search_id,service_name,lastupddt)
+            VALUES ('$maximumserviceid','$service_name','$currentDate')";
+            echo($sql);
 
-         $query = $this->db->query($sql);
+            $query = $this->db->query($sql);
+        }
+
+
          return $query;
 
     }
@@ -366,7 +388,7 @@ class Shop_model extends CI_Model
     }
     public function getcurrentComboOffersByShopiddashboard($currentUserId)
     {
-        $sql = "SELECT offer_percent  as y, offer_name as label  FROM combo_offers where shop_id='$currentUserId' and (CURRENT_DATE() BETWEEN start_date and end_date) ";
+        $sql = "SELECT offer_name as name ,offer_percent  as value FROM combo_offers where shop_id='$currentUserId' and (CURRENT_DATE() BETWEEN start_date and end_date) ";
 		$query = $this->db->query($sql);
        // var_dump($sql);
         return $query->result_array();
