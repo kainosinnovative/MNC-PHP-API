@@ -366,7 +366,7 @@ class Shop_model extends CI_Model
     }
     public function getcurrentComboOffersByShopiddashboard($currentUserId)
     {
-        $sql = "SELECT offer_name,offer_percent FROM combo_offers where shop_id='$currentUserId' and (CURRENT_DATE() BETWEEN start_date and end_date) ";
+        $sql = "SELECT offer_name as name ,offer_percent  as value FROM combo_offers where shop_id='$currentUserId' and (CURRENT_DATE() BETWEEN start_date and end_date) ";
 		$query = $this->db->query($sql);
        // var_dump($sql);
         return $query->result_array();
@@ -400,7 +400,7 @@ class Shop_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    // 
+    //
     public function insertShopHolidays($currentUserId,$leave_date)
     {
         //  return $this->db->insert('services', $data);
@@ -430,7 +430,7 @@ class Shop_model extends CI_Model
     }
 
     public function DeleteHolidays($holidayid){
-        
+
         $where = ['id ' => $holidayid];
         $this->db->where($where);
         $this->db->delete('shop_holidays');
@@ -445,5 +445,5 @@ class Shop_model extends CI_Model
         $this->db->where('leave_date', $currentDate);
         return $this->db->get()->result_array();
     }
-    
+
 }

@@ -67,14 +67,14 @@ switch ($ch) {
     break;
 
   case '139.59.44.89':
-  case 'testtrivz.mynewcar.in':
+  case '':
     define('ENVIRONMENT', 'testing');
     define('FULL_PATH', '/var/www/html/TRIVZ-API/');
 
     break;
 
   case '188.166.254.178':
-  case 'mynewcar.in':
+  case '':
     define('ENVIRONMENT', 'production');
     define('FULL_PATH', '/var/www/html/MNC-TESTDRIVE/');
 
@@ -103,7 +103,7 @@ switch (ENVIRONMENT) {
     break;
 
     case 'testing':
-        
+
     case 'production':
         ini_set('display_errors', 0);
         if (version_compare(PHP_VERSION, '5.3', '>=')) {
