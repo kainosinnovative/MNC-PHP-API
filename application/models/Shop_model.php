@@ -366,7 +366,7 @@ class Shop_model extends CI_Model
     }
     public function getcurrentComboOffersByShopiddashboard($currentUserId)
     {
-        $sql = "SELECT offer_name as name ,offer_percent  as value FROM combo_offers where shop_id='$currentUserId' and (CURRENT_DATE() BETWEEN start_date and end_date) ";
+        $sql = "SELECT offer_percent  as y, offer_name as label  FROM combo_offers where shop_id='$currentUserId' and (CURRENT_DATE() BETWEEN start_date and end_date) ";
 		$query = $this->db->query($sql);
        // var_dump($sql);
         return $query->result_array();

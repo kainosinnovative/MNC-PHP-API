@@ -358,6 +358,7 @@ die();
         }
         $msg = "Your MYDEALER Platform OTP is " . $otp;
         $sendSms = $this->applib->sendSms($msg, $mobile);
+        // $sendSms = $this->applib->sendSms1($msg, $mobile);
 
         if ($sendSms['status']) {
 
