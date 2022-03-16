@@ -210,3 +210,9 @@ $route['shop/getBookingDetailsById']='shop/getBookingDetailsById';
 $route['shop/getloadmasterComboOffer']='shop/getloadmasterComboOffer';
 $route['app/getcustomerwhislistprofile']='app/getcustomerwhislistprofile';
 $route['shop/getcurrentComboOffersByShopiddashboard']='shop/getcurrentComboOffersByShopiddashboard';
+
+$route['shop/insertShopHolidays']='shop/insertShopHolidays';
+$route['shop/getShopHolidays']='shop/getShopHolidays';
+$route['shop/DeleteHolidays']='shop/DeleteHolidays';
+$route['shop/getholidaysForAll']='shop/getholidaysForAll';
+
