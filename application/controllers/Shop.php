@@ -362,6 +362,14 @@ public function getcurrentComboOffersByShopid_get()
         // $this->response($carShopservices);
         echo json_encode($carShopservices);
     }
+public function getcurrentComboOffersByShopiddashboard_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+
+    $carShopservices = $this->shop_model->getcurrentComboOffersByShopiddashboard($currentUserId);
+    // $this->response($carShopservices);
+    echo json_encode($carShopservices);
+}
 
 
     public function getServiceDataOffersByCurdate_get()
@@ -387,6 +395,6 @@ public function getcurrentComboOffersByShopid_get()
 {
     $details = $this->shop_model->getloadmasterComboOffer();
     echo json_encode($details);
-    
+
 }
     }

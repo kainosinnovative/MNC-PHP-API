@@ -364,6 +364,13 @@ class Shop_model extends CI_Model
         return $query->result_array();
 
     }
+    public function getcurrentComboOffersByShopiddashboard($currentUserId)
+    {
+        $sql = "SELECT offer_name,offer_percent FROM combo_offers where shop_id='$currentUserId' and (CURRENT_DATE() BETWEEN start_date and end_date) ";
+		$query = $this->db->query($sql);
+       // var_dump($sql);
+        return $query->result_array();
+    }
 
 
     public function getServiceDataOffersByCurdate($currentUserId)
@@ -378,7 +385,7 @@ class Shop_model extends CI_Model
 
     public function getBookingDetailsById($Booking_id)
     {
-       
+
         $sql = "SELECT a.*,e.* FROM onlinebooking a, booking_status e WHERE a.Booking_id=e.Booking_id and a.Booking_id='$Booking_id'";
 		$query = $this->db->query($sql);
         // var_dump($sql);

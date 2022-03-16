@@ -209,3 +209,4 @@ $route['shop/getBookingDetailsById']='shop/getBookingDetailsById';
 
 $route['shop/getloadmasterComboOffer']='shop/getloadmasterComboOffer';
 $route['app/getcustomerwhislistprofile']='app/getcustomerwhislistprofile';
+$route['shop/getcurrentComboOffersByShopiddashboard']='shop/getcurrentComboOffersByShopiddashboard';
