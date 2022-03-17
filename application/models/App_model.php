@@ -300,8 +300,9 @@ class App_model extends CI_Model
 
     }
     public function signupShopOwnerInsert($customer_name,$customer_mobileno,$customer_email){
-        $sql = "INSERT INTO shopinfo (firstname,mobileno,emailid,status)
-        VALUES ('$customer_name','$customer_mobileno','$customer_email','1')";
+        $currentDate = date('y-m-d');
+        $sql = "INSERT INTO shopinfo (firstname,mobileno,emailid,status,lastupddt)
+        VALUES ('$customer_name','$customer_mobileno','$customer_email','1','$currentDate')";
         echo($sql);
 
 
