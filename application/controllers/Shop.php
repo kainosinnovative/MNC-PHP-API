@@ -241,17 +241,20 @@ public function addonlinebooking_post()
                 $MasterserviceForm = $request->MasterserviceForm;
                 // var_dump($MasterserviceForm);
                 $service_name = $MasterserviceForm->service_name;
-                    $res = $this->shop_model->MasterServiceInsert($service_name);
+              // var_dump($service_name);
+              $shop_id=$MasterserviceForm->shop_id;
+                 $res = $this->shop_model->MasterServiceInsert($service_name,$shop_id);
 
-                    $model_id = $MasterserviceForm->model_id;
-                    $actual_amount = $MasterserviceForm->actual_amount;
-                    $maxServiceid = $this->shop_model->getMaxServiceId();
-                    $shop_id = $MasterserviceForm->shop_id;
-                    var_dump($actual_amount);
-                    $res = $this->shop_model->MasterServiceShopserviceInsert($model_id,$maxServiceid,$actual_amount,$shop_id);
+                  //  $model_id = $MasterserviceForm->model_id;
+                    // $actual_amount = $MasterserviceForm->actual_amount;
+                    // $maxServiceid = $this->shop_model->getMaxServiceId();
+                    // $shop_id = $MasterserviceForm->shop_id;
+                    //var_dump($actual_amount);
+                    // $res = $this->shop_model->MasterServiceShopserviceInsert($model_id,$maxServiceid,$actual_amount,$shop_id);
 
 
                 $this->response($res);
+              // $this->response($service_name);
 
     }
 
@@ -261,7 +264,13 @@ public function addonlinebooking_post()
     $Details['MasterServiceAndShopService'] = $this->shop_model->getMasterServiceAndShopService($currentUserId);
     $this->response($Details);
 }
-
+public function servicebasedonmodel_get()
+{
+    $currentUserId = $_GET["currentUserId"];
+    $service_id = $_GET["service_id"];
+    $Details['type'] = $this->shop_model->getservicebasedonmodel($currentUserId,$service_id);
+    $this->response($Details);
+}
 
 public function changeShopServiceStatus_get() {
 

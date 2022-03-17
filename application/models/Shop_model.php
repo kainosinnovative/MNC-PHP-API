@@ -237,7 +237,7 @@ class Shop_model extends CI_Model
 
     }
 
-    public function MasterServiceInsert($service_name)
+    public function MasterServiceInsert($service_name,$shop_id)
     {
         //  return $this->db->insert('services', $data);
         $currentDate = date('y-m-d');
@@ -247,8 +247,8 @@ class Shop_model extends CI_Model
         if($cnt==0)
         {
             $search_id="S1";
-        $sql = "INSERT INTO services (search_id,service_name,lastupddt)
-        VALUES ('$search_id','$service_name','$currentDate')";
+        $sql = "INSERT INTO services (search_id,service_name,lastupddt,lastupdby)
+        VALUES ('$search_id','$service_name','$currentDate','$shop_id')";
         echo($sql);
 
         $query = $this->db->query($sql);
@@ -261,8 +261,8 @@ class Shop_model extends CI_Model
                 $maxid = $row->maxid;
                 $maximumserviceid= "S".($maxid+1) ;
             }
-            $sql = "INSERT INTO services (search_id,service_name,lastupddt)
-            VALUES ('$maximumserviceid','$service_name','$currentDate')";
+            $sql = "INSERT INTO services (search_id,service_name,lastupddt,lastupdby)
+            VALUES ('$maximumserviceid','$service_name','$currentDate','$shop_id')";
             echo($sql);
 
             $query = $this->db->query($sql);
@@ -276,7 +276,7 @@ class Shop_model extends CI_Model
     public function getMasterServiceAndShopService($currentUserId)
     {
 
-        $sql = "SELECT * FROM services WHERE  service_id NOT IN (SELECT service_id FROM shop_service WHERE shop_id='".$currentUserId."')";
+        $sql = "SELECT * FROM services ";
 		$query = $this->db->query($sql);
 
         return $query->result_array();
@@ -466,6 +466,15 @@ class Shop_model extends CI_Model
         $this->db->from('shop_holidays');
         $this->db->where('leave_date', $currentDate);
         return $this->db->get()->result_array();
+    }
+    public function getservicebasedonmodel($currentUserId,$service_id)
+    {
+        $sql = "Select id,model_name from models where id not in (select model_id from shop_service where shop_id='$currentUserId' and service_id='$service_id') ";
+        // echo($sql);
+
+
+         $query = $this->db->query($sql);
+         return $query->result_array();
     }
 
 }
