@@ -55,8 +55,9 @@ class Shop extends REST_Controller
         $service_amount =   $_GET['service_amount'];
         $serviceid = $_GET['serviceid'];
         $shopid = $_GET['currentUserId'];
+        $modelid=$_GET['modelId'];
 
-         $insertResponse = $this->shop_model->shopServiceUpdate($service_amount,$serviceid,$shopid);
+         $insertResponse = $this->shop_model->shopServiceUpdate($service_amount,$serviceid,$shopid,$modelid);
         $this->response($insertResponse);
 
 

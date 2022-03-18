@@ -33,12 +33,12 @@ class Shop_model extends CI_Model
 
     }
 
-    public function shopServiceUpdate($service_amount,$serviceid,$shopid){
+    public function shopServiceUpdate($service_amount,$serviceid,$shopid,$modelid){
         $currentDate = date('y-m-d');
 
         $sql = "UPDATE shop_service
         SET actual_amount = '$service_amount', lastupddt = '$currentDate'
-        WHERE shop_id = $shopid and service_id = $serviceid";
+        WHERE shop_id = $shopid and service_id = $serviceid and model_id=$modelid";
 
 
          $query = $this->db->query($sql);
