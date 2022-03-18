@@ -374,7 +374,7 @@ class App_model extends CI_Model
     }
   public function AddContactUs($data)
   {
-    return $this->db->insert('contactus', $data);
+    return $this->db->insert('contact_us', $data);
   }
 
     public function getcartype()
