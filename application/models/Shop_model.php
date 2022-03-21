@@ -149,7 +149,7 @@ class Shop_model extends CI_Model
 
     public function getOnlineBookingShopDetails($shopid)
     {
-        $sql = "SELECT a.*,b.services,b.combo_price,b.offer_percent,b.model_id, c.model_name,b.original_amount,b.offer_id,b.offer_name FROM `shopinfo` a, combo_offers b, models c WHERE a.shop_id = b.shop_id and a.shop_id = '".$shopid."' and b.model_id= c.id order BY b.offer_percent DESC;";
+        $sql = "SELECT a.*,b.services,b.combo_price,b.offer_percent,b.model_id, c.model_name,b.original_amount,b.offer_id,b.offer_name FROM `shopinfo` a, combo_offers b, models c WHERE a.shop_id = b.shop_id and a.shop_id = '".$shopid."' and b.model_id= c.id and (CURDATE() between b.start_date and b.end_date)  order BY b.offer_percent DESC;";
 		$query = $this->db->query($sql);
 
         return $query->result_array();
@@ -194,8 +194,8 @@ class Shop_model extends CI_Model
     public function bookingstatusInsert($Booking_id)
     {
 
-        $sql = "INSERT INTO booking_status (Booking_id)
-        VALUES ('$Booking_id')";
+        $sql = "INSERT INTO booking_status (Booking_id,carwash_status)
+        VALUES ('$Booking_id',1)";
         // echo($sql);
 
 

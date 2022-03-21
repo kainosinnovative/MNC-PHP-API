@@ -415,7 +415,11 @@ class App_model extends CI_Model
         $this->db->join('models c','c.id= b.model_id');
         $this->db->join('shopinfo d','d.status=1');
         // $this->db->join('shopinfo d','d.status=1');
-        return $this->db->order_by('a.service_id')->get_where('shop_service b',array('b.shop_id' => $shopid))->result_array();
+        $this->db->order_by('a.service_id');
+        $this->db->where('b.shop_id',$shopid);
+// $this->db->where('CURDATE() between b.from_date and b.to_date');
+$this->db->from('shop_service b');
+return $this->db->get()->result_array();
 
 
         // $sql = "select a.service_id,a.service_name,c.model_name,b.actual_amount,b.id,b.offer_percent,b.offer_price,b.model_id,b.shop_id	  from services a , shop_service b, models c WHERE a.service_id=b.service_id and b.shop_id = '1' and c.id= b.model_id ORDER BY a.service_id;";
