@@ -537,5 +537,33 @@ return $this->db->get()->result_array();
 return $query->result_array();
     }
 
+    public function getcarDetByModelId($customer_id,$model)
+    {
+
+        $sql = "SELECT * FROM customer_carinfo a, car_type b, models c,brand d WHERE a.customer_id = '".$customer_id."' and a.model='$model' and a.cartype= b.id and a.model=c.id and a.brand=d.id";
+		$query = $this->db->query($sql);
+
+        return $query->result_array();
+
+    }
+
+    public function getServiceDataOnlineBookingModel($shopid,$modelid)
+    {
+        $this->db->select('DISTINCT(a.service_id),a.service_name,b.actual_amount,c.model_name,b.offer_percent,b.offer_price,b.model_id,b.shop_id,b.status,b.id,b.from_date,b.to_date');
+        $this->db->join('services a','a.service_id=b.service_id');
+
+        $this->db->join('models c','c.id= b.model_id');
+        $this->db->join('shopinfo d','d.status=1');
+        // $this->db->join('shopinfo d','d.status=1');
+        $this->db->order_by('a.service_id');
+        $this->db->where('b.shop_id',$shopid);
+        $this->db->where('b.model_id',$modelid);
+// $this->db->where('CURDATE() between b.from_date and b.to_date');
+$this->db->from('shop_service b');
+return $this->db->get()->result_array();
+
+
+    }
+
 }
 

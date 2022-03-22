@@ -162,8 +162,9 @@ public function dashboardShopSearchOffer_get()
 
 public function OnlineBookingShopDetails_get()
 {
-    $currentUserId = $_GET["currentUserId"];
-    $carShopservices['OnlineBookingShopDetails'] = $this->shop_model->getOnlineBookingShopDetails($currentUserId);
+    $shopid = $_GET["shopid"];
+    $model = $_GET["model"];
+    $carShopservices['OnlineBookingShopDetails'] = $this->shop_model->getOnlineBookingShopDetails($shopid,$model);
     $this->response($carShopservices);
 }
 
@@ -333,7 +334,7 @@ public function changeBookingStatus_get() {
             $pickup_message = "Please drop your car";
         }
         else {
-            $pickup_message = "We will pickup your car at your door step";
+            $pickup_message = "Our employee will pickup your car at your door step";
         }
 
         $insertResponse = $this->shop_model->changeBookingStatusUpdate($booking_status,$Booking_id,$pickup_message);

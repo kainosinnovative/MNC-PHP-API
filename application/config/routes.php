@@ -217,3 +217,7 @@ $route['shop/DeleteHolidays']='shop/DeleteHolidays';
 $route['shop/getholidaysForAll']='shop/getholidaysForAll';
 
 $route['shop/servicebasedonmodel']='shop/servicebasedonmodel';
+
+$route['app/carDetByModelId']='app/carDetByModelId';
+
+$route['app/getServiceDataOnlineBookingModel'] ='app/getServiceDataOnlineBookingModel';
