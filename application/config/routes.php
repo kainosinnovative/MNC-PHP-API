@@ -218,3 +218,7 @@ $route['shop/getholidaysForAll']='shop/getholidaysForAll';
 
 $route['shop/servicebasedonmodel']='shop/servicebasedonmodel';
 $route['shop/RemoveMyComboOffer']='shop/RemoveMyComboOffer';
+
+$route['app/carDetByModelId']='app/carDetByModelId';
+
+$route['app/getServiceDataOnlineBookingModel'] ='app/getServiceDataOnlineBookingModel';

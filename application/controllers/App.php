@@ -753,4 +753,20 @@ public function getMybookingDetails_get()
         $this->response($res);
     }
 
+    public function carDetByModelId_get()
+{
+    $currentUserId = $_GET["currentUserId"]; 
+    $model = $_GET["model"];
+    $carDetails['carDetByModelId'] = $this->app_model->getcarDetByModelId($currentUserId,$model);
+    $this->response($carDetails);
+}
+
+public function getServiceDataOnlineBookingModel_get()
+{
+    $shopid = $_GET["shopid"];
+    $model_id = $_GET["model_id"];
+    $carShopservices['getServiceDataOnlineBookingModel'] = $this->app_model->getServiceDataOnlineBookingModel($shopid,$model_id);
+    $this->response($carShopservices);
+}
+
     }
