@@ -565,5 +565,26 @@ return $this->db->get()->result_array();
 
     }
 
+    public function getcustomerByCityId($cityid)
+    {
+
+        $this->db->select('*',);
+        $this->db->from('customers');
+       
+        $this->db->where('city', $cityid);
+        return $this->db->get()->result_array();
+
+    }
+
+    
+    public function getCarDetailsByIdShopOnlineBooking($customer_id)
+    {
+
+        $sql = "SELECT DISTINCT(a.model),c.model_name FROM customer_carinfo a, car_type b, models c,brand d WHERE a.customer_id = '".$customer_id."' and a.cartype= b.id and a.model=c.id and a.brand=d.id";
+		$query = $this->db->query($sql);
+
+        return $query->result_array();
+
+    }
 }
 
