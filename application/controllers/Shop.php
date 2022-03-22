@@ -469,5 +469,13 @@ public function getShopHolidays_get()
     // $carDetails['RemoveMyCarInfo'] = $this->app_model->RemoveMyCarInfoDelete($customer_id);
     // $this->response($carDetails);
 }
+public function updatepickupdrop_get()
+{
+    $shop_id=$_GET['shop_id'];
+    $pickupdropstatus=$_GET['pickupdropstatus'];
+    $insertResponse = $this->shop_model->updatepickupdrop($shop_id,$pickupdropstatus);
+    $this->response($insertResponse);
+
+}
 
     }

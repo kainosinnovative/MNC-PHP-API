@@ -222,3 +222,4 @@ $route['shop/RemoveMyComboOffer']='shop/RemoveMyComboOffer';
 $route['app/carDetByModelId']='app/carDetByModelId';
 
 $route['app/getServiceDataOnlineBookingModel'] ='app/getServiceDataOnlineBookingModel';
+$route['shop/updatepickupdrop']='shop/updatepickupdrop';

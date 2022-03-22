@@ -484,5 +484,24 @@ class Shop_model extends CI_Model
         return "deleted";
     }
 
+    public function updatepickupdrop($shop_id,$pickupdropstatus){
+        $currentDate = date('y-m-d');
+        if($pickupdropstatus == 0){
+            $pickupdropstatus = 1;
+        }
+        else {
+            $pickupdropstatus = 0;
+        }
 
+        $sql = "UPDATE shopinfo
+        SET is_pickup_drop_avl = '$pickupdropstatus'
+        WHERE shop_id = $shop_id";
+
+
+         $query = $this->db->query($sql);
+         return $query;
+        //  return $query->result_array();
+
+
+    }
 }
