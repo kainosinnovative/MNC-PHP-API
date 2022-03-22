@@ -223,3 +223,8 @@ $route['app/carDetByModelId']='app/carDetByModelId';
 
 $route['app/getServiceDataOnlineBookingModel'] ='app/getServiceDataOnlineBookingModel';
 $route['shop/updatepickupdrop']='shop/updatepickupdrop';
+
+$route['app/getcustomerByCityId']='app/getcustomerByCityId';
+
+// $route['app/getRegistrationNumberByModel']='app/getRegistrationNumberByModel';
+$route['app/CarDetailsByIdShopOnlineBooking']='app/CarDetailsByIdShopOnlineBooking';
