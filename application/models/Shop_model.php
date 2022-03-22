@@ -476,5 +476,13 @@ class Shop_model extends CI_Model
          $query = $this->db->query($sql);
          return $query->result_array();
     }
+    public function RemoveMyComboOffer($offerid)
+    {
+        $where = ['offer_id ' => $offerid];
+        $this->db->where($where);
+        $this->db->delete('combo_offers');
+        return "deleted";
+    }
+
 
 }

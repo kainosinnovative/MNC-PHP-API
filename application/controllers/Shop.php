@@ -460,5 +460,13 @@ public function getShopHolidays_get()
             $details  = $this->shop_model->getholidaysForAll();
             echo json_encode($details);
         }
+        public function RemoveMyComboOffer_get()
+{
+    $offerid = $_GET["offerid"];
+    $data['message'] = $this->shop_model->RemoveMyComboOffer($offerid);
+        $this->response($data);
+    // $carDetails['RemoveMyCarInfo'] = $this->app_model->RemoveMyCarInfoDelete($customer_id);
+    // $this->response($carDetails);
+}
 
     }

@@ -217,3 +217,4 @@ $route['shop/DeleteHolidays']='shop/DeleteHolidays';
 $route['shop/getholidaysForAll']='shop/getholidaysForAll';
 
 $route['shop/servicebasedonmodel']='shop/servicebasedonmodel';
+$route['shop/RemoveMyComboOffer']='shop/RemoveMyComboOffer';
