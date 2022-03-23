@@ -301,15 +301,15 @@ public function getallshoplist_get()
 public function customerBookingForShop_get()
 {
     $currentUserId = $_GET["currentUserId"];
-    $Details['customerBookingForShop'] = $this->shop_model->getcustomerBookingForShop($currentUserId);
-    $this->response($Details);
+    $Details = $this->shop_model->getcustomerBookingForShop($currentUserId);
+    print json_encode($Details);
 }
 
 public function AcceptedBookingList_get()
 {
     $currentUserId = $_GET["currentUserId"];
-    $Details['AcceptedBookingList'] = $this->shop_model->getAcceptedBookingList($currentUserId);
-    $this->response($Details);
+    $Details = $this->shop_model->getAcceptedBookingList($currentUserId);
+    print json_encode($Details);
 }
 
 public function master_pickdrop_status_get()
