@@ -97,10 +97,23 @@ class Shop extends REST_Controller
     public function getComboOffersByShopid_get()
     {
         $month = $_GET["month"];
+        $monthArr = explode(',', $month);
+         // sort($yearArr);
+
         $year=$_GET["year"];
+        $yearArr = explode(',', $year);
+        rsort($yearArr);
+        $yearArr=array_unique($yearArr);
+        $monthArr=array_unique($monthArr);
         $id=$_GET["id"];
-        $carShopservices['getComboOffersByShopid'] = $this->shop_model->getComboOffersByShopid($month,$year,$id);
-        $this->response($carShopservices);
+        // foreach ($yearArr as $key => $value) {
+        //     foreach ($monthArr as $key1 => $value1) {
+      // $carShopservices = $this->shop_model->getComboOffersByShopid($monthArr,$yearArr,$id);
+     $carShopservices = $this->shop_model->getComboOffersByShopid($monthArr,$yearArr,$id);
+        //     }
+        // }
+       // $this->response($carShopservices);
+       echo json_encode($carShopservices);
     }
 
     public function shopserviceByModelid_get()
