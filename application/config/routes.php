@@ -229,3 +229,5 @@ $route['app/getcustomerByCityId']='app/getcustomerByCityId';
 
 // $route['app/getRegistrationNumberByModel']='app/getRegistrationNumberByModel';
 $route['app/CarDetailsByIdShopOnlineBooking']='app/CarDetailsByIdShopOnlineBooking';
+
+$route['shop/holidaytimeupdate']='shop/holidaytimeupdate';

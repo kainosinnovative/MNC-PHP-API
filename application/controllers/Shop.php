@@ -481,4 +481,19 @@ public function updatepickupdrop_get()
 
 }
 
+
+public function holidaytimeupdate_post()
+       {
+
+            $json = file_get_contents('php://input');
+        // Converts it into a PHP object
+                $data = json_decode($json);
+
+                
+                $res = $this->shop_model->holidaytimeupdate($data);
+
+                $this->response($res);
+
+    }
+
     }

@@ -511,4 +511,11 @@ class Shop_model extends CI_Model
 
 
     }
+
+
+    public function holidaytimeupdate($data)
+    {
+        // var_dump($data);
+      return $this->db->insert('shop_holidays', $data);
+    }
 }
