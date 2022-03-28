@@ -237,6 +237,13 @@ class Shop_model extends CI_Model
 
     }
 
+    public function autoincrementFrom($maxServiceid1) {
+        $sql = "ALTER TABLE services AUTO_INCREMENT = $maxServiceid1";
+		$query = $this->db->query($sql);
+
+        // return $query->result_array();
+    }
+
     public function MasterServiceInsert($service_name,$shop_id)
     {
         //  return $this->db->insert('services', $data);
@@ -323,7 +330,7 @@ class Shop_model extends CI_Model
     {
 
         // $sql = "SELECT a.*,c.firstname,d.services as comboservices,e.* FROM onlinebooking a, customers c, combo_offers d, booking_status e WHERE a.Shop_id='$currentUserId'  and a.Customer_id=c.customer_id and a.combo_id=d.offer_id and a.Booking_id=e.Booking_id and e.booked_status=''";
-		$sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Shop_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id and e.booked_status=''";
+		$sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Shop_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id and e.booked_status='' ORDER BY a.id desc";
         $query = $this->db->query($sql);
 
         return $query->result_array();
@@ -334,7 +341,7 @@ class Shop_model extends CI_Model
     {
 
         // $sql = "SELECT a.*,c.firstname,d.services as comboservices,e.* FROM onlinebooking a, customers c, combo_offers d, booking_status e WHERE a.Shop_id='$currentUserId'  and a.Customer_id=c.customer_id and a.combo_id=d.offer_id and a.Booking_id=e.Booking_id and e.booked_status=''";
-		$sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Shop_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id and e.booked_status='Accepted'";
+		$sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Shop_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id and e.booked_status='Accepted' ORDER BY a.id desc";
         $query = $this->db->query($sql);
 
         return $query->result_array();

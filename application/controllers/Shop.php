@@ -245,6 +245,9 @@ public function addonlinebooking_post()
                 $service_name = $MasterserviceForm->service_name;
               // var_dump($service_name);
               $shop_id=$MasterserviceForm->shop_id;
+              $maxServiceid = $this->shop_model->getMaxServiceId();
+              $maxServiceid1 = $maxServiceid + 1;
+              $autoincrementFrom = $this->shop_model->autoincrementFrom($maxServiceid1);
                  $res = $this->shop_model->MasterServiceInsert($service_name,$shop_id);
 
                   //  $model_id = $MasterserviceForm->model_id;

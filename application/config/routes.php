@@ -135,6 +135,7 @@ $route['app/cartype']='app/cartype';
 $route['app/brandtype']='app/brandtype';
 $route['app/model']='app/model';
 $route['app/citylist']='app/citylist';
+$route['app/getcitynamebyCityid']='app/getcitynamebyCityid'; 
 $route['app/state']='app/state';
 //Shop Services
 $route['app/services']='app/carservices';

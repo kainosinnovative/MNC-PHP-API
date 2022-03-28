@@ -657,6 +657,15 @@ public function citylist_get()
     $citylist['list'] = $this->app_model->getcitylist();
     $this->response($citylist);
 }
+
+
+public function getcitynamebyCityid_get()
+{   
+    $cityid = $_GET["cityid"];
+    $citylist['citylistbyid'] = $this->app_model->getcitynamebyCityid($cityid);
+    $this->response($citylist);
+}
+
 public function state_get()
 {
     $statelist['list'] = $this->app_model->getstatelist();

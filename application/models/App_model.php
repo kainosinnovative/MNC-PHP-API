@@ -301,8 +301,8 @@ class App_model extends CI_Model
     }
     public function signupShopOwnerInsert($customer_name,$customer_mobileno,$customer_email){
         $currentDate = date('y-m-d');
-        $sql = "INSERT INTO shopinfo (firstname,mobileno,emailid,status,lastupddt)
-        VALUES ('$customer_name','$customer_mobileno','$customer_email','1','$currentDate')";
+        $sql = "INSERT INTO shopinfo (firstname,mobileno,emailid,status,lastupddt,is_pickup_drop_avl)
+        VALUES ('$customer_name','$customer_mobileno','$customer_email','1','$currentDate','0')";
         echo($sql);
 
 
@@ -523,7 +523,7 @@ return $this->db->get()->result_array();
     public function getMybookingDetails($currentUserId)
     {
 
-        $sql = "SELECT a.*,c.firstname,e.* FROM onlinebooking a, customers c, booking_status e WHERE a.Customer_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id";
+        $sql = "SELECT a.*,c.firstname,e.*,f.name as shopname, g.model as modelname FROM onlinebooking a, customers c, booking_status e, shopinfo f, customer_carinfo g WHERE g.vehicle_number = a.vehicle_number and  f.shop_id = a.Shop_id and a.Customer_id='$currentUserId' and a.Customer_id=c.customer_id and a.Booking_id=e.Booking_id";
         $query = $this->db->query($sql);
 
         return $query->result_array();
@@ -585,6 +585,15 @@ return $this->db->get()->result_array();
 
         return $query->result_array();
 
+    }
+
+    public function getcitynamebyCityid($city_id)
+    {
+        $this->db->select('*',);
+        $this->db->from('city_list');
+        $this->db->where('city_id', $city_id);
+        
+        return $this->db->get()->result_array();
     }
 }
 
