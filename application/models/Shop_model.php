@@ -87,32 +87,43 @@ class Shop_model extends CI_Model
         $resultarray=array();
         $yearcount = count($year);
         $monthCount = count($month);
-        if($monthCount == 1 && $yearcount == 1) {
-            $sql = "SELECT * FROM combo_offers where shop_id='$id' and YEAR(DATE(start_date))='$year[0]' and  MONTH(DATE(start_date)) = '$month[0]'";
-            $query = $this->db->query($sql);
+        // if($monthCount == 1 && $yearcount == 1) {
+        //     $sql = "SELECT * FROM combo_offers where shop_id='$id' and YEAR(DATE(start_date))='$year[0]' and  MONTH(DATE(start_date)) = '$month[0]'";
+        //     $query = $this->db->query($sql);
 
-            return $query->result_array();
-            // var_dump($sql);
-            // return $query->result_array();
+        //     $resultarray =  $query->result_array();
+        //     // var_dump($sql);
+        //     // return $query->result_array();
        
-        }
-        else {
-        var_dump($month);
-        var_dump($year);
-    //     foreach ($year as $key => $value) {
-    //       foreach ($month as $key1 => $value1) {
-    //         $this->db->select('*');
-    //         $this->db->from('combo_offers');
-    //         $this->db->where('shop_id', $id);
-    //         $this->db->where('YEAR(DATE(start_date))',$value);
-    //         $this->db->where('MONTH(DATE(start_date))',$value1);
-    //         $resultarray[$i++]= $this->db->get()->row_array();
-    //     }
-    // }
-    // return $resultarray;
-}
+        // }
+        // else {
+        // var_dump($month);
+        // var_dump($year);
+        foreach ($year as $key => $value) {
+          foreach ($month as $key1 => $value1) {
+            $sql = "SELECT * FROM combo_offers where shop_id='$id' and YEAR(DATE(start_date))='$value' and  MONTH(DATE(start_date)) = '$value1'";
+                $query = $this->db->query($sql);
+                $rowcount = $query->num_rows();
+                // var_dump($rowcount);
+                if($rowcount != "0") {
+                    array_push($resultarray,$query->result_array());
+                    
 
-         
+            // $this->db->select('*');
+            // $this->db->from('combo_offers');
+            // $this->db->where('shop_id', $id);
+            // $this->db->where('YEAR(DATE(start_date))',$value);
+            // $this->db->where('MONTH(DATE(start_date))',$value1);
+            // $resultarray[$i++]= $this->db->get()->row_array();
+                }
+        }
+    }
+    // var_dump($resultarray);
+    
+    
+// }
+
+return $resultarray;  
         
 
     }
