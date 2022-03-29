@@ -135,7 +135,7 @@ $route['app/cartype']='app/cartype';
 $route['app/brandtype']='app/brandtype';
 $route['app/model']='app/model';
 $route['app/citylist']='app/citylist';
-$route['app/getcitynamebyCityid']='app/getcitynamebyCityid'; 
+$route['app/getcitynamebyCityid']='app/getcitynamebyCityid';
 $route['app/state']='app/state';
 //Shop Services
 $route['app/services']='app/carservices';
@@ -231,3 +231,4 @@ $route['app/getcustomerByCityId']='app/getcustomerByCityId';
 $route['app/CarDetailsByIdShopOnlineBooking']='app/CarDetailsByIdShopOnlineBooking';
 
 $route['shop/holidaytimeupdate']='shop/holidaytimeupdate';
+$route['shop/chartcustomercombo']='shop/chartcustomercombo';

@@ -93,7 +93,7 @@ class Shop_model extends CI_Model
             $this->db->where('YEAR(DATE(start_date))',$value);
             $this->db->where(' MONTH(DATE(start_date))',$value1);
             $resultarray[$i++]= $this->db->get()->row_array();
-            
+
         // $sql = "SELECT * FROM combo_offers where shop_id='$id' and YEAR(DATE(start_date))='$value1' and  MONTH(DATE(start_date)) = '$value'";
         //  = $this->db->query($sql);
        // =$query->result_array();
@@ -528,5 +528,21 @@ class Shop_model extends CI_Model
     {
         // var_dump($data);
       return $this->db->insert('shop_holidays', $data);
+    }
+    public function chartcustomercombo($shop_id)
+    {
+        // $this->db->select('distinct(count(Customer_id)) as count','combo_id');
+        // $this->db->from('onlinebooking');
+        // $this->db->where('shop_id', $shop_id);
+        // $this->db->group_by('customer_id','combo_id');
+
+        // echo($sql);
+
+
+
+          $sql ="select distinct(count(Customer_id)) as count,combo_id,offer_name as offername,c.model_name as modelname from onlinebooking  a,combo_offers b,models c where a.shop_id=13 and a.combo_id=b.offer_id and c.id=a.model_id and b.model_id=c.id
+          group by customer_id,combo_id,offer_name,c.model_name;";
+          $query = $this->db->query($sql);
+          return $query->result_array();
     }
 }

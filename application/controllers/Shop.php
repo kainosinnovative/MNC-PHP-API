@@ -502,11 +502,16 @@ public function holidaytimeupdate_post()
         // Converts it into a PHP object
                 $data = json_decode($json);
 
-                
+
                 $res = $this->shop_model->holidaytimeupdate($data);
 
                 $this->response($res);
 
+     }
+    public function chartcustomercombo_get()
+    {
+        $shop_id=$_GET['shop_id'];
+        $data = $this->shop_model->chartcustomercombo($shop_id);
+        echo json_encode($data);
     }
-
     }
