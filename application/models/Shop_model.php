@@ -85,21 +85,35 @@ class Shop_model extends CI_Model
     public function getComboOffersByShopid($month,$year,$id)
     {   $i=0;
         $resultarray=array();
-        foreach ($year as $key => $value) {
-          foreach ($month as $key1 => $value1) {
-            $this->db->select('*');
-            $this->db->from('combo_offers');
-            $this->db->where('shop_id', $id);
-            $this->db->where('YEAR(DATE(start_date))',$value);
-            $this->db->where(' MONTH(DATE(start_date))',$value1);
-            $resultarray[$i++]= $this->db->get()->row_array();
-            
-        // $sql = "SELECT * FROM combo_offers where shop_id='$id' and YEAR(DATE(start_date))='$value1' and  MONTH(DATE(start_date)) = '$value'";
-        //  = $this->db->query($sql);
-       // =$query->result_array();
-          }
+        $yearcount = count($year);
+        $monthCount = count($month);
+        if($monthCount == 1 && $yearcount == 1) {
+            $sql = "SELECT * FROM combo_offers where shop_id='$id' and YEAR(DATE(start_date))='$year[0]' and  MONTH(DATE(start_date)) = '$month[0]'";
+            $query = $this->db->query($sql);
+
+            return $query->result_array();
+            // var_dump($sql);
+            // return $query->result_array();
+       
         }
-        return $resultarray;
+        else {
+        var_dump($month);
+        var_dump($year);
+    //     foreach ($year as $key => $value) {
+    //       foreach ($month as $key1 => $value1) {
+    //         $this->db->select('*');
+    //         $this->db->from('combo_offers');
+    //         $this->db->where('shop_id', $id);
+    //         $this->db->where('YEAR(DATE(start_date))',$value);
+    //         $this->db->where('MONTH(DATE(start_date))',$value1);
+    //         $resultarray[$i++]= $this->db->get()->row_array();
+    //     }
+    // }
+    // return $resultarray;
+}
+
+         
+        
 
     }
 
