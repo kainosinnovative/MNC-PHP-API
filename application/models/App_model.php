@@ -453,7 +453,7 @@ return $this->db->get()->result_array();
     public function getCarDetailsByCustomerId($customer_id)
     {
 
-        $sql = "SELECT * FROM customer_carinfo a, car_type b, models c,brand d WHERE a.customer_id = '".$customer_id."' and a.cartype= b.id and a.model=c.id and a.brand=d.id";
+        $sql = "SELECT * FROM customer_carinfo a, car_type b, models c,brand d WHERE a.customer_id = '".$customer_id."' and a.cartype= b.id and a.model=c.id and a.brand=d.id and a.carinfo_status=1";
 		$query = $this->db->query($sql);
 
         return $query->result_array();
@@ -463,10 +463,13 @@ return $this->db->get()->result_array();
 
     public function RemoveMyCarInfoDelete($carinfo_id)
     {
-        $where = ['carinfo_id ' => $carinfo_id];
-        $this->db->where($where);
-        $this->db->delete('customer_carinfo');
-        return "deleted";
+        $this->db->where('carinfo_id', $carinfo_id);
+        $this->db->update('customer_carinfo', array('carinfo_status' => 0));
+        return "updated";
+        // $where = ['carinfo_id ' => $carinfo_id];
+        // $this->db->where($where);
+        // $this->db->delete('customer_carinfo');
+        // return "deleted";
     }
 
 
@@ -540,7 +543,7 @@ return $query->result_array();
     public function getcarDetByModelId($customer_id,$model)
     {
 
-        $sql = "SELECT * FROM customer_carinfo a, car_type b, models c,brand d WHERE a.customer_id = '".$customer_id."' and a.model='$model' and a.cartype= b.id and a.model=c.id and a.brand=d.id";
+        $sql = "SELECT * FROM customer_carinfo a, car_type b, models c,brand d WHERE a.customer_id = '".$customer_id."' and a.model='$model' and a.cartype= b.id and a.model=c.id and a.brand=d.id and a.carinfo_status = 1";
 		$query = $this->db->query($sql);
 
         return $query->result_array();

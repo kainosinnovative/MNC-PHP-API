@@ -510,7 +510,7 @@ public function holidaytimeupdate_post()
      }
     public function chartcustomercombo_get()
     {
-        $shop_id=$_GET['shop_id'];
+        $shop_id=$_GET['currentUserId'];
         $data = $this->shop_model->chartcustomercombo($shop_id);
         echo json_encode($data);
     }

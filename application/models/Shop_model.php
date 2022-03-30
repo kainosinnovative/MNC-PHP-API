@@ -556,18 +556,10 @@ return $resultarray;
     }
     public function chartcustomercombo($shop_id)
     {
-        // $this->db->select('distinct(count(Customer_id)) as count','combo_id');
-        // $this->db->from('onlinebooking');
-        // $this->db->where('shop_id', $shop_id);
-        // $this->db->group_by('customer_id','combo_id');
-
-        // echo($sql);
-
-
-
-          $sql ="select distinct(count(Customer_id)) as count,combo_id,offer_name as offername,c.model_name as modelname from onlinebooking  a,combo_offers b,models c where a.shop_id=13 and a.combo_id=b.offer_id and c.id=a.model_id and b.model_id=c.id
-          group by customer_id,combo_id,offer_name,c.model_name;";
-          $query = $this->db->query($sql);
+      
+$sql ="select COUNT(Customer_id) as count,combo_id,b.offer_name as offername,c.model_name as modelname from onlinebooking a,combo_offers b,models c where b.model_id=c.id and a.shop_id='$shop_id' and a.combo_id = b.offer_id GROUP BY b.offer_id HAVING COUNT(b.offer_id) > 1;";
+// var_dump($sql);       
+  $query = $this->db->query($sql);
           return $query->result_array();
     }
 }
