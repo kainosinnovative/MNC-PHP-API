@@ -878,7 +878,7 @@ abstract class REST_Controller extends CI_Controller
     protected function _parse_post()
     {
         $this->_post_args = $_POST;
-        echo "post>>>>>$this->_post_args";
+        echo "$this->_post_args";
         $this->request->format and $this->request->body = file_get_contents('php://input');
     }
 
@@ -1349,7 +1349,7 @@ abstract class REST_Controller extends CI_Controller
     {
         $whitelist = explode(',', config_item('rest_ip_whitelist'));
 
-        array_push($whitelist, '127.0.0.1', '0.0.0.0');
+        array_push($whitelist, 'https://kainosinnovative.com', '0.0.0.0');
 
         foreach ($whitelist as &$ip) {
             $ip = trim($ip);

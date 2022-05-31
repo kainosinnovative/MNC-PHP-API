@@ -89,17 +89,10 @@ define('IP_TRACKING', 'ebe9a77053d1212d2a979b90ca582b237f658d96c1f6adbedfc6a644'
 /**/
 
 /*SMS Gateway URL - IN*/
-define('IN_SMS_URL', 'http://sms.hisigntech.com/api/sendhttp.php');
-define('IN_SMS_SOURCE', 'TRIVZZ');
-define('IN_SMS_AUTH_KEY', '218353AhOY2Gu9Jk5b113efc');
+define('IN_SMS_URL', '');
+define('IN_SMS_SOURCE', '');
+define('IN_SMS_AUTH_KEY', '');
 define('IN_SMS_SUCC_TEXT', 'Please Enter valid mobile no');
 /**/
 
-define('WEB_ADMIN_URL', 'http://127.0.0.1/MNC-ADMIN/');
 
-/*Mail Gateway - IN*/
-define('SMTP_USER', 'contact.mynewcar@gmail.com');
-define('SMTP_PASSWORD', 'mynewcar@9090');
-define('FROM_MAIL', 'contact.mynewcar@gmail.com');
-define('IT_TEAM', 'mncitteam@googlegroups.com');
-define('OPERATIONS', 'mncoperations@googlegroups.com');
